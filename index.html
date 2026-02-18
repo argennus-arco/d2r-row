@@ -430,54 +430,55 @@
         }
 
         function renderRunes() {
-            // 이미지(rune position.jpg) 기반 룬 배치 맵 (총 45슬롯, 9x5)
-            // 인덱스는 runesData의 순서 기준
-            const gridSlots = new Array(45).fill(null);
+            // 이미지(rune position.jpg) 기반 정밀 배치 (9x5)
+            // { data: 룬데이터, inactive: 이미지에서 어두운지 여부 }
+            const gridLayout = new Array(45).fill(null);
             
-            // 1행: 엘(0), 빈칸, 티르(2), 네프(3), 에드(4), 아이드(5), 탈(6), 랄(7), 오르트(8)
-            gridSlots[0] = runesData[0];
-            gridSlots[1] = null; // Eld(1) 자리 비움
-            gridSlots[2] = runesData[2];
-            gridSlots[3] = runesData[3];
-            gridSlots[4] = runesData[4];
-            gridSlots[5] = runesData[5];
-            gridSlots[6] = runesData[6];
-            gridSlots[7] = runesData[7];
-            gridSlots[8] = runesData[8];
+            // 1행
+            gridLayout[0] = { rune: runesData[0], inactive: false }; // El
+            gridLayout[1] = { rune: runesData[1], inactive: true };  // Eld (Dark)
+            gridLayout[2] = { rune: runesData[2], inactive: false }; // Tir
+            gridLayout[3] = { rune: runesData[3], inactive: false }; // Nef
+            gridLayout[4] = { rune: runesData[4], inactive: false }; // Eth
+            gridLayout[5] = { rune: runesData[5], inactive: false }; // Ith
+            gridLayout[6] = { rune: runesData[6], inactive: false }; // Tal
+            gridLayout[7] = { rune: runesData[7], inactive: false }; // Ral
+            gridLayout[8] = { rune: runesData[8], inactive: false }; // Ort
             
-            // 2행: 주울(9), 앰(10), 솔(11), 샤엘(12), 빈칸, 이오(15), 빈칸, 코(17), 팔(18)
-            // Dol(13), Hel(14), Lum(16)을 이미지에 따라 빈칸 처리
-            gridSlots[9] = runesData[9];
-            gridSlots[10] = runesData[10];
-            gridSlots[11] = runesData[11];
-            gridSlots[12] = runesData[12];
-            gridSlots[13] = null; 
-            gridSlots[14] = runesData[15]; 
-            gridSlots[15] = null;
-            gridSlots[16] = runesData[17];
-            gridSlots[17] = runesData[18];
+            // 2행
+            gridLayout[9] = { rune: runesData[9], inactive: false };  // Thul
+            gridLayout[10] = { rune: runesData[10], inactive: false }; // Amn
+            gridLayout[11] = { rune: runesData[11], inactive: false }; // Sol
+            gridLayout[12] = { rune: runesData[12], inactive: false }; // Shael
+            gridLayout[13] = { rune: runesData[13], inactive: true };  // Dol (Dark)
+            gridLayout[14] = { rune: runesData[15], inactive: false }; // Io (Index 15)
+            gridLayout[15] = { rune: runesData[14], inactive: true };  // Hel (Index 14, Dark)
+            gridLayout[16] = { rune: runesData[17], inactive: false }; // Ko (Index 17)
+            gridLayout[17] = { rune: runesData[18], inactive: false }; // Fal (Index 18)
             
-            // 3행: 렘(19) ~ 로(27)까지 9개 꽉 채움
-            for(let i=0; i<9; i++) gridSlots[18+i] = runesData[19+i];
+            // 3행: Lem(19) ~ Lo(27)
+            for(let i=0; i<9; i++) gridLayout[18+i] = { rune: runesData[19+i], inactive: false };
             
-            // 4행: 수르(28), 베르(29), 빈칸x5, 자(30), 참(31)
-            gridSlots[27] = runesData[28];
-            gridSlots[28] = runesData[29];
-            gridSlots[34] = runesData[30];
-            gridSlots[35] = runesData[31];
+            // 4행: Sur(28), Ber(29), 빈칸x5, Jah(30), Cham(31)
+            gridLayout[27] = { rune: runesData[28], inactive: false }; // Sur
+            gridLayout[28] = { rune: runesData[29], inactive: false }; // Ber
+            gridLayout[34] = { rune: runesData[30], inactive: false }; // Jah
+            gridLayout[35] = { rune: runesData[31], inactive: false }; // Cham
             
-            // 5행: 조드(32), 빈칸x8
-            gridSlots[36] = runesData[32];
+            // 5행: Lum(16, Dark), 빈칸x7, Zod(32)
+            gridLayout[36] = { rune: runesData[16], inactive: true };  // Lum (Dark)
+            gridLayout[44] = { rune: runesData[32], inactive: false }; // Zod
 
-            gridSlots.forEach(rune => {
+            gridLayout.forEach(item => {
                 const card = document.createElement('div');
-                if (!rune) {
+                if (!item) {
                     card.className = 'rune-card empty';
                     gridContainer.appendChild(card);
                     return;
                 }
 
-                card.className = 'rune-card';
+                const rune = item.rune;
+                card.className = `rune-card${item.inactive ? ' inactive' : ''}`;
                 card.innerHTML = `
                     <div class="rune-icon">${rune.name.substring(0,2)}</div>
                     <div class="rune-name">${rune.kr}</div>
