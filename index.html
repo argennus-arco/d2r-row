@@ -430,44 +430,40 @@
         }
 
         function renderRunes() {
-            // 이미지(rune position.jpg) 기반 정밀 배치 (9x5)
-            // { data: 룬데이터, inactive: 이미지에서 어두운지 여부 }
+            // 이미지(rune position.jpg) 및 텍스트 요청 기반 정밀 배치 (9x5)
             const gridLayout = new Array(45).fill(null);
             
-            // 1행
-            gridLayout[0] = { rune: runesData[0], inactive: false }; // El
-            gridLayout[1] = { rune: runesData[1], inactive: true };  // Eld (Dark)
-            gridLayout[2] = { rune: runesData[2], inactive: false }; // Tir
-            gridLayout[3] = { rune: runesData[3], inactive: false }; // Nef
-            gridLayout[4] = { rune: runesData[4], inactive: false }; // Eth
-            gridLayout[5] = { rune: runesData[5], inactive: false }; // Ith
-            gridLayout[6] = { rune: runesData[6], inactive: false }; // Tal
-            gridLayout[7] = { rune: runesData[7], inactive: false }; // Ral
-            gridLayout[8] = { rune: runesData[8], inactive: false }; // Ort
+            // 1행: El(0) ~ Ort(8), Eld(1)는 Dark
+            for(let i=0; i<9; i++) {
+                gridLayout[i] = { rune: runesData[i], inactive: (i === 1) };
+            }
             
-            // 2행
+            // 2행: Thul(9) ~ Fal(18), Dol(13)과 Hel(14)은 Dark
+            // 주의: runesData 순서에 따라 매핑 (14번 Hel, 15번 Io, 16번 Lum, 17번 Ko, 18번 Fal)
             gridLayout[9] = { rune: runesData[9], inactive: false };  // Thul
             gridLayout[10] = { rune: runesData[10], inactive: false }; // Amn
             gridLayout[11] = { rune: runesData[11], inactive: false }; // Sol
             gridLayout[12] = { rune: runesData[12], inactive: false }; // Shael
             gridLayout[13] = { rune: runesData[13], inactive: true };  // Dol (Dark)
-            gridLayout[14] = { rune: runesData[15], inactive: false }; // Io (Index 15)
-            gridLayout[15] = { rune: runesData[14], inactive: true };  // Hel (Index 14, Dark)
-            gridLayout[16] = { rune: runesData[17], inactive: false }; // Ko (Index 17)
-            gridLayout[17] = { rune: runesData[18], inactive: false }; // Fal (Index 18)
+            gridLayout[14] = { rune: runesData[15], inactive: false }; // Io
+            gridLayout[15] = { rune: runesData[14], inactive: true };  // Hel (Dark)
+            gridLayout[16] = { rune: runesData[17], inactive: false }; // Ko
+            gridLayout[17] = { rune: runesData[18], inactive: false }; // Fal
             
-            // 3행: Lem(19) ~ Lo(27)
+            // 3행: Lem(19) ~ Lo(27)까지 9개 꽉 채움 (로 룬은 인덱스 26번에 위치)
             for(let i=0; i<9; i++) gridLayout[18+i] = { rune: runesData[19+i], inactive: false };
             
-            // 4행: Sur(28), Ber(29), 빈칸x5, Jah(30), Cham(31)
+            // 4행: 수르(28), 베르(29), 빈칸x5, 자(30), 참(31)
+            // 참(31)은 로(27, index 26)의 아래인 index 35에 배치
             gridLayout[27] = { rune: runesData[28], inactive: false }; // Sur
             gridLayout[28] = { rune: runesData[29], inactive: false }; // Ber
             gridLayout[34] = { rune: runesData[30], inactive: false }; // Jah
             gridLayout[35] = { rune: runesData[31], inactive: false }; // Cham
             
-            // 5행: Lum(16, Dark), 빈칸x7, Zod(32)
+            // 5행: 룸(16, Dark), 빈칸x6, 조드(32), 빈칸
+            // 조드(32)는 자(30, index 34)의 아래인 index 43에 배치
             gridLayout[36] = { rune: runesData[16], inactive: true };  // Lum (Dark)
-            gridLayout[44] = { rune: runesData[32], inactive: false }; // Zod
+            gridLayout[43] = { rune: runesData[32], inactive: false }; // Zod
 
             gridLayout.forEach(item => {
                 const card = document.createElement('div');
