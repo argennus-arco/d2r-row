@@ -430,13 +430,35 @@
         }
 
         function renderRunes() {
-            runesData.forEach(rune => {
+            // 슬롯 맵 생성 (0~26: 1-27룬, 이후 특정 배치)
+            const gridSlots = new Array(45).fill(null);
+            
+            // 1~27번 룬 (Ohm까지)
+            for(let i=0; i<27; i++) gridSlots[i] = runesData[i];
+            
+            // 4행 배치: 로(28), 수르(29), (여백), 베르(30), 자(31)
+            gridSlots[27] = runesData[27]; // 로
+            gridSlots[28] = runesData[28]; // 수르
+            gridSlots[29] = null;          // 여백
+            gridSlots[30] = runesData[29]; // 베르
+            gridSlots[31] = runesData[30]; // 자
+            
+            // 5행 배치: 참(32)은 로 아래(index 27 아래는 36), 조드(33)는 자 아래(index 31 아래는 40)
+            gridSlots[36] = runesData[31]; // 참
+            gridSlots[40] = runesData[32]; // 조드
+
+            gridSlots.forEach(rune => {
                 const card = document.createElement('div');
+                if (!rune) {
+                    card.className = 'rune-card empty';
+                    gridContainer.appendChild(card);
+                    return;
+                }
+
                 card.className = 'rune-card';
                 card.innerHTML = `
                     <div class="rune-icon">${rune.name.substring(0,2)}</div>
                     <div class="rune-name">${rune.kr}</div>
-                    <div class="rune-stack">99</div>
                 `;
                 card.addEventListener('click', () => toggleRune(rune, card));
                 card.addEventListener('mouseenter', (e) => showTooltip(e, rune));
