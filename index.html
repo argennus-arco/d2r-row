@@ -101,6 +101,17 @@
         .rw-sockets { color: #fff; }
         .rw-type { color: #888; }
         .runeword-runes { color: #ccc; margin-bottom: 12px; font-weight: bold; font-size: 0.95rem; }
+        .rune-link {
+            color: var(--rune-orange);
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+        .rune-link:hover {
+            background-color: rgba(219, 168, 88, 0.2);
+            text-decoration: underline;
+        }
         .runeword-effects { font-size: 0.85rem; color: var(--effect-color); border-top: 1px solid #333; padding-top: 10px; }
 
         .detail-header {
@@ -259,7 +270,25 @@
 
         function init() {
             renderRunes();
-            renderRunewords(runeWords, listContainer);
+            
+            // URL 파라미터 확인 (예: ?rune=에드)
+            const urlParams = new URLSearchParams(window.location.search);
+            const initialRune = urlParams.get('rune');
+            if (initialRune) {
+                const runeData = runesData.find(r => r.kr === initialRune);
+                if (runeData) {
+                    selectedRunes.add(initialRune);
+                    // 그리드에서 해당 룬 찾아서 스타일 적용
+                    const cards = document.querySelectorAll('.rune-card');
+                    cards.forEach(card => {
+                        if (card.querySelector('.rune-name').textContent === initialRune) {
+                            card.classList.add('selected');
+                        }
+                    });
+                }
+            }
+            
+            filterRunewords();
         }
 
         function renderRunes() {
@@ -304,11 +333,19 @@
             renderRunewords(filtered, listContainer);
         }
 
+        function openRuneInNewWindow(runeName) {
+            const url = window.location.origin + window.location.pathname + '?rune=' + encodeURIComponent(runeName);
+            window.open(url, '_blank');
+        }
+
         function renderRunewords(data, container) {
             container.innerHTML = '';
             data.forEach(rw => {
                 const card = document.createElement('div');
                 card.className = 'runeword-card';
+                
+                const runesHtml = rw.runes.map(r => `<span class="rune-link" onclick="openRuneInNewWindow('${r}')">${r}</span>`).join(' + ');
+                
                 card.innerHTML = `
                     <div class="runeword-name">${rw.name}</div>
                     <div class="runeword-info">
@@ -316,7 +353,7 @@
                         <span class="rw-sockets">${rw.sockets}홈</span> | 
                         <span class="rw-type">${rw.itemType}</span>
                     </div>
-                    <div class="runeword-runes">${rw.runes.join(' + ')}</div>
+                    <div class="runeword-runes">${runesHtml}</div>
                     <div class="runeword-effects">${rw.effects}</div>
                 `;
                 container.appendChild(card);
