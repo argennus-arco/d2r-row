@@ -310,9 +310,14 @@
 
         function filterRunewords() {
             const cards = document.querySelectorAll('.runeword-card');
+            const selectedArray = Array.from(selectedRunes);
+            
             cards.forEach((card, index) => {
                 const rw = runeWords[index];
-                const canMake = selectedRunes.size === 0 || rw.runes.some(r => selectedRunes.has(r));
+                // 선택된 룬이 없으면 전체 표시, 있으면 선택된 모든 룬이 룬워드 공식에 포함되어 있는지 확인
+                const canMake = selectedArray.length === 0 || 
+                               selectedArray.every(rune => rw.runes.includes(rune));
+                
                 if (canMake) card.classList.remove('hidden');
                 else card.classList.add('hidden');
             });
