@@ -89,7 +89,11 @@
             border-radius: 8px;
         }
 
-        .runeword-name { font-size: 1.2rem; color: var(--rune-orange); margin-bottom: 8px; font-weight: bold; }
+        .runeword-name { font-size: 1.2rem; color: var(--rune-orange); margin-bottom: 4px; font-weight: bold; }
+        .runeword-info { font-size: 0.85rem; color: #aaa; margin-bottom: 12px; }
+        .rw-level { color: var(--accent-color); font-weight: bold; }
+        .rw-sockets { color: #fff; }
+        .rw-type { color: #888; }
         .runeword-runes { color: #ccc; margin-bottom: 12px; font-weight: bold; font-size: 0.95rem; }
         .runeword-effects { font-size: 0.85rem; color: var(--effect-color); border-top: 1px solid #333; padding-top: 10px; }
 
@@ -221,22 +225,34 @@
         ];
 
         const runeWords = [
-            { name: "잠행 (Stealth)", runes: ["탈", "에드"], effects: "달리기/걷기 속도 +25%, 시전 속도 +25%, 타격 회복 속도 +25%, 독 저항 +30%" },
-            { name: "강철 (Steel)", runes: ["티르", "엘"], effects: "공격 속도 +25%, 피해 +20% 증가, 최소/최대 피해 +3, 치명적 공격 25%" },
-            { name: "잎새 (Leaf)", runes: ["티르", "랄"], effects: "화염 기술 +3, 화염 피해 추가, 마력 +10, 냉기 저항 +33%" },
-            { name: "고대인의 서약 (Ancient's Pledge)", runes: ["랄", "오르트", "탈"], effects: "방어력 +50% 증가, 냉기 저항 +30%, 화염/번개/독 저항 +35%" },
-            { name: "영혼 (Spirit)", runes: ["탈", "주울", "오르트", "앰"], effects: "모든 기술 +2, 시전 속도 +25~35%, 타격 회복 속도 +55%, 활력 +22, 마나 +89~112" },
-            { name: "통찰 (Insight)", runes: ["랄", "티르", "탈", "솔"], effects: "장착 시 12~17레벨 명상 오라 효과, 시전 속도 +35%, 피해 +200~260% 증가, 명중률 보너스" },
-            { name: "전승 (Lore)", runes: ["오르트", "솔"], effects: "모든 기술 +1, 에너지 +10, 번개 저항 +30%, 물리 피해 감소 7" },
-            { name: "각운 (Rhyme)", runes: ["샤엘", "에드"], effects: "막기 속도 +40%, 막기 확률 20% 증가, 모든 저항 +25, 빙결되지 않음, 매찬 +25%" },
-            { name: "연기 (Smoke)", runes: ["네프", "룸"], effects: "타격 회복 속도 +20%, 방어력 +75% 증가, 모든 저항 +50, 시야 -1" },
-            { name: "배신 (Treachery)", runes: ["샤엘", "주울", "렘"], effects: "피격 시 5% 확률로 15레벨 흐리기(Fade) 시전, 공격 속도 +45%, 냉기 저항 +30%" },
-            { name: "수수께끼 (Enigma)", runes: ["자", "이드", "베르"], effects: "모든 기술 +2, 달리기/걷기 +45%, +1 순간이동(텔레포트), 레벨 비례 힘 증가, 피해 감소 8%" },
-            { name: "무한 (Infinity)", runes: ["베르", "말", "베르", "이스트"], effects: "장착 시 12레벨 선고 오라 효과, 달리기/걷기 +35%, 피해 +255~325% 증가, 적의 번개 저항 깎기" },
-            { name: "인내 (Fortitude)", runes: ["엘", "솔", "돌", "로"], effects: "피격 시 20% 확률로 15레벨 냉기 갑옷 시전, 피해 +300% 증가, 모든 저항 +25~30, 레벨 비례 생명력 증가" },
-            { name: "소집 (Call to Arms)", runes: ["앰", "랄", "말", "이스트", "옴"], effects: "모든 기술 +1, 전투 명령 +1~6, 전투 지시 +1~6, 전투 함성 +1~4, 공격 속도 +40%" },
-            { name: "불사조 (Phoenix)", runes: ["벡스", "벡스", "로", "자"], effects: "장착 시 10~15레벨 속죄 오라 효과, 피해 +350~400% 증가, 적의 화염 저항 깎기, 최대 화염/번개 저항 증가" },
-            { name: "모자이크 (Mosaic)", runes: ["말", "굴", "주울"], effects: "피해 +200~250% 증가, 명중률 +20%, 냉기 피해 +3~14, 무술 마무리 기술 사용 시 충전 소모되지 않을 확률 50%" }
+            { name: "잠행 (Stealth)", runes: ["탈", "에드"], level: 17, sockets: 2, itemType: "갑옷", effects: "달리기/걷기 속도 +25%, 시전 속도 +25%, 타격 회복 속도 +25%, 독 저항 +30%" },
+            { name: "강철 (Steel)", runes: ["티르", "엘"], level: 13, sockets: 2, itemType: "도검, 도끼, 철퇴", effects: "공격 속도 +25%, 피해 +20% 증가, 최소/최대 피해 +3, 치명적 공격 25%" },
+            { name: "잎새 (Leaf)", runes: ["티르", "랄"], level: 19, sockets: 2, itemType: "양손 지팡이", effects: "화염 기술 +3, 화염 피해 추가, 마력 +10, 냉기 저항 +33%" },
+            { name: "고대인의 서약 (Ancient's Pledge)", runes: ["랄", "오르트", "탈"], level: 21, sockets: 3, itemType: "방패", effects: "방어력 +50% 증가, 냉기 저항 +30%, 화염/번개/독 저항 +35%" },
+            { name: "영혼 (Spirit)", runes: ["탈", "주울", "오르트", "앰"], level: 25, sockets: 4, itemType: "도검, 방패", effects: "모든 기술 +2, 시전 속도 +25~35%, 타격 회복 속도 +55%, 활력 +22, 마나 +89~112" },
+            { name: "통찰 (Insight)", runes: ["랄", "티르", "탈", "솔"], level: 27, sockets: 4, itemType: "폴암, 지팡이, 활/쇠뇌", effects: "장착 시 12~17레벨 명상 오라 효과, 시전 속도 +35%, 피해 +200~260% 증가, 명중률 보너스" },
+            { name: "전승 (Lore)", runes: ["오르트", "솔"], level: 27, sockets: 2, itemType: "투구", effects: "모든 기술 +1, 에너지 +10, 번개 저항 +30%, 물리 피해 감소 7" },
+            { name: "각운 (Rhyme)", runes: ["샤엘", "에드"], level: 29, sockets: 2, itemType: "방패", effects: "막기 속도 +40%, 막기 확률 20% 증가, 모든 저항 +25, 빙결되지 않음, 매찬 +25%" },
+            { name: "연기 (Smoke)", runes: ["네프", "룸"], level: 37, sockets: 2, itemType: "갑옷", effects: "타격 회복 속도 +20%, 방어력 +75% 증가, 모든 저항 +50, 시야 -1" },
+            { name: "배신 (Treachery)", runes: ["샤엘", "주울", "렘"], level: 43, sockets: 3, itemType: "갑옷", effects: "피격 시 5% 확률로 15레벨 흐리기(Fade) 시전, 공격 속도 +45%, 냉기 저항 +30%" },
+            { name: "수수께끼 (Enigma)", runes: ["자", "아이드", "베르"], level: 65, sockets: 3, itemType: "갑옷", effects: "모든 기술 +2, 달리기/걷기 +45%, +1 순간이동(텔레포트), 레벨 비례 힘 증가, 피해 감소 8%" },
+            { name: "무한 (Infinity)", runes: ["베르", "말", "베르", "이스트"], level: 63, sockets: 4, itemType: "폴암, 창", effects: "장착 시 12레벨 선고 오라 효과, 달리기/걷기 +35%, 피해 +255~325% 증가, 적의 번개 저항 깎기" },
+            { name: "인내 (Fortitude)", runes: ["엘", "솔", "돌", "로"], level: 59, sockets: 4, itemType: "무기, 갑옷", effects: "피격 시 20% 확률로 15레벨 냉기 갑옷 시전, 피해 +300% 증가, 모든 저항 +25~30, 레벨 비례 생명력 증가" },
+            { name: "소집 (Call to Arms)", runes: ["앰", "랄", "말", "이스트", "옴"], level: 57, sockets: 5, itemType: "무기", effects: "모든 기술 +1, 전투 명령 +1~6, 전투 지시 +1~6, 전투 함성 +1~4, 공격 속도 +40%" },
+            { name: "불사조 (Phoenix)", runes: ["벡스", "벡스", "로", "자"], level: 65, sockets: 4, itemType: "무기, 방패", effects: "장착 시 10~15레벨 속죄 오라 효과, 피해 +350~400% 증가, 적의 화염 저항 깎기, 최대 화염/번개 저항 증가" },
+            { name: "모자이크 (Mosaic)", runes: ["말", "굴", "주울"], level: 53, sockets: 3, itemType: "손톱(Claw)", effects: "피해 +200~250% 증가, 명중률 +20%, 냉기 피해 +3~14, 무술 마무리 기술 사용 시 충전 소모되지 않을 확률 50%" },
+            { name: "구렁텅이 (Nadir)", runes: ["네프", "티르"], level: 13, sockets: 2, itemType: "투구", effects: "방어력 +50% 증가, 원거리 공격 방어력 +10, 힘 +5, 마나 +2, 시야 -3" },
+            { name: "강함 (Strength)", runes: ["앰", "티르"], level: 25, sockets: 2, itemType: "근접 무기", effects: "피해 +35% 증가, 강타 확률 25%, 타격당 생명력 7% 훔침, 힘 +20, 활력 +10" },
+            { name: "순백 (White)", runes: ["돌", "이오"], level: 35, sockets: 2, itemType: "완드", effects: "독과 뼈 기술 +3, 뼈 창 +2, 뼈 갑옷 +3, 시전 속도 +20%, 활력 +10" },
+            { name: "악의 (Malice)", runes: ["아이드", "엘", "에드"], level: 15, sockets: 3, itemType: "근접 무기", effects: "피해 +33% 증가, 상처 악화 확률 100%, 대상 방어력 -25%, 명중률 +50" },
+            { name: "권위 (Hustle)", runes: ["샤엘", "코", "엘드"], level: 39, sockets: 3, itemType: "무기, 갑옷", effects: "무기: 착용 시 1레벨 광폭화 오라, 공격 속도 +30%, 피해 +100~120% 증가 / 갑옷: 달리기/걷기 +65%, 공격 속도 +40%, 타격 회복 속도 +20%" },
+            { name: "마녀단 (Bulwark)", runes: ["샤엘", "이오", "솔"], level: 35, sockets: 3, itemType: "투구", effects: "타격당 생명력 4~6% 훔침, 피해 감소 10~15%, 타격 회복 속도 +20%, 생명력 +10" },
+            { name: "치료 (Cure)", runes: ["샤엘", "이오", "탈"], level: 35, sockets: 3, itemType: "투구", effects: "장착 시 1레벨 정화 오라 효과, 독 저항 +40~60%, 타격 회복 속도 +20%, 생명력 +10" },
+            { name: "경계 (Hearth)", runes: ["샤엘", "이오", "주울"], level: 35, sockets: 3, itemType: "투구", effects: "빙결되지 않음, 냉기 저항 +40~60%, 타격 회복 속도 +20%, 생명력 +10" },
+            { name: "공허 (Ground)", runes: ["샤엘", "이오", "오르트"], level: 35, sockets: 3, itemType: "투구", effects: "번개 저항 +40~60%, 번개 흡수 +10~15%, 타격 회복 속도 +20%, 생명력 +10" },
+            { name: "의식 (Temper)", runes: ["샤엘", "이오", "랄"], level: 35, sockets: 3, itemType: "투구", effects: "화염 저항 +40~60%, 화염 흡수 +10~15%, 타격 회복 속도 +20%, 생명력 +10" },
+            { name: "변신 (Metamorphosis)", runes: ["참", "샤엘", "조드"], level: 69, sockets: 3, itemType: "투구 (드루이드 전용)", effects: "늑대인간 적중 시 180초 동안 증표 획득(명중률 +20%, 최대 생명력 +40%), 곰인간 적중 시 180초 동안 증표 획득(공격 속도 +25%, 물리 피해 감소 20%), 강타 확률 25%" },
+            { name: "서풍 (Zephyr)", runes: ["오르트", "에드"], level: 21, sockets: 2, itemType: "원거리 무기", effects: "타격 시 7% 확률로 1레벨 돌풍 시전, 달리기/걷기 +25%, 공격 속도 +25%, 피해 +33% 증가, 명중률 +66" }
         ];
 
         const gridContainer = document.getElementById('rune-grid');
@@ -275,6 +291,11 @@
                 card.className = 'runeword-card';
                 card.innerHTML = `
                     <div class="runeword-name">${rw.name}</div>
+                    <div class="runeword-info">
+                        <span class="rw-level">Lv.${rw.level}</span> | 
+                        <span class="rw-sockets">${rw.sockets}홈</span> | 
+                        <span class="rw-type">${rw.itemType}</span>
+                    </div>
                     <div class="runeword-runes">${rw.runes.join(' + ')}</div>
                     <div class="runeword-effects">${rw.effects}</div>
                 `;
