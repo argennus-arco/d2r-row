@@ -430,42 +430,61 @@
         }
 
         function renderRunes() {
-            // 이미지(rune position.jpg) 및 텍스트 요청 기반 정밀 배치 (9x5)
+            // 이미지 및 텍스트 요청 기반 최종 배치 (9열 5행)
             const gridLayout = new Array(45).fill(null);
             
-            // 1행: El(0) ~ Ort(8), Eld(1)는 Dark
+            // 1행: 1번(엘) ~ 9번(오르트). 엘드(1번 인덱스) 어둡게.
             for(let i=0; i<9; i++) {
                 gridLayout[i] = { rune: runesData[i], inactive: (i === 1) };
             }
             
-            // 2행: Thul(9) ~ Fal(18), Dol(13)과 Hel(14)은 Dark
-            // 주의: runesData 순서에 따라 매핑 (14번 Hel, 15번 Io, 16번 Lum, 17번 Ko, 18번 Fal)
-            gridLayout[9] = { rune: runesData[9], inactive: false };  // Thul
-            gridLayout[10] = { rune: runesData[10], inactive: false }; // Amn
-            gridLayout[11] = { rune: runesData[11], inactive: false }; // Sol
-            gridLayout[12] = { rune: runesData[12], inactive: false }; // Shael
-            gridLayout[13] = { rune: runesData[13], inactive: true };  // Dol (Dark)
-            gridLayout[14] = { rune: runesData[15], inactive: false }; // Io
-            gridLayout[15] = { rune: runesData[14], inactive: true };  // Hel (Dark)
-            gridLayout[16] = { rune: runesData[17], inactive: false }; // Ko
-            gridLayout[17] = { rune: runesData[18], inactive: false }; // Fal
+            // 2행: 10번(주울) ~ 18번(코). 돌(13), 헬(14), 룸(16) 어둡게.
+            for(let i=0; i<9; i++) {
+                const idx = 9 + i;
+                gridLayout[idx] = { 
+                    rune: runesData[idx], 
+                    inactive: (idx === 13 || idx === 14 || idx === 16) 
+                };
+            }
             
-            // 3행: Lem(19) ~ Lo(27)까지 9개 꽉 채움 (로 룬은 인덱스 26번에 위치)
-            for(let i=0; i<9; i++) gridLayout[18+i] = { rune: runesData[19+i], inactive: false };
+            // 3행: 19번(팔) ~ 27번(오움). 벡스(25), 오움(26)이 8, 9번째 위치함.
+            for(let i=0; i<9; i++) {
+                gridLayout[18 + i] = { rune: runesData[18 + i], inactive: false };
+            }
             
-            // 4행: 수르(28), 베르(29), 빈칸x5, 자(30), 참(31)
-            // 참(31)은 로(27, index 26)의 아래인 index 35에 배치
-            gridLayout[27] = { rune: runesData[28], inactive: false }; // Sur
-            gridLayout[28] = { rune: runesData[29], inactive: false }; // Ber
-            gridLayout[34] = { rune: runesData[30], inactive: false }; // Jah
-            gridLayout[35] = { rune: runesData[31], inactive: false }; // Cham
+            // 4행: 로(27), 수르(28), 여백x5, 베르(29), 자(30)
+            // 베르와 자는 벡스(25), 오움(26) 바로 아래인 34, 35번 인덱스에 위치
+            gridLayout[27] = { rune: runesData[27], inactive: false }; // Lo
+            gridLayout[28] = { rune: runesData[28], inactive: false }; // Sur
+            gridLayout[34] = { rune: runesData[29], inactive: false }; // Ber
+            gridLayout[35] = { rune: runesData[30], inactive: false }; // Jah
             
-            // 5행: 룸(16, Dark), 빈칸x6, 조드(32), 빈칸
-            // 조드(32)는 자(30, index 34)의 아래인 index 43에 배치
-            gridLayout[36] = { rune: runesData[16], inactive: true };  // Lum (Dark)
-            gridLayout[43] = { rune: runesData[32], inactive: false }; // Zod
+            // 5행: 참(31), 여백x7, 조드(32)
+            // 참은 로(27) 아래인 36번, 조드는 자(30) 아래인 44번 인덱스
+            gridLayout[36] = { rune: runesData[31], inactive: false }; // Cham
+            gridLayout[44] = { rune: runesData[32], inactive: false }; // Zod
 
             gridLayout.forEach(item => {
+                const card = document.createElement('div');
+                if (!item) {
+                    card.className = 'rune-card empty';
+                    gridContainer.appendChild(card);
+                    return;
+                }
+
+                const rune = item.rune;
+                card.className = `rune-card${item.inactive ? ' inactive' : ''}`;
+                card.innerHTML = `
+                    <div class="rune-icon">${rune.name.substring(0,2)}</div>
+                    <div class="rune-name">${rune.kr}</div>
+                `;
+                card.addEventListener('click', () => toggleRune(rune, card));
+                card.addEventListener('mouseenter', (e) => showTooltip(e, rune));
+                card.addEventListener('mousemove', (e) => moveTooltip(e));
+                card.addEventListener('mouseleave', () => hideTooltip());
+                gridContainer.appendChild(card);
+            });
+        }
                 const card = document.createElement('div');
                 if (!item) {
                     card.className = 'rune-card empty';
