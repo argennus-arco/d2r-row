@@ -386,7 +386,8 @@
                     selectedRunes.add(initialRune);
                     const cards = document.querySelectorAll('.rune-card');
                     cards.forEach(card => {
-                        if (card.querySelector('.rune-name') && card.querySelector('.rune-name').textContent === initialRune) {
+                        const nameEl = card.querySelector('.rune-name');
+                        if (nameEl && nameEl.textContent === initialRune) {
                             card.classList.add('selected');
                         }
                     });
@@ -419,34 +420,34 @@
         function renderRunes() {
             const gridLayout = new Array(45).fill(null);
             
-            // 1~9: El-Ort
+            // Row 1 (Index 0-8): El to Ort. Eld(1) inactive.
             for(let i=0; i<9; i++) {
-                gridLayout[i] = { rune: runesData[i], inactive: (i === 1) }; // Eld(1) dark
+                gridLayout[i] = { rune: runesData[i], inactive: (i === 1) };
             }
             
-            // 10~18: Thul-Ko
+            // Row 2 (Index 9-17): Thul to Ko. Dol(13), Io(15) inactive to match image positions 5 and 7.
             for(let i=0; i<9; i++) {
                 const idx = 9 + i;
                 gridLayout[idx] = { 
                     rune: runesData[idx], 
-                    inactive: (idx === 13 || idx === 14 || idx === 16) // Dol, Hel, Lum dark
+                    inactive: (idx === 13 || idx === 15) 
                 };
             }
             
-            // 19~27: Fal-Ohm
+            // Row 3 (Index 18-26): Fal to Ohm.
             for(let i=0; i<9; i++) {
                 gridLayout[18 + i] = { rune: runesData[18 + i], inactive: false };
             }
             
-            // 4행: Lo(27), Sur(28) -> 27, 28 index. Ber(29), Jah(30) -> 34, 35 index
-            gridLayout[27] = { rune: runesData[27], inactive: false }; 
-            gridLayout[28] = { rune: runesData[28], inactive: false }; 
-            gridLayout[34] = { rune: runesData[29], inactive: false }; 
-            gridLayout[35] = { rune: runesData[30], inactive: false }; 
+            // Row 4 (Index 27-35): Lo(27), Sur(28) at start. Ber(29), Jah(30) at 8, 9.
+            gridLayout[27] = { rune: runesData[27], inactive: false }; // Lo
+            gridLayout[28] = { rune: runesData[28], inactive: false }; // Sur
+            gridLayout[34] = { rune: runesData[29], inactive: false }; // Ber
+            gridLayout[35] = { rune: runesData[30], inactive: false }; // Jah
             
-            // 5행: Cham(31) -> 36 index, Zod(32) -> 44 index
-            gridLayout[36] = { rune: runesData[31], inactive: false }; 
-            gridLayout[44] = { rune: runesData[32], inactive: false }; 
+            // Row 5 (Index 36-44): Cham(31) under Lo(27), Zod(32) under Jah(30).
+            gridLayout[36] = { rune: runesData[31], inactive: true };  // Cham (dark to match image)
+            gridLayout[44] = { rune: runesData[32], inactive: false }; // Zod
 
             gridContainer.innerHTML = '';
             gridLayout.forEach(item => {
