@@ -436,6 +436,7 @@
                 card.innerHTML = `
                     <div class="rune-icon">${rune.name.substring(0,2)}</div>
                     <div class="rune-name">${rune.kr}</div>
+                    <div class="rune-stack">99</div>
                 `;
                 card.addEventListener('click', () => toggleRune(rune, card));
                 card.addEventListener('mouseenter', (e) => showTooltip(e, rune));
