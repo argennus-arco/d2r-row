@@ -14,6 +14,7 @@
             --border-color: #333;
             --active-border: #a08d55;
             --rune-orange: #dba858;
+            --effect-color: #51688b; /* 매직 아이템 파란색 느낌 */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,6 +24,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             padding: 20px;
+            line-height: 1.6;
         }
 
         header {
@@ -35,13 +37,15 @@
         h1 { font-size: 2rem; color: var(--accent-color); margin-bottom: 10px; }
         p { color: #888; font-size: 0.9rem; }
 
+        h2 { color: var(--accent-color); margin: 30px 0 15px; text-align: center; }
+
         /* 룬 그리드 레이아웃 */
         .rune-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* 반응형 그리드 */
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             gap: 12px;
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 0 auto 40px;
         }
 
         /* 개별 룬 카드 디자인 */
@@ -53,16 +57,13 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.2s ease;
-            position: relative;
         }
 
         .rune-card:hover {
             border-color: var(--rune-orange);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
         }
 
-        /* 룬 선택 시 활성화 효과 */
         .rune-card.active {
             border-color: var(--active-border);
             background-color: #2a2a2a;
@@ -70,36 +71,78 @@
         }
 
         .rune-icon {
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             background-color: #000;
             border-radius: 4px;
             margin: 0 auto 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: var(--rune-orange);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: var(--rune-orange);
             border: 1px solid #444;
         }
 
         .rune-name { font-size: 0.9rem; font-weight: bold; }
-        .rune-number { font-size: 0.7rem; color: #666; margin-top: 4px; }
+
+        /* 룬워드 리스트 스타일 */
+        .runeword-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .runeword-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+
+        .runeword-card:hover {
+            border-color: var(--accent-color);
+        }
+
+        .runeword-name {
+            font-size: 1.2rem;
+            color: var(--rune-orange);
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .runeword-runes {
+            color: #ccc;
+            margin-bottom: 12px;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        .runeword-effects {
+            font-size: 0.85rem;
+            color: var(--effect-color);
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
+
+        /* 필터링 시 숨김 처리 */
+        .hidden { display: none; }
 
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Diablo 2 Runes</h1>
-        <p>원하는 룬을 클릭하여 선택하세요.</p>
+        <h1>Diablo 2 Runewords</h1>
+        <p>룬을 선택하여 제작 가능한 룬워드를 확인하세요.</p>
     </header>
 
-    <main id="rune-grid" class="rune-container">
-        </main>
+    <h2>Runes</h2>
+    <main id="rune-grid" class="rune-container"></main>
+
+    <h2>Runewords</h2>
+    <section id="runeword-list" class="runeword-container"></section>
 
     <script>
-        // [데이터] 룬 정보 배열 (추후 확장을 위해 객체 구조 사용)
         const runesData = [
             { id: 1, name: "El", kr: "엘" }, { id: 2, name: "Eld", kr: "엘드" },
             { id: 3, name: "Tir", kr: "티르" }, { id: 4, name: "Nef", kr: "네프" },
@@ -120,34 +163,72 @@
             { id: 33, name: "Zod", kr: "조드" }
         ];
 
-        const gridContainer = document.getElementById('rune-grid');
+        const runeWords = [
+            { name: "잠행 (Stealth)", runes: ["탈", "에드"], effects: "달리기/걷기 속도 +25%, 시전 속도 +25%, 타격 회복 속도 +25%, 독 저항 +30%" },
+            { name: "강철 (Steel)", runes: ["티르", "엘"], effects: "공격 속도 +25%, 피해 +20% 증가, 최소/최대 피해 +3, 치명적 공격 25%" },
+            { name: "잎새 (Leaf)", runes: ["티르", "랄"], effects: "화염 기술 +3, 화염 피해 추가, 마력 +10, 냉기 저항 +33%" },
+            { name: "고대인의 서약 (Ancient's Pledge)", runes: ["랄", "오르트", "탈"], effects: "방어력 +50% 증가, 냉기 저항 +30%, 화염/번개/독 저항 +35%" },
+            { name: "영혼 (Spirit)", runes: ["탈", "주울", "오르트", "앰"], effects: "모든 기술 +2, 시전 속도 +25~35%, 타격 회복 속도 +55%, 활력 +22, 마나 +89~112" },
+            { name: "통찰 (Insight)", runes: ["랄", "티르", "탈", "솔"], effects: "장착 시 12~17레벨 명상 오라 효과, 시전 속도 +35%, 피해 +200~260% 증가, 명중률 보너스" },
+            { name: "전승 (Lore)", runes: ["오르트", "솔"], effects: "모든 기술 +1, 에너지 +10, 번개 저항 +30%, 물리 피해 감소 7" },
+            { name: "각운 (Rhyme)", runes: ["샤엘", "에드"], effects: "막기 속도 +40%, 막기 확률 20% 증가, 모든 저항 +25, 빙결되지 않음, 매찬 +25%" },
+            { name: "연기 (Smoke)", runes: ["네프", "룸"], effects: "타격 회복 속도 +20%, 방어력 +75% 증가, 모든 저항 +50, 시야 -1" },
+            { name: "배신 (Treachery)", runes: ["샤엘", "주울", "렘"], effects: "피격 시 5% 확률로 15레벨 흐리기(Fade) 시전, 공격 속도 +45%, 냉기 저항 +30%" },
+            { name: "수수께끼 (Enigma)", runes: ["자", "이드", "베르"], effects: "모든 기술 +2, 달리기/걷기 +45%, +1 순간이동(텔레포트), 레벨 비례 힘 증가, 피해 감소 8%" },
+            { name: "무한 (Infinity)", runes: ["베르", "말", "베르", "이스트"], effects: "장착 시 12레벨 선고 오라 효과, 달리기/걷기 +35%, 피해 +255~325% 증가, 적의 번개 저항 깎기" },
+            { name: "인내 (Fortitude)", runes: ["엘", "솔", "돌", "로"], effects: "피격 시 20% 확률로 15레벨 냉기 갑옷 시전, 피해 +300% 증가, 모든 저항 +25~30, 레벨 비례 생명력 증가" },
+            { name: "소집 (Call to Arms)", runes: ["앰", "랄", "말", "이스트", "옴"], effects: "모든 기술 +1, 전투 명령 +1~6, 전투 지시 +1~6, 전투 함성 +1~4, 공격 속도 +40%" },
+            { name: "불사조 (Phoenix)", runes: ["벡스", "벡스", "로", "자"], effects: "장착 시 10~15레벨 속죄 오라 효과, 피해 +350~400% 증가, 적의 화염 저항 깎기, 최대 화염/번개 저항 증가" },
+            { name: "모자이크 (Mosaic)", runes: ["말", "굴", "주울"], effects: "피해 +200~250% 증가, 명중률 +20%, 냉기 피해 +3~14, 무술 마무리 기술 사용 시 충전 소모되지 않을 확률 50%" }
+        ];
 
-        // [로직] 룬 카드 생성 함수
+        const gridContainer = document.getElementById('rune-grid');
+        const listContainer = document.getElementById('runeword-list');
+        let selectedRunes = new Set();
+
         function renderRunes() {
             runesData.forEach(rune => {
                 const card = document.createElement('div');
                 card.className = 'rune-card';
-                card.dataset.id = rune.id; // 데이터 속성으로 ID 저장
-
-                // 이미지 대신 임시로 텍스트 아이콘 사용 (나중에 이미지 태그로 교체 가능)
                 card.innerHTML = `
                     <div class="rune-icon">${rune.name.substring(0,2)}</div>
                     <div class="rune-name">${rune.kr}</div>
-                    <div class="rune-number">#${rune.id}</div>
                 `;
-
-                // 클릭 이벤트: 활성화/비활성화 토글
-                card.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    console.log(`선택된 룬: ${rune.kr} (${rune.name})`);
+                card.addEventListener('click', () => {
+                    card.classList.toggle('active');
+                    if (selectedRunes.has(rune.kr)) selectedRunes.delete(rune.kr);
+                    else selectedRunes.add(rune.kr);
+                    filterRunewords();
                 });
-
                 gridContainer.appendChild(card);
             });
         }
 
-        // 초기화 실행
+        function renderRunewords() {
+            runeWords.forEach(rw => {
+                const card = document.createElement('div');
+                card.className = 'runeword-card';
+                card.innerHTML = `
+                    <div class="runeword-name">${rw.name}</div>
+                    <div class="runeword-runes">${rw.runes.join(' + ')}</div>
+                    <div class="runeword-effects">${rw.effects}</div>
+                `;
+                listContainer.appendChild(card);
+            });
+        }
+
+        function filterRunewords() {
+            const cards = document.querySelectorAll('.runeword-card');
+            cards.forEach((card, index) => {
+                const rw = runeWords[index];
+                const canMake = selectedRunes.size === 0 || rw.runes.some(r => selectedRunes.has(r));
+                if (canMake) card.classList.remove('hidden');
+                else card.classList.add('hidden');
+            });
+        }
+
         renderRunes();
+        renderRunewords();
     </script>
 </body>
 </html>
