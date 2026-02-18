@@ -124,85 +124,176 @@
             padding-top: 10px;
         }
 
-        /* 필터링 시 숨김 처리 */
-        .hidden { display: none; }
-
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1>Diablo 2 Runewords</h1>
-        <p>룬을 선택하여 제작 가능한 룬워드를 확인하세요.</p>
-    </header>
-
-    <h2>Runes</h2>
-    <main id="rune-grid" class="rune-container"></main>
-
-    <h2>Runewords</h2>
-    <section id="runeword-list" class="runeword-container"></section>
-
-    <script>
-        const runesData = [
-            { id: 1, name: "El", kr: "엘" }, { id: 2, name: "Eld", kr: "엘드" },
-            { id: 3, name: "Tir", kr: "티르" }, { id: 4, name: "Nef", kr: "네프" },
-            { id: 5, name: "Eth", kr: "에드" }, { id: 6, name: "Ith", kr: "아이드" },
-            { id: 7, name: "Tal", kr: "탈" }, { id: 8, name: "Ral", kr: "랄" },
-            { id: 9, name: "Ort", kr: "오르트" }, { id: 10, name: "Thul", kr: "주울" },
-            { id: 11, name: "Amn", kr: "앰" }, { id: 12, name: "Sol", kr: "솔" },
-            { id: 13, name: "Shael", kr: "샤엘" }, { id: 14, name: "Dol", kr: "돌" },
-            { id: 15, name: "Hel", kr: "헬" }, { id: 16, name: "Io", kr: "이오" },
-            { id: 17, name: "Lum", kr: "룸" }, { id: 18, name: "Ko", kr: "코" },
-            { id: 19, name: "Fal", kr: "팔" }, { id: 20, name: "Lem", kr: "렘" },
-            { id: 21, name: "Pul", kr: "풀" }, { id: 22, name: "Um", kr: "움" },
-            { id: 23, name: "Mal", kr: "말" }, { id: 24, name: "Ist", kr: "아이스트" },
-            { id: 25, name: "Gul", kr: "굴" }, { id: 26, name: "Vex", kr: "벡스" },
-            { id: 27, name: "Ohm", kr: "오옴" }, { id: 28, name: "Lo", kr: "로" },
-            { id: 29, name: "Sur", kr: "수르" }, { id: 30, name: "Ber", kr: "베르" },
-            { id: 31, name: "Jah", kr: "자" }, { id: 32, name: "Cham", kr: "참" },
-            { id: 33, name: "Zod", kr: "조드" }
-        ];
-
-        const runeWords = [
-            { name: "잠행 (Stealth)", runes: ["탈", "에드"], effects: "달리기/걷기 속도 +25%, 시전 속도 +25%, 타격 회복 속도 +25%, 독 저항 +30%" },
-            { name: "강철 (Steel)", runes: ["티르", "엘"], effects: "공격 속도 +25%, 피해 +20% 증가, 최소/최대 피해 +3, 치명적 공격 25%" },
-            { name: "잎새 (Leaf)", runes: ["티르", "랄"], effects: "화염 기술 +3, 화염 피해 추가, 마력 +10, 냉기 저항 +33%" },
-            { name: "고대인의 서약 (Ancient's Pledge)", runes: ["랄", "오르트", "탈"], effects: "방어력 +50% 증가, 냉기 저항 +30%, 화염/번개/독 저항 +35%" },
-            { name: "영혼 (Spirit)", runes: ["탈", "주울", "오르트", "앰"], effects: "모든 기술 +2, 시전 속도 +25~35%, 타격 회복 속도 +55%, 활력 +22, 마나 +89~112" },
-            { name: "통찰 (Insight)", runes: ["랄", "티르", "탈", "솔"], effects: "장착 시 12~17레벨 명상 오라 효과, 시전 속도 +35%, 피해 +200~260% 증가, 명중률 보너스" },
-            { name: "전승 (Lore)", runes: ["오르트", "솔"], effects: "모든 기술 +1, 에너지 +10, 번개 저항 +30%, 물리 피해 감소 7" },
-            { name: "각운 (Rhyme)", runes: ["샤엘", "에드"], effects: "막기 속도 +40%, 막기 확률 20% 증가, 모든 저항 +25, 빙결되지 않음, 매찬 +25%" },
-            { name: "연기 (Smoke)", runes: ["네프", "룸"], effects: "타격 회복 속도 +20%, 방어력 +75% 증가, 모든 저항 +50, 시야 -1" },
-            { name: "배신 (Treachery)", runes: ["샤엘", "주울", "렘"], effects: "피격 시 5% 확률로 15레벨 흐리기(Fade) 시전, 공격 속도 +45%, 냉기 저항 +30%" },
-            { name: "수수께끼 (Enigma)", runes: ["자", "이드", "베르"], effects: "모든 기술 +2, 달리기/걷기 +45%, +1 순간이동(텔레포트), 레벨 비례 힘 증가, 피해 감소 8%" },
-            { name: "무한 (Infinity)", runes: ["베르", "말", "베르", "이스트"], effects: "장착 시 12레벨 선고 오라 효과, 달리기/걷기 +35%, 피해 +255~325% 증가, 적의 번개 저항 깎기" },
-            { name: "인내 (Fortitude)", runes: ["엘", "솔", "돌", "로"], effects: "피격 시 20% 확률로 15레벨 냉기 갑옷 시전, 피해 +300% 증가, 모든 저항 +25~30, 레벨 비례 생명력 증가" },
-            { name: "소집 (Call to Arms)", runes: ["앰", "랄", "말", "이스트", "옴"], effects: "모든 기술 +1, 전투 명령 +1~6, 전투 지시 +1~6, 전투 함성 +1~4, 공격 속도 +40%" },
-            { name: "불사조 (Phoenix)", runes: ["벡스", "벡스", "로", "자"], effects: "장착 시 10~15레벨 속죄 오라 효과, 피해 +350~400% 증가, 적의 화염 저항 깎기, 최대 화염/번개 저항 증가" },
-            { name: "모자이크 (Mosaic)", runes: ["말", "굴", "주울"], effects: "피해 +200~250% 증가, 명중률 +20%, 냉기 피해 +3~14, 무술 마무리 기술 사용 시 충전 소모되지 않을 확률 50%" }
-        ];
-
-        const gridContainer = document.getElementById('rune-grid');
-        const listContainer = document.getElementById('runeword-list');
-        let selectedRunes = new Set();
-
-        function renderRunes() {
-            runesData.forEach(rune => {
-                const card = document.createElement('div');
-                card.className = 'rune-card';
-                card.innerHTML = `
-                    <div class="rune-icon">${rune.name.substring(0,2)}</div>
-                    <div class="rune-name">${rune.kr}</div>
-                `;
-                card.addEventListener('click', () => {
-                    card.classList.toggle('active');
-                    if (selectedRunes.has(rune.kr)) selectedRunes.delete(rune.kr);
-                    else selectedRunes.add(rune.kr);
-                    filterRunewords();
-                });
-                gridContainer.appendChild(card);
-            });
-        }
+                /* 필터링 시 숨김 처리 */
+                .hidden { display: none; }
+        
+                /* 툴팁 스타일 */
+                #tooltip {
+                    position: fixed;
+                    display: none;
+                    background-color: rgba(0, 0, 0, 0.9);
+                    border: 1px solid var(--accent-color);
+                    padding: 12px;
+                    color: #fff;
+                    font-size: 0.85rem;
+                    z-index: 1000;
+                    pointer-events: none; /* 마우스 이벤트를 방해하지 않음 */
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+                    max-width: 250px;
+                }
+        
+                .tooltip-title { color: var(--rune-orange); font-weight: bold; font-size: 1rem; margin-bottom: 5px; }
+                .tooltip-level { color: #888; margin-bottom: 8px; font-size: 0.75rem; }
+                .tooltip-section { margin-top: 5px; border-top: 1px solid #333; padding-top: 5px; }
+                .tooltip-label { color: var(--accent-color); font-weight: bold; font-size: 0.8rem; }
+                .tooltip-value { color: var(--effect-color); }
+        
+            </style>
+        </head>
+        <body>
+        
+            <header>
+                <h1>Diablo 2 Runewords</h1>
+                <p>룬을 선택하여 제작 가능한 룬워드를 확인하세요.</p>
+            </header>
+        
+            <h2>Runes</h2>
+            <main id="rune-grid" class="rune-container"></main>
+        
+            <h2>Runewords</h2>
+            <section id="runeword-list" class="runeword-container"></section>
+        
+            <!-- 툴팁 엘리먼트 -->
+            <div id="tooltip"></div>
+        
+            <script>
+                const runesData = [
+                    { id: 1, name: "El", kr: "엘", level: 11, weapon: "명중률 +15, 시야 +1", armor: "방어력 +15, 시야 +1" },
+                    { id: 2, name: "Eld", kr: "엘드", level: 11, weapon: "언데드에게 주는 피해 +75%, 언데드에 대한 명중률 +50", armor: "방기 확률 7% 증가" },
+                    { id: 3, name: "Tir", kr: "티르", level: 13, weapon: "적 처치 시 마나 +2", armor: "적 처치 시 마나 +2" },
+                    { id: 4, name: "Nef", kr: "네프", level: 13, weapon: "밀쳐내기", armor: "원거리 공격 방어력 +30" },
+                    { id: 5, name: "Eth", kr: "에드", level: 15, weapon: "적의 방어력 -25%", armor: "마나 재생 15%" },
+                    { id: 6, name: "Ith", kr: "아이드", level: 15, weapon: "최대 피해 +9", armor: "피해의 15%를 마나로 돌림" },
+                    { id: 7, name: "Tal", kr: "탈", level: 17, weapon: "독 피해 +75 (5초에 걸쳐)", armor: "독 저항 +30% (방패: +35%)" },
+                    { id: 8, name: "Ral", kr: "랄", level: 19, weapon: "화염 피해 +5-30", armor: "화염 저항 +30% (방패: +35%)" },
+                    { id: 9, name: "Ort", kr: "오르트", level: 21, weapon: "번개 피해 +1-50", armor: "번개 저항 +30% (방패: +35%)" },
+                    { id: 10, name: "Thul", kr: "주울", level: 23, weapon: "냉기 피해 +3-14 (3초에 걸쳐)", armor: "냉기 저항 +30% (방패: +35%)" },
+                    { id: 11, name: "Amn", kr: "앰", level: 25, weapon: "타격당 생명력 7% 훔침", armor: "공격자가 피해를 14 받음" },
+                    { id: 12, name: "Sol", kr: "솔", level: 27, weapon: "최소 피해 +9", armor: "물리 피해 7 감소" },
+                    { id: 13, name: "Shael", kr: "샤엘", level: 29, weapon: "공격 속도 +20%", armor: "타격 회복 속도 +20% (방패: 막기 속도 +20%)" },
+                    { id: 14, name: "Dol", kr: "돌", level: 31, weapon: "적중 시 괴물 도망 25%", armor: "생명력 회복 +7" },
+                    { id: 15, name: "Hel", kr: "헬", level: 0, weapon: "착용 조건 -20%", armor: "착용 조건 -15%" },
+                    { id: 16, name: "Io", kr: "이오", level: 35, weapon: "활력 +10", armor: "활력 +10" },
+                    { id: 17, name: "Lum", kr: "룸", level: 37, weapon: "에너지 +10", armor: "에너지 +10" },
+                    { id: 18, name: "Ko", kr: "코", level: 39, weapon: "민첩 +10", armor: "민첩 +10" },
+                    { id: 19, name: "Fal", kr: "팔", level: 41, weapon: "힘 +10", armor: "힘 +10" },
+                    { id: 20, name: "Lem", kr: "렘", level: 43, weapon: "괴물로부터 얻는 금화 75% 증가", armor: "괴물로부터 얻는 금화 50% 증가" },
+                    { id: 21, name: "Pul", kr: "풀", level: 45, weapon: "악마에게 주는 피해 +75%, 악마에 대한 명중률 +100", armor: "방어력 30% 증가" },
+                    { id: 22, name: "Um", kr: "움", level: 47, weapon: "상처 악화 확률 25%", armor: "모든 저항 +15 (방패: +22)" },
+                    { id: 23, name: "Mal", kr: "말", level: 49, weapon: "괴물 회복 저지", armor: "마법 피해 7 감소" },
+                    { id: 24, name: "Ist", kr: "아이스트", level: 51, weapon: "매직 아이템 발견 기회 30% 증가", armor: "매직 아이템 발견 기회 25% 증가" },
+                    { id: 25, name: "Gul", kr: "굴", level: 53, weapon: "명중률 20% 증가", armor: "독 저항 최대치 +5%" },
+                    { id: 26, name: "Vex", kr: "벡스", level: 55, weapon: "타격당 마나 7% 훔침", armor: "화염 저항 최대치 +5%" },
+                    { id: 27, name: "Ohm", kr: "오옴", level: 57, weapon: "피해 50% 증가", armor: "냉기 저항 최대치 +5%" },
+                    { id: 28, name: "Lo", kr: "로", level: 59, weapon: "치명적 공격 20%", armor: "번개 저항 최대치 +5%" },
+                    { id: 29, name: "Sur", kr: "수르", level: 61, weapon: "목표물 시야 감소, 적중 시 눈먼 상태로 만듦", armor: "최대 마나 5% 증가 (방패: 마나 +50)" },
+                    { id: 30, name: "Ber", kr: "베르", level: 63, weapon: "강타 확률 20%", armor: "물리 피해 8% 감소" },
+                    { id: 31, name: "Jah", kr: "자", level: 65, weapon: "대상 방어력 무시", armor: "최대 생명력 5% 증가 (방패: 생명력 +50)" },
+                    { id: 32, name: "Cham", kr: "참", level: 67, weapon: "목표물 빙결 +3", armor: "빙결되지 않음" },
+                    { id: 33, name: "Zod", kr: "조드", level: 69, weapon: "파괴 불가", armor: "파괴 불가" }
+                ];
+        
+                const gridContainer = document.getElementById('rune-grid');
+                const listContainer = document.getElementById('runeword-list');
+                const tooltip = document.getElementById('tooltip');
+                let selectedRunes = new Set();
+        
+                function renderRunes() {
+                    runesData.forEach(rune => {
+                        const card = document.createElement('div');
+                        card.className = 'rune-card';
+                        card.innerHTML = `
+                            <div class="rune-icon">${rune.name.substring(0,2)}</div>
+                            <div class="rune-name">${rune.kr}</div>
+                        `;
+        
+                        // 클릭 이벤트
+                        card.addEventListener('click', () => {
+                            card.classList.toggle('active');
+                            if (selectedRunes.has(rune.kr)) selectedRunes.delete(rune.kr);
+                            else selectedRunes.add(rune.kr);
+                            filterRunewords();
+                        });
+        
+                        // 툴팁 이벤트
+                        card.addEventListener('mouseenter', (e) => showTooltip(e, rune));
+                        card.addEventListener('mousemove', (e) => moveTooltip(e));
+                        card.addEventListener('mouseleave', () => hideTooltip());
+        
+                        gridContainer.appendChild(card);
+                    });
+                }
+        
+                function showTooltip(e, rune) {
+                    tooltip.innerHTML = `
+                        <div class="tooltip-title">${rune.kr} (${rune.name}) 룬</div>
+                        <div class="tooltip-level">필요 레벨: ${rune.level}</div>
+                        <div class="tooltip-section">
+                            <div class="tooltip-label">[무기]</div>
+                            <div class="tooltip-value">${rune.weapon}</div>
+                        </div>
+                        <div class="tooltip-section">
+                            <div class="tooltip-label">[방어구/방패]</div>
+                            <div class="tooltip-value">${rune.armor}</div>
+                        </div>
+                    `;
+                    tooltip.style.display = 'block';
+                    moveTooltip(e);
+                }
+        
+                function moveTooltip(e) {
+                    const x = e.clientX + 15;
+                    const y = e.clientY + 15;
+                    
+                    // 화면 우측/하단 넘침 방지
+                    const tooltipWidth = tooltip.offsetWidth;
+                    const tooltipHeight = tooltip.offsetHeight;
+                    const screenWidth = window.innerWidth;
+                    const screenHeight = window.innerHeight;
+        
+                    let finalX = x;
+                    let finalY = y;
+        
+                    if (x + tooltipWidth > screenWidth) finalX = e.clientX - tooltipWidth - 10;
+                    if (y + tooltipHeight > screenHeight) finalY = e.clientY - tooltipHeight - 10;
+        
+                    tooltip.style.left = `${finalX}px`;
+                    tooltip.style.top = `${finalY}px`;
+                }
+        
+                function hideTooltip() {
+                    tooltip.style.display = 'none';
+                }
+        
+                const runeWords = [
+                    { name: "잠행 (Stealth)", runes: ["탈", "에드"], effects: "달리기/걷기 속도 +25%, 시전 속도 +25%, 타격 회복 속도 +25%, 독 저항 +30%" },
+                    { name: "강철 (Steel)", runes: ["티르", "엘"], effects: "공격 속도 +25%, 피해 +20% 증가, 최소/최대 피해 +3, 치명적 공격 25%" },
+                    { name: "잎새 (Leaf)", runes: ["티르", "랄"], effects: "화염 기술 +3, 화염 피해 추가, 마력 +10, 냉기 저항 +33%" },
+                    { name: "고대인의 서약 (Ancient's Pledge)", runes: ["랄", "오르트", "탈"], effects: "방어력 +50% 증가, 냉기 저항 +30%, 화염/번개/독 저항 +35%" },
+                    { name: "영혼 (Spirit)", runes: ["탈", "주울", "오르트", "앰"], effects: "모든 기술 +2, 시전 속도 +25~35%, 타격 회복 속도 +55%, 활력 +22, 마나 +89~112" },
+                    { name: "통찰 (Insight)", runes: ["랄", "티르", "탈", "솔"], effects: "장착 시 12~17레벨 명상 오라 효과, 시전 속도 +35%, 피해 +200~260% 증가, 명중률 보너스" },
+                    { name: "전승 (Lore)", runes: ["오르트", "솔"], effects: "모든 기술 +1, 에너지 +10, 번개 저항 +30%, 물리 피해 감소 7" },
+                    { name: "각운 (Rhyme)", runes: ["샤엘", "에드"], effects: "막기 속도 +40%, 막기 확률 20% 증가, 모든 저항 +25, 빙결되지 않음, 매찬 +25%" },
+                    { name: "연기 (Smoke)", runes: ["네프", "룸"], effects: "타격 회복 속도 +20%, 방어력 +75% 증가, 모든 저항 +50, 시야 -1" },
+                    { name: "배신 (Treachery)", runes: ["샤엘", "주울", "렘"], effects: "피격 시 5% 확률로 15레벨 흐리기(Fade) 시전, 공격 속도 +45%, 냉기 저항 +30%" },
+                    { name: "수수께끼 (Enigma)", runes: ["자", "이드", "베르"], effects: "모든 기술 +2, 달리기/걷기 +45%, +1 순간이동(텔레포트), 레벨 비례 힘 증가, 피해 감소 8%" },
+                    { name: "무한 (Infinity)", runes: ["베르", "말", "베르", "이스트"], effects: "장착 시 12레벨 선고 오라 효과, 달리기/걷기 +35%, 피해 +255~325% 증가, 적의 번개 저항 깎기" },
+                    { name: "인내 (Fortitude)", runes: ["엘", "솔", "돌", "로"], effects: "피격 시 20% 확률로 15레벨 냉기 갑옷 시전, 피해 +300% 증가, 모든 저항 +25~30, 레벨 비례 생명력 증가" },
+                    { name: "소집 (Call to Arms)", runes: ["앰", "랄", "말", "이스트", "옴"], effects: "모든 기술 +1, 전투 명령 +1~6, 전투 지시 +1~6, 전투 함성 +1~4, 공격 속도 +40%" },
+                    { name: "불사조 (Phoenix)", runes: ["벡스", "벡스", "로", "자"], effects: "장착 시 10~15레벨 속죄 오라 효과, 피해 +350~400% 증가, 적의 화염 저항 깎기, 최대 화염/번개 저항 증가" },
+                    { name: "모자이크 (Mosaic)", runes: ["말", "굴", "주울"], effects: "피해 +200~250% 증가, 명중률 +20%, 냉기 피해 +3~14, 무술 마무리 기술 사용 시 충전 소모되지 않을 확률 50%" }
+                ];
+        
 
         function renderRunewords() {
             runeWords.forEach(rw => {
