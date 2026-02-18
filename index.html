@@ -1,14 +1,153 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diablo 2 Runewords - Modern Prototype</title>
+    <style>
+        /* [스타일] 디아블로2 느낌의 다크 테마 */
+        :root {
+            --bg-color: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --text-color: #d4c4a9; /* 디아블로 골드 톤 */
+            --accent-color: #c7b377;
+            --border-color: #333;
+            --active-border: #a08d55;
+            --rune-orange: #dba858;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h1 { font-size: 2rem; color: var(--accent-color); margin-bottom: 10px; }
+        p { color: #888; font-size: 0.9rem; }
+
+        /* 룬 그리드 레이아웃 */
+        .rune-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* 반응형 그리드 */
+            gap: 12px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 개별 룬 카드 디자인 */
+        .rune-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .rune-card:hover {
+            border-color: var(--rune-orange);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+
+        /* 룬 선택 시 활성화 효과 */
+        .rune-card.active {
+            border-color: var(--active-border);
+            background-color: #2a2a2a;
+            box-shadow: 0 0 10px rgba(199, 179, 119, 0.3);
+        }
+
+        .rune-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #000;
+            border-radius: 4px;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--rune-orange);
+            border: 1px solid #444;
+        }
+
+        .rune-name { font-size: 0.9rem; font-weight: bold; }
+        .rune-number { font-size: 0.7rem; color: #666; margin-top: 4px; }
+
+    </style>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+
+    <header>
+        <h1>Diablo 2 Runes</h1>
+        <p>원하는 룬을 클릭하여 선택하세요.</p>
+    </header>
+
+    <main id="rune-grid" class="rune-container">
+        </main>
+
+    <script>
+        // [데이터] 룬 정보 배열 (추후 확장을 위해 객체 구조 사용)
+        const runesData = [
+            { id: 1, name: "El", kr: "엘" }, { id: 2, name: "Eld", kr: "엘드" },
+            { id: 3, name: "Tir", kr: "티르" }, { id: 4, name: "Nef", kr: "네프" },
+            { id: 5, name: "Eth", kr: "에드" }, { id: 6, name: "Ith", kr: "아이드" },
+            { id: 7, name: "Tal", kr: "탈" }, { id: 8, name: "Ral", kr: "랄" },
+            { id: 9, name: "Ort", kr: "오르트" }, { id: 10, name: "Thul", kr: "주울" },
+            { id: 11, name: "Amn", kr: "앰" }, { id: 12, name: "Sol", kr: "솔" },
+            { id: 13, name: "Shael", kr: "샤엘" }, { id: 14, name: "Dol", kr: "돌" },
+            { id: 15, name: "Hel", kr: "헬" }, { id: 16, name: "Io", kr: "이오" },
+            { id: 17, name: "Lum", kr: "룸" }, { id: 18, name: "Ko", kr: "코" },
+            { id: 19, name: "Fal", kr: "팔" }, { id: 20, name: "Lem", kr: "렘" },
+            { id: 21, name: "Pul", kr: "풀" }, { id: 22, name: "Um", kr: "움" },
+            { id: 23, name: "Mal", kr: "말" }, { id: 24, name: "Ist", kr: "아이스트" },
+            { id: 25, name: "Gul", kr: "굴" }, { id: 26, name: "Vex", kr: "벡스" },
+            { id: 27, name: "Ohm", kr: "오옴" }, { id: 28, name: "Lo", kr: "로" },
+            { id: 29, name: "Sur", kr: "수르" }, { id: 30, name: "Ber", kr: "베르" },
+            { id: 31, name: "Jah", kr: "자" }, { id: 32, name: "Cham", kr: "참" },
+            { id: 33, name: "Zod", kr: "조드" }
+        ];
+
+        const gridContainer = document.getElementById('rune-grid');
+
+        // [로직] 룬 카드 생성 함수
+        function renderRunes() {
+            runesData.forEach(rune => {
+                const card = document.createElement('div');
+                card.className = 'rune-card';
+                card.dataset.id = rune.id; // 데이터 속성으로 ID 저장
+
+                // 이미지 대신 임시로 텍스트 아이콘 사용 (나중에 이미지 태그로 교체 가능)
+                card.innerHTML = `
+                    <div class="rune-icon">${rune.name.substring(0,2)}</div>
+                    <div class="rune-name">${rune.kr}</div>
+                    <div class="rune-number">#${rune.id}</div>
+                `;
+
+                // 클릭 이벤트: 활성화/비활성화 토글
+                card.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    console.log(`선택된 룬: ${rune.kr} (${rune.name})`);
+                });
+
+                gridContainer.appendChild(card);
+            });
+        }
+
+        // 초기화 실행
+        renderRunes();
+    </script>
 </body>
 </html>
