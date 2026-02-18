@@ -47,7 +47,58 @@
             grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             gap: 12px;
             max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .filter-section {
+            max-width: 1200px;
             margin: 0 auto 40px;
+            background-color: #151515;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #333;
+        }
+
+        .filter-group h3 {
+            font-size: 1rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 10px;
+        }
+
+        .filter-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-tag {
+            background-color: #000;
+            border: 1px solid #444;
+            color: #888;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-tag:hover { border-color: var(--rune-orange); color: #ccc; }
+        .filter-tag.active {
+            background-color: var(--rune-orange);
+            border-color: var(--rune-orange);
+            color: #000;
+            font-weight: bold;
         }
 
         .rune-card {
@@ -216,8 +267,37 @@
     </header>
 
     <div id="home-view" class="view active">
-        <h2>Runes</h2>
-        <main id="rune-grid" class="rune-container"></main>
+        <section class="filter-section">
+            <div class="filter-group">
+                <h3>Runes (Click to filter)</h3>
+                <main id="rune-grid" class="rune-container"></main>
+            </div>
+            
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <h3>Item Type</h3>
+                    <div id="type-filters" class="tag-container">
+                        <span class="filter-tag active" data-type="all">전체</span>
+                        <span class="filter-tag" data-type="무기">무기</span>
+                        <span class="filter-tag" data-type="갑옷">갑옷</span>
+                        <span class="filter-tag" data-type="투구">투구</span>
+                        <span class="filter-tag" data-type="방패">방패</span>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3>Sockets</h3>
+                    <div id="socket-filters" class="tag-container">
+                        <span class="filter-tag active" data-socket="all">전체</span>
+                        <span class="filter-tag" data-socket="2">2홈</span>
+                        <span class="filter-tag" data-socket="3">3홈</span>
+                        <span class="filter-tag" data-socket="4">4홈</span>
+                        <span class="filter-tag" data-socket="5">5홈</span>
+                        <span class="filter-tag" data-socket="6">6홈</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <h2 id="list-title">All Runewords</h2>
         <section id="runeword-list" class="runeword-container"></section>
@@ -300,9 +380,12 @@
         const tooltip = document.getElementById('tooltip');
         
         let selectedRunes = new Set();
+        let selectedType = 'all';
+        let selectedSocket = 'all';
 
         function init() {
             renderRunes();
+            setupFilterEvents();
             
             // URL 파라미터 확인 (예: ?rune=에드)
             const urlParams = new URLSearchParams(window.location.search);
@@ -322,6 +405,28 @@
             }
             
             filterRunewords();
+        }
+
+        function setupFilterEvents() {
+            // 타입 필터 이벤트
+            document.querySelectorAll('#type-filters .filter-tag').forEach(tag => {
+                tag.addEventListener('click', () => {
+                    document.querySelectorAll('#type-filters .filter-tag').forEach(t => t.classList.remove('active'));
+                    tag.classList.add('active');
+                    selectedType = tag.dataset.type;
+                    filterRunewords();
+                });
+            });
+
+            // 소켓 필터 이벤트
+            document.querySelectorAll('#socket-filters .filter-tag').forEach(tag => {
+                tag.addEventListener('click', () => {
+                    document.querySelectorAll('#socket-filters .filter-tag').forEach(t => t.classList.remove('active'));
+                    tag.classList.add('active');
+                    selectedSocket = tag.dataset.socket;
+                    filterRunewords();
+                });
+            });
         }
 
         function renderRunes() {
@@ -352,17 +457,34 @@
         }
 
         function filterRunewords() {
-            if (selectedRunes.size === 0) {
-                listTitle.textContent = "All Runewords";
-                renderRunewords(runeWords, listContainer);
-                return;
-            }
+            const filtered = runeWords.filter(rw => {
+                // 1. 룬 필터 (선택된 모든 룬을 포함해야 함)
+                const runeMatch = selectedRunes.size === 0 || 
+                    Array.from(selectedRunes).every(selectedRune => rw.runes.includes(selectedRune));
+                
+                // 2. 타입 필터
+                // 데이터의 itemType에 해당 키워드가 포함되어 있는지 확인
+                let typeMatch = selectedType === 'all' || rw.itemType.includes(selectedType);
+                // '무기'의 경우 근접 무기, 원거리 무기, 폴암 등을 포괄하기 위해 추가 체크
+                if (selectedType === '무기') {
+                    const weaponTypes = ["무기", "도검", "도끼", "철퇴", "지팡이", "완드", "폴암", "창", "활", "쇠뇌", "손톱"];
+                    typeMatch = weaponTypes.some(t => rw.itemType.includes(t));
+                }
 
-            const filtered = runeWords.filter(rw => 
-                Array.from(selectedRunes).every(selectedRune => rw.runes.includes(selectedRune))
-            );
+                // 3. 소켓 필터
+                const socketMatch = selectedSocket === 'all' || rw.sockets.toString() === selectedSocket;
+
+                return runeMatch && typeMatch && socketMatch;
+            });
             
-            listTitle.textContent = `Filtered Runewords (${Array.from(selectedRunes).join(', ')})`;
+            // 제목 업데이트
+            let titleParts = [];
+            if (selectedRunes.size > 0) titleParts.push(`Runes: ${Array.from(selectedRunes).join(', ')}`);
+            if (selectedType !== 'all') titleParts.push(`Type: ${selectedType}`);
+            if (selectedSocket !== 'all') titleParts.push(`${selectedSocket} Sockets`);
+            
+            listTitle.textContent = titleParts.length > 0 ? `Filtered: ${titleParts.join(' | ')}` : "All Runewords";
+            
             renderRunewords(filtered, listContainer);
         }
 
