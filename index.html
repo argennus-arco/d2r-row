@@ -129,11 +129,6 @@
             box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
         }
 
-        .rune-card.inactive {
-            opacity: 0.35;
-            background-color: #0c0c0c;
-        }
-
         .rune-card:hover:not(.empty) { 
             background-color: #252525;
             border-color: #c7b377;
@@ -420,34 +415,31 @@
         function renderRunes() {
             const gridLayout = new Array(45).fill(null);
             
-            // Row 1 (Index 0-8): El to Ort. Eld(1) inactive.
+            // Row 1 (Index 0-8): El to Ort.
             for(let i=0; i<9; i++) {
-                gridLayout[i] = { rune: runesData[i], inactive: (i === 1) };
+                gridLayout[i] = { rune: runesData[i] };
             }
             
-            // Row 2 (Index 9-17): Thul to Ko. Dol(13), Io(15) inactive to match image positions 5 and 7.
+            // Row 2 (Index 9-17): Thul to Ko.
             for(let i=0; i<9; i++) {
                 const idx = 9 + i;
-                gridLayout[idx] = { 
-                    rune: runesData[idx], 
-                    inactive: (idx === 13 || idx === 15) 
-                };
+                gridLayout[idx] = { rune: runesData[idx] };
             }
             
             // Row 3 (Index 18-26): Fal to Ohm.
             for(let i=0; i<9; i++) {
-                gridLayout[18 + i] = { rune: runesData[18 + i], inactive: false };
+                gridLayout[18 + i] = { rune: runesData[18 + i] };
             }
             
             // Row 4 (Index 27-35): Lo(27), Sur(28) at start. Ber(29), Jah(30) at 8, 9.
-            gridLayout[27] = { rune: runesData[27], inactive: false }; // Lo
-            gridLayout[28] = { rune: runesData[28], inactive: false }; // Sur
-            gridLayout[34] = { rune: runesData[29], inactive: false }; // Ber
-            gridLayout[35] = { rune: runesData[30], inactive: false }; // Jah
+            gridLayout[27] = { rune: runesData[27] }; // Lo
+            gridLayout[28] = { rune: runesData[28] }; // Sur
+            gridLayout[34] = { rune: runesData[29] }; // Ber
+            gridLayout[35] = { rune: runesData[30] }; // Jah
             
             // Row 5 (Index 36-44): Cham(31) under Lo(27), Zod(32) under Jah(30).
-            gridLayout[36] = { rune: runesData[31], inactive: true };  // Cham (dark to match image)
-            gridLayout[44] = { rune: runesData[32], inactive: false }; // Zod
+            gridLayout[36] = { rune: runesData[31] }; 
+            gridLayout[44] = { rune: runesData[32] }; 
 
             gridContainer.innerHTML = '';
             gridLayout.forEach(item => {
@@ -459,7 +451,7 @@
                 }
 
                 const rune = item.rune;
-                card.className = `rune-card${item.inactive ? ' inactive' : ''}`;
+                card.className = 'rune-card';
                 card.innerHTML = `
                     <div class="rune-icon">${rune.name.substring(0,2)}</div>
                     <div class="rune-name">${rune.kr}</div>
