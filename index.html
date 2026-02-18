@@ -430,37 +430,36 @@
         }
 
         function renderRunes() {
-            // 이미지 및 텍스트 요청 기반 최종 배치 (9열 5행)
+            // 이미지 및 텍스트 요청 기반 최종 정밀 배치 (9열 5행)
             const gridLayout = new Array(45).fill(null);
             
-            // 1행: 1번(엘) ~ 9번(오르트). 엘드(1번 인덱스) 어둡게.
+            // 1행: 1번(엘, index 0) ~ 9번(오르트, index 8). 엘드(1) 어둡게.
             for(let i=0; i<9; i++) {
                 gridLayout[i] = { rune: runesData[i], inactive: (i === 1) };
             }
             
-            // 2행: 10번(주울) ~ 18번(코). 돌(13), 헬(14), 룸(16) 어둡게.
+            // 2행: 10번(주울, index 9) ~ 18번(코, index 17). 돌(13), 헬(14) 어둡게.
             for(let i=0; i<9; i++) {
                 const idx = 9 + i;
                 gridLayout[idx] = { 
                     rune: runesData[idx], 
-                    inactive: (idx === 13 || idx === 14 || idx === 16) 
+                    inactive: (idx === 13 || idx === 14) 
                 };
             }
             
-            // 3행: 19번(팔) ~ 27번(오움). 벡스(25), 오움(26)이 8, 9번째 위치함.
+            // 3행: 19번(팔, index 18) ~ 27번(오움, index 26).
+            // 벡스(25)는 8번째(index 25), 오움(26)은 9번째(index 26) 슬롯.
             for(let i=0; i<9; i++) {
                 gridLayout[18 + i] = { rune: runesData[18 + i], inactive: false };
             }
             
-            // 4행: 로(27), 수르(28), 여백x5, 베르(29), 자(30)
-            // 베르와 자는 벡스(25), 오움(26) 바로 아래인 34, 35번 인덱스에 위치
+            // 4행: 로(27), 수르(28)는 1, 2번 슬롯. 베르(29), 자(30)는 8, 9번 슬롯(벡스, 오움 아래).
             gridLayout[27] = { rune: runesData[27], inactive: false }; // Lo
             gridLayout[28] = { rune: runesData[28], inactive: false }; // Sur
-            gridLayout[34] = { rune: runesData[29], inactive: false }; // Ber
-            gridLayout[35] = { rune: runesData[30], inactive: false }; // Jah
+            gridLayout[34] = { rune: runesData[29], inactive: false }; // Ber (25+9)
+            gridLayout[35] = { rune: runesData[30], inactive: false }; // Jah (26+9)
             
-            // 5행: 참(31), 여백x7, 조드(32)
-            // 참은 로(27) 아래인 36번, 조드는 자(30) 아래인 44번 인덱스
+            // 5행: 참(31)은 로(27) 아래인 1번 슬롯(27+9). 조드(32)는 자(30) 아래인 9번 슬롯(35+9).
             gridLayout[36] = { rune: runesData[31], inactive: false }; // Cham
             gridLayout[44] = { rune: runesData[32], inactive: false }; // Zod
 
