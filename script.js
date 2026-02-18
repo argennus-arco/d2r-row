@@ -172,7 +172,7 @@ const runeWords = [
     { name: "꺼져가는 불길 (Flickering Flame)", alias: ["꺼불", "플리커링플레임"], runes: ["네프", "풀", "벡스"], level: 55, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "장착 시 4~8레벨 화염 저항 오라, 화염 기술 +3, 적의 화염 저항 -10~15%, 결빙 시간 절반 감소" },
     
     // === Level 57 ===
-    { name: "소집 (Call to Arms)", alias: ["콜투", "콜투암스", "CTA"], runes: ["앰", "랄", "말", "이스트", "옴"], level: 57, sockets: 5, types: CATEGORIES.WEAPON_ALL, note: "크리스탈 소드/프레일 작을 많이 함", effects: "모든 기술 +1, 전투 명령 +1~6, 전투 지시 +1~6, 전투 함성 +1~4, 공격 속도 +40%" },
+    { name: "소집 (Call to Arms)", alias: ["콜투", "콜투암스", "CTA"], runes: ["앰", "랄", "말", "이스트", "오움"], level: 57, sockets: 5, types: CATEGORIES.WEAPON_ALL, note: "크리스탈 소드/프레일 작을 많이 함", effects: "모든 기술 +1, 전투 명령 +1~6, 전투 지시 +1~6, 전투 함성 +1~4, 공격 속도 +40%" },
     { name: "혼돈 (Chaos)", alias: ["카오스"], runes: ["팔", "오움", "우움"], level: 57, sockets: 3, types: [ITEM_TYPES.CLAW], effects: "소용돌이(휠윈드) +1, 피해 +290~340% 증가, 공격 속도 +35%, 상처 악화 25%, 악마에게 피해 추가" },
     { name: "추방 (Exile)", alias: ["망명", "엑자일"], runes: ["벡스", "오움", "이스트", "돌"], level: 57, sockets: 4, types: [ITEM_TYPES.SHIELD, ITEM_TYPES.PALADIN_SHIELD], subType: "성기사 전용", note: "에테리얼 전용 방패 필수 (내구 회복)", effects: "장착 시 13~16레벨 인내 오라, 타격 시 15% 확률로 생명력 추출, 방어력 +220~260%, 내구도 회복, 최대 저항 +5%" },
     
