@@ -58,9 +58,15 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.2s ease;
+            user-select: none;
         }
 
         .rune-card:hover { border-color: var(--rune-orange); transform: translateY(-2px); }
+        .rune-card.selected {
+            border-color: var(--rune-orange);
+            background-color: #2a2215;
+            box-shadow: 0 0 10px rgba(219, 168, 88, 0.3);
+        }
 
         .rune-icon {
             width: 40px; height: 40px;
@@ -170,19 +176,8 @@
         <h2>Runes</h2>
         <main id="rune-grid" class="rune-container"></main>
 
-        <h2>All Runewords</h2>
+        <h2 id="list-title">All Runewords</h2>
         <section id="runeword-list" class="runeword-container"></section>
-    </div>
-
-    <div id="detail-view" class="view">
-        <div class="max-width-wrapper" style="max-width: 1200px; margin: 0 auto;">
-            <a class="back-btn" onclick="location.hash=''">← 목록으로 돌아가기</a>
-            
-            <div id="rune-detail-content"></div>
-
-            <h2 style="margin-top: 50px;">이 룬이 포함된 룬워드</h2>
-            <section id="related-runewords" class="runeword-container"></section>
-        </div>
     </div>
 
     <div id="tooltip"></div>
@@ -257,15 +252,14 @@
 
         const gridContainer = document.getElementById('rune-grid');
         const listContainer = document.getElementById('runeword-list');
+        const listTitle = document.getElementById('list-title');
         const tooltip = document.getElementById('tooltip');
-        const detailContent = document.getElementById('rune-detail-content');
-        const relatedList = document.getElementById('related-runewords');
+        
+        let selectedRunes = new Set();
 
         function init() {
             renderRunes();
             renderRunewords(runeWords, listContainer);
-            handleRouting();
-            window.addEventListener('hashchange', handleRouting);
         }
 
         function renderRunes() {
@@ -276,12 +270,38 @@
                     <div class="rune-icon">${rune.name.substring(0,2)}</div>
                     <div class="rune-name">${rune.kr}</div>
                 `;
-                card.addEventListener('click', () => { location.hash = `rune/${rune.name}`; });
+                card.addEventListener('click', () => toggleRune(rune, card));
                 card.addEventListener('mouseenter', (e) => showTooltip(e, rune));
                 card.addEventListener('mousemove', (e) => moveTooltip(e));
                 card.addEventListener('mouseleave', () => hideTooltip());
                 gridContainer.appendChild(card);
             });
+        }
+
+        function toggleRune(rune, cardElement) {
+            if (selectedRunes.has(rune.kr)) {
+                selectedRunes.delete(rune.kr);
+                cardElement.classList.remove('selected');
+            } else {
+                selectedRunes.add(rune.kr);
+                cardElement.classList.add('selected');
+            }
+            filterRunewords();
+        }
+
+        function filterRunewords() {
+            if (selectedRunes.size === 0) {
+                listTitle.textContent = "All Runewords";
+                renderRunewords(runeWords, listContainer);
+                return;
+            }
+
+            const filtered = runeWords.filter(rw => 
+                Array.from(selectedRunes).every(selectedRune => rw.runes.includes(selectedRune))
+            );
+            
+            listTitle.textContent = `Filtered Runewords (${Array.from(selectedRunes).join(', ')})`;
+            renderRunewords(filtered, listContainer);
         }
 
         function renderRunewords(data, container) {
@@ -301,51 +321,6 @@
                 `;
                 container.appendChild(card);
             });
-        }
-
-        function handleRouting() {
-            const hash = location.hash;
-            if (hash.startsWith('#rune/')) {
-                const runeName = hash.split('/')[1];
-                const rune = runesData.find(r => r.name === runeName);
-                if (rune) showDetailPage(rune);
-            } else {
-                showHomePage();
-            }
-        }
-
-        function showHomePage() {
-            document.getElementById('home-view').classList.add('active');
-            document.getElementById('detail-view').classList.remove('active');
-        }
-
-        function showDetailPage(rune) {
-            document.getElementById('home-view').classList.remove('active');
-            document.getElementById('detail-view').classList.add('active');
-
-            detailContent.innerHTML = `
-                <div class="detail-header">
-                    <div class="rune-icon" style="width: 60px; height: 60px; font-size: 1.5rem; margin-bottom: 15px;">
-                        ${rune.name.substring(0,2)}
-                    </div>
-                    <h1>${rune.kr} (${rune.name}) 룬</h1>
-                    <p>필요 레벨: ${rune.level}</p>
-                    <div class="detail-rune-info">
-                        <div class="info-box">
-                            <span class="info-label">[무기 장착 시]</span>
-                            <span class="info-value">${rune.weapon}</span>
-                        </div>
-                        <div class="info-box">
-                            <span class="info-label">[방어구/방패 장착 시]</span>
-                            <span class="info-value">${rune.armor}</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            const related = runeWords.filter(rw => rw.runes.includes(rune.kr));
-            renderRunewords(related, relatedList);
-            window.scrollTo(0, 0);
         }
 
         function showTooltip(e, rune) {
