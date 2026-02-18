@@ -44,10 +44,14 @@
 
         .rune-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 12px;
-            max-width: 1200px;
+            grid-template-columns: repeat(9, 1fr);
+            gap: 8px;
+            max-width: 750px;
             margin: 0 auto;
+            background-color: #0a0a0a;
+            padding: 15px;
+            border: 2px solid #332a1e;
+            box-shadow: inset 0 0 20px rgba(0,0,0,1);
         }
 
         .filter-section {
@@ -102,34 +106,61 @@
         }
 
         .rune-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 15px 10px;
-            text-align: center;
+            background-color: #1a1a1a;
+            border: 1px solid #3d3020;
+            aspect-ratio: 1/1;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            transition: all 0.2s ease;
+            position: relative;
+            transition: all 0.1s;
             user-select: none;
+            min-height: 70px;
         }
 
-        .rune-card:hover { border-color: var(--rune-orange); transform: translateY(-2px); }
+        .rune-card.empty {
+            background-color: #080808;
+            border: 1px solid #151515;
+            cursor: default;
+            pointer-events: none;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .rune-card.inactive {
+            opacity: 0.35;
+            background-color: #0c0c0c;
+        }
+
+        .rune-card:hover:not(.empty) { 
+            background-color: #252525;
+            border-color: #c7b377;
+            z-index: 10;
+            opacity: 1;
+        }
+
         .rune-card.selected {
-            border-color: var(--rune-orange);
             background-color: #2a2215;
-            box-shadow: 0 0 10px rgba(219, 168, 88, 0.3);
+            border-color: #dba858;
+            box-shadow: 0 0 8px rgba(219, 168, 88, 0.4);
+            opacity: 1 !important;
         }
 
         .rune-icon {
-            width: 40px; height: 40px;
-            background-color: #000;
-            border-radius: 4px;
-            margin: 0 auto 10px;
+            width: 32px; height: 32px;
+            background-color: transparent;
+            border: none;
+            margin-bottom: 2px;
+            font-size: 0.8rem;
+            color: #dba858;
+            text-shadow: 1px 1px 2px #000;
             display: flex; align-items: center; justify-content: center;
-            font-weight: bold; color: var(--rune-orange);
-            border: 1px solid #444;
+            font-weight: bold;
         }
 
-        .rune-name { font-size: 0.9rem; font-weight: bold; }
+        .rune-name { font-size: 0.7rem; font-weight: normal; color: #888; }
 
         .runeword-container {
             max-width: 1200px;
@@ -196,46 +227,6 @@
             left: 0;
             color: var(--accent-color);
         }
-
-        .detail-header {
-            max-width: 800px;
-            margin: 0 auto 30px;
-            background: #1a1a1a;
-            padding: 30px;
-            border: 1px solid var(--accent-color);
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .back-btn {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .back-btn:hover { text-decoration: underline; }
-
-        .detail-rune-info {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin-top: 20px;
-            gap: 20px;
-        }
-
-        .info-box {
-            flex: 1;
-            min-width: 250px;
-            background: #000;
-            padding: 15px;
-            border: 1px solid #333;
-            border-radius: 5px;
-        }
-
-        .info-label { color: var(--accent-color); font-weight: bold; margin-bottom: 5px; display: block; }
-        .info-value { color: var(--effect-color); font-size: 0.9rem; }
 
         #tooltip {
             position: fixed;
@@ -387,17 +378,15 @@
             renderRunes();
             setupFilterEvents();
             
-            // URL 파라미터 확인 (예: ?rune=에드)
             const urlParams = new URLSearchParams(window.location.search);
             const initialRune = urlParams.get('rune');
             if (initialRune) {
                 const runeData = runesData.find(r => r.kr === initialRune);
                 if (runeData) {
                     selectedRunes.add(initialRune);
-                    // 그리드에서 해당 룬 찾아서 스타일 적용
                     const cards = document.querySelectorAll('.rune-card');
                     cards.forEach(card => {
-                        if (card.querySelector('.rune-name').textContent === initialRune) {
+                        if (card.querySelector('.rune-name') && card.querySelector('.rune-name').textContent === initialRune) {
                             card.classList.add('selected');
                         }
                     });
@@ -408,7 +397,6 @@
         }
 
         function setupFilterEvents() {
-            // 타입 필터 이벤트
             document.querySelectorAll('#type-filters .filter-tag').forEach(tag => {
                 tag.addEventListener('click', () => {
                     document.querySelectorAll('#type-filters .filter-tag').forEach(t => t.classList.remove('active'));
@@ -418,7 +406,6 @@
                 });
             });
 
-            // 소켓 필터 이벤트
             document.querySelectorAll('#socket-filters .filter-tag').forEach(tag => {
                 tag.addEventListener('click', () => {
                     document.querySelectorAll('#socket-filters .filter-tag').forEach(t => t.classList.remove('active'));
@@ -430,60 +417,39 @@
         }
 
         function renderRunes() {
-            // 이미지 및 텍스트 요청 기반 최종 정밀 배치 (9열 5행)
             const gridLayout = new Array(45).fill(null);
             
-            // 1행: 1번(엘) ~ 9번(오르트). 엘드(index 1) 어둡게.
+            // 1~9: El-Ort
             for(let i=0; i<9; i++) {
-                gridLayout[i] = { rune: runesData[i], inactive: (i === 1) };
+                gridLayout[i] = { rune: runesData[i], inactive: (i === 1) }; // Eld(1) dark
             }
             
-            // 2행: 10번(주울) ~ 18번(코). 돌(index 13), 이오(index 15) 어둡게.
+            // 10~18: Thul-Ko
             for(let i=0; i<9; i++) {
                 const idx = 9 + i;
                 gridLayout[idx] = { 
                     rune: runesData[idx], 
-                    inactive: (idx === 13 || idx === 15) 
+                    inactive: (idx === 13 || idx === 14 || idx === 16) // Dol, Hel, Lum dark
                 };
             }
             
-            // 3행: 19번(팔) ~ 27번(오움).
+            // 19~27: Fal-Ohm
             for(let i=0; i<9; i++) {
                 gridLayout[18 + i] = { rune: runesData[18 + i], inactive: false };
             }
             
-            // 4행: 로(27), 수르(28)는 1, 2번 슬롯. 베르(29), 자(30)는 8, 9번 슬롯.
-            gridLayout[27] = { rune: runesData[27], inactive: false }; // Lo
-            gridLayout[28] = { rune: runesData[28], inactive: false }; // Sur
-            gridLayout[34] = { rune: runesData[29], inactive: false }; // Ber
-            gridLayout[35] = { rune: runesData[30], inactive: false }; // Jah
+            // 4행: Lo(27), Sur(28) -> 27, 28 index. Ber(29), Jah(30) -> 34, 35 index
+            gridLayout[27] = { rune: runesData[27], inactive: false }; 
+            gridLayout[28] = { rune: runesData[28], inactive: false }; 
+            gridLayout[34] = { rune: runesData[29], inactive: false }; 
+            gridLayout[35] = { rune: runesData[30], inactive: false }; 
             
-            // 5행: 참(31)은 로(27) 아래인 1번 슬롯. 조드(32)는 자(30) 아래인 9번 슬롯.
-            // 이미지의 시각적 재현을 위해 참(31)을 어둡게 설정.
-            gridLayout[36] = { rune: runesData[31], inactive: true };  // Cham
-            gridLayout[44] = { rune: runesData[32], inactive: false }; // Zod
+            // 5행: Cham(31) -> 36 index, Zod(32) -> 44 index
+            gridLayout[36] = { rune: runesData[31], inactive: false }; 
+            gridLayout[44] = { rune: runesData[32], inactive: false }; 
 
+            gridContainer.innerHTML = '';
             gridLayout.forEach(item => {
-                const card = document.createElement('div');
-                if (!item) {
-                    card.className = 'rune-card empty';
-                    gridContainer.appendChild(card);
-                    return;
-                }
-
-                const rune = item.rune;
-                card.className = `rune-card${item.inactive ? ' inactive' : ''}`;
-                card.innerHTML = `
-                    <div class="rune-icon">${rune.name.substring(0,2)}</div>
-                    <div class="rune-name">${rune.kr}</div>
-                `;
-                card.addEventListener('click', () => toggleRune(rune, card));
-                card.addEventListener('mouseenter', (e) => showTooltip(e, rune));
-                card.addEventListener('mousemove', (e) => moveTooltip(e));
-                card.addEventListener('mouseleave', () => hideTooltip());
-                gridContainer.appendChild(card);
-            });
-        }
                 const card = document.createElement('div');
                 if (!item) {
                     card.className = 'rune-card empty';
@@ -518,26 +484,20 @@
 
         function filterRunewords() {
             const filtered = runeWords.filter(rw => {
-                // 1. 룬 필터 (선택된 모든 룬을 포함해야 함)
                 const runeMatch = selectedRunes.size === 0 || 
                     Array.from(selectedRunes).every(selectedRune => rw.runes.includes(selectedRune));
                 
-                // 2. 타입 필터
-                // 데이터의 itemType에 해당 키워드가 포함되어 있는지 확인
                 let typeMatch = selectedType === 'all' || rw.itemType.includes(selectedType);
-                // '무기'의 경우 근접 무기, 원거리 무기, 폴암 등을 포괄하기 위해 추가 체크
                 if (selectedType === '무기') {
                     const weaponTypes = ["무기", "도검", "도끼", "철퇴", "지팡이", "완드", "폴암", "창", "활", "쇠뇌", "손톱"];
                     typeMatch = weaponTypes.some(t => rw.itemType.includes(t));
                 }
 
-                // 3. 소켓 필터
                 const socketMatch = selectedSocket === 'all' || rw.sockets.toString() === selectedSocket;
 
                 return runeMatch && typeMatch && socketMatch;
             });
             
-            // 제목 업데이트
             let titleParts = [];
             if (selectedRunes.size > 0) titleParts.push(`Runes: ${Array.from(selectedRunes).join(', ')}`);
             if (selectedType !== 'all') titleParts.push(`Type: ${selectedType}`);
@@ -559,7 +519,6 @@
                 const card = document.createElement('div');
                 card.className = 'runeword-card';
                 
-                // 룬 아이콘 생성
                 const runesHtml = rw.runes.map(krName => {
                     const rune = runesData.find(r => r.kr === krName);
                     const shortName = rune ? rune.name.substring(0, 2) : "??";
@@ -571,7 +530,6 @@
                     `;
                 }).join('<span style="color:#444; margin-top:-15px">+</span>');
                 
-                // 효과 리스트 생성
                 const effectsHtml = rw.effects.split(', ').map(effect => 
                     `<div class="effect-line">${effect}</div>`
                 ).join('');
