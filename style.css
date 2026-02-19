@@ -24,7 +24,6 @@ header {
     margin-bottom: 30px; 
     padding: 20px 0; 
     border-bottom: 1px solid var(--border-color); 
-    cursor: pointer; 
 }
 
 h1 { font-size: 2rem; color: var(--accent-color); margin-bottom: 10px; }

@@ -122,10 +122,10 @@ const runeWords = [
     { name: "광채 (Splendor)", alias: ["스플랜더"], runes: ["에드", "룸"], level: 37, sockets: 2, types: [ITEM_TYPES.SHIELD, ITEM_TYPES.PALADIN_SHIELD], note: "강령술사 전용 방패 권장", effects: "모든 기술 +1, 시전 속도 +10%, 막기 속도 +20%, 방어력 +60-100% 증가, 마력 +10, 마나 재생 15%, 괴물에게서 얻는 금화 50% 증가, 매직 아이템 발견 확률 20% 증가, 시야 +3" },
         
     // === Level 39 ===
-    { name: "광기 (Hysteria) - 무기", alias: ["히스테리아", "투지", "Hustle", "허슬"], runes: ["샤엘", "코", "엘드"], level: 39, sockets: 3, types: CATEGORIES.WEAPON_ALL, effects: "5% 기회로 1레벨 폭발적인 속도, 1레벨 광신 오라, 공격 속도 +30%, 피해 +180~200% 증가, 언데드 피해 +75%" },
-    { name: "발작 (Mania) - 갑옷", alias: ["마니아", "투지", "Hustle", "허슬"], runes: ["샤엘", "코", "엘드"], level: 39, sockets: 3, types: [ITEM_TYPES.ARMOR], effects: "달리기/걷기 +65%, 공격 속도 +40%, 타격 회복 속도 +20%, 민첩 +10, 지구력 고갈 속도 50% 둔화" },
-    { name: "선율 (Melody)", alias: ["멜로디"], runes: ["샤엘", "코", "네프"], level: 39, sockets: 3, types: [ITEM_TYPES.MISSILE], effects: "피해 +50% 증가, 활과 쇠뇌 기술 +3, 회피/피하기/느리게 쏘기 +3, 공격 속도 +20%, 밀쳐내기" },
-    { name: "조화 (Harmony)", alias: ["하모니"], runes: ["티르", "아이드", "솔", "코"], level: 39, sockets: 4, types: [ITEM_TYPES.MISSILE], effects: "장착 시 10레벨 원기 오라, 피해 +200~275% 증가, 원소 피해 추가, 민첩 +10, 발키리/부활 등 기술 보너스" },
+    { name: "발작 (Mania) - 무기", alias: ["마니아", "투지", "Hustle", "허슬"], runes: ["샤엘", "코", "엘드"], level: 39, sockets: 3, types: CATEGORIES.WEAPON_ALL, effects: "타격 시 5% 확률로 1레벨 폭발적인 속도 시전, 장착 시 1레벨 광신 오라 효과 적용, 공격 속도 +30%, 피해 +180~200%, 언데드에게 주는 피해 +75%, 언데드에 대한 명중률 +50, 민첩 +10" },
+    { name: "광기 (Hysteria) - 갑옷", alias: ["히스테리아", "투지", "Hustle", "허슬"], runes: ["샤엘", "코", "엘드"], level: 39, sockets: 3, types: [ITEM_TYPES.ARMOR], effects: "걷기/달리기 속도 +65%, 공격 속도 +40%, 타격 회복 속도 +20%, +6 피하기, 민첩 +10, 모든 저항 +10, 지구력 고갈 속도 -50%" },
+    { name: "선율 (Melody)", alias: ["멜로디"], runes: ["샤엘", "코", "네프"], level: 39, sockets: 3, types: [ITEM_TYPES.MISSILE], effects: "활과 쇠뇌 기술 +3 (아마존 전용), 공격 속도 +20%, 피해 +50% 증가, 언데드에게 주는 피해 +300%, +3 투사체 감속(아마존 전용), +3 흘리기(아마존 전용), +3 치명타(아마존 전용), 밀쳐내기, 민첩 +10" },
+    { name: "조화 (Harmony)", alias: ["하모니"], runes: ["티르", "아이드", "솔", "코"], level: 39, sockets: 4, types: [ITEM_TYPES.MISSILE], effects: "장착 시 10레벨 원기 오라 효과 적용, 피해 +200-275% 증가, 최소 피해 +9, 최대 피해 +9, 화염 피해 55-160 추가, 번개 피해 55-160 추가, 냉기 피해 55-160 추가, +2-6 발키리, 민첩 +10, 마나 재생 20%, 적 처치 시 마나 +2, 시야 +2, 20레벨 부활(충전 25회)" },
     
     // === Level 41 ===
     { name: "불굴의 의지 (Unbending Will)", alias: ["언벤딩윌"], runes: ["팔", "이오", "아이드", "엘드", "엘", "헬"], level: 41, sockets: 6, types: [ITEM_TYPES.SWORD], effects: "공격 속도 +20~30%, 피해 +300~350% 증가, 피해 +9, 명중률 +50, 적중 당 생명력 훔침, 괴물 회복 저지" },
