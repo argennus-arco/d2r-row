@@ -30,32 +30,18 @@ h1 { font-size: 2rem; color: var(--accent-color); margin-bottom: 10px; }
 p { color: #888; font-size: 0.9rem; }
 h2 { color: var(--accent-color); margin: 30px 0 15px; text-align: center; }
 
-/* Grid & Layout *//* 2. 룬 배열 컨테이너 가로 스크롤 제거 및 자동 줄바꿈 적용 */
-    .rune-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); /* 화면 너비에 맞춰 자동으로 꽉 차게 배치 */
-        gap: 10px; /* 룬 사이의 간격을 모바일에 맞게 살짝 좁힘 */
-        overflow-x: visible; /* 가로 스크롤 완벽하게 제거 */
-        padding-bottom: 15px;
-        width: 100%;
-    }
-
-    /* 💡 [핵심] 데스크탑 모양을 잡기 위해 넣었던 '빈 칸'을 모바일에서는 숨겨서 밀착시킴 */
-    .rune-card.empty {
-        display: none !important;
-    }
-
-    /* 모바일 환경에 맞춰 룬 아이콘 크기 미세 조정 */
-    .rune-card {
-        padding: 6px 2px;
-    }
-    .rune-icon {
-        width: 28px;
-        height: 28px;
-    }
-    .rune-name {
-        font-size: 0.65rem;
-    }
+/* Grid & Layout */
+.rune-container { 
+    display: grid; 
+    grid-template-columns: repeat(9, 1fr); 
+    gap: 8px; 
+    max-width: 750px; 
+    margin: 0 auto; 
+    background-color: #0a0a0a; 
+    padding: 15px; 
+    border: 2px solid #332a1e; 
+    box-shadow: inset 0 0 20px rgba(0,0,0,1); 
+}
 
 .filter-section { 
     max-width: 1200px; 
@@ -269,47 +255,3 @@ h2 { color: var(--accent-color); margin: 30px 0 15px; text-align: center; }
     }
 }
 
-/* =========================================
-   [추가] 검색어 형광펜 하이라이트 효과
-========================================= */
-mark {
-    background-color: transparent;
-    color: #fff; /* 글자를 하얗게 돋보이게 */
-    background-image: linear-gradient(to right, rgba(219, 168, 88, 0.6) 100%, transparent 0);
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    padding: 0 3px;
-    border-radius: 3px;
-    font-weight: bold;
-}
-
-/* =========================================
-   [수정] 모바일 UI/UX 버그 완벽 해결
-========================================= */
-
-/* 1. 겹침 문제 해결: 선택되거나 호버된 룬을 무조건 맨 위(z-index: 10)로 끌어올림 */
-.rune-card, .rw-rune-item {
-    position: relative;
-    z-index: 1;
-}
-
-.rune-card.selected, 
-.rune-card:hover, 
-.rw-rune-item:hover {
-    z-index: 10;
-}
-
-/* 2. 스크롤 잔상 해결: 터치스크린 기기에서는 '마우스 호버' 효과 강제 차단 */
-@media (hover: none), (pointer: coarse) {
-    /* 선택되지 않은 룬 위를 스쳐 지나갈 때 커지거나 테두리 색이 변하는 현상 방지 */
-    .rune-card:hover:not(.selected) {
-        transform: none !important;
-        border-color: var(--border-color) !important;
-        background-color: transparent !important;
-    }
-    
-    /* 룬워드 리스트 안의 작은 룬 아이콘도 스쳐 지나갈 때 안 커지게 방지 */
-    .rw-rune-item:hover {
-        transform: none !important;
-    }
-}
