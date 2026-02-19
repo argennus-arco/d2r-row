@@ -210,3 +210,47 @@ h2 { color: var(--accent-color); margin: 30px 0 15px; text-align: center; }
 .tooltip-section { margin-top: 5px; border-top: 1px solid #333; padding-top: 5px; }
 .tooltip-label { color: var(--accent-color); font-weight: bold; font-size: 0.8rem; }
 .tooltip-value { color: var(--effect-color); }
+
+/* =========================================
+   📱 모바일 최적화 (반응형 UI)
+========================================= */
+@media screen and (max-width: 768px) {
+    /* 1. 필터 섹션(룬 그리드와 카테고리)을 가로에서 세로로 변경 */
+    .filter-section {
+        flex-direction: column;
+    }
+    
+    .filter-controls {
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    /* 2. 룬 배열 컨테이너에 가로 스크롤 추가 (화면 밖으로 튀어나가는 것 방지) */
+    .rune-container {
+        overflow-x: auto;
+        padding-bottom: 15px;
+    }
+
+    /* 3. 룬워드 리스트의 폰트 및 여백을 모바일에 맞게 축소 */
+    .runeword-card {
+        padding: 15px;
+    }
+
+    .runeword-name {
+        font-size: 1.2rem;
+    }
+
+    .rw-type, .rw-level, .rw-sockets {
+        font-size: 0.8rem;
+    }
+
+    .runeword-effects {
+        font-size: 0.8rem;
+    }
+
+    /* 4. 검색창 너비를 화면에 꽉 차게 변경 */
+    #search-input {
+        width: 95%;
+        font-size: 0.95rem;
+    }
+}
