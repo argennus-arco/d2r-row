@@ -378,3 +378,79 @@ h2 { color: var(--accent-color); margin: 30px 0 15px; text-align: center; }
 .ladder-inactive-mode .runeword-card.is-ladder:hover::after {
     opacity: 1;
 }
+
+/* =========================================
+   상단 네비게이션 바 (GNB) 스타일 - 디아블로 뱃지 테마 적용
+========================================= */
+.top-nav {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+}
+
+.top-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px; /* 메뉴 버튼 사이의 간격 */
+    padding: 0;
+    margin: 0;
+}
+
+/* 💡 기존 둥근 테두리를 제거하고 뱃지 디자인 적용 */
+.top-nav a {
+    display: inline-block;
+    text-decoration: none;
+    color: #a0a0a0; /* 차분하고 탁한 텍스트 색상 */
+    font-size: 0.95rem;
+    padding: 6px 16px;
+    
+    /* 디아블로 뱃지 특유의 질감과 테두리 */
+    background-color: #151515; 
+    border: 1px solid #3d3020; 
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.9);
+    outline: 1px solid #0a0a0a;
+    
+    transition: all 0.2s ease;
+}
+
+/* 마우스를 올렸을 때의 호버 효과 */
+.top-nav a:hover:not(.disabled) {
+    color: var(--rune-orange);
+    background-color: #1a1a1a;
+    border-color: #7a6040; /* 테두리 색상 살짝 밝게 */
+}
+
+/* 현재 머물고 있는 페이지 (활성화 상태) */
+.top-nav a.active {
+    color: var(--rune-orange);
+    background-color: #221a10; /* 살짝 오렌지빛이 도는 짙은 갈색 배경 */
+    border-color: var(--rune-orange);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
+    font-weight: bold;
+}
+
+/* 준비 중인 메뉴 (비활성화 상태) */
+.top-nav a.disabled {
+    color: #444;
+    cursor: not-allowed;
+    background-color: #111;
+    border-color: #222;
+}
+
+/* =========================================
+   디아블로 스타일 텍스트 뱃지 UI
+========================================= */
+.d2-badge {
+    display: inline-block;
+    background-color: #151515; /* 아주 어두운 회색 배경 */
+    border: 1px solid #3d3020; /* 룬 카드와 통일감 있는 어두운 갈색 테두리 */
+    color: #a0a0a0; /* 차분하고 탁한 텍스트 색상 */
+    padding: 3px 10px;
+    font-size: 0.85rem;
+    line-height: 1.2;
+    /* 내부 그림자로 안쪽이 깊어 보이는 입체감 부여 */
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.9);
+    /* 바깥쪽에 검은색 테두리를 한 겹 더 둘러서 액자 같은 느낌 강조 */
+    outline: 1px solid #0a0a0a; 
+    vertical-align: middle;
+}
