@@ -172,6 +172,25 @@ h2 { color: var(--accent-color); margin: 30px 0 15px; text-align: center; }
 .effect-line { position: relative; padding-left: 12px; }
 .effect-line::before { content: "•"; position: absolute; left: 0; color: var(--accent-color); }
 
+/* =========================================
+   [최종] 선택된 룬 자체 발광 효과 (배경/테두리 없음)
+========================================= */
+.rw-rune-icon.highlight-aura {
+    /* 배경 효과는 모두 없애고 크기 커지는 애니메이션만 유지 */
+    transform: scale(1.15); 
+    transition: all 0.3s ease;
+}
+
+.rw-rune-icon.highlight-aura img {
+    /* 1. brightness(1.3): 룬 이미지 자체를 30% 더 밝게
+       2. 첫 번째 drop-shadow: 룬 바로 겉면에 강렬한 금빛
+       3. 두 번째 drop-shadow: 조금 더 넓은 범위로 퍼지는 주황빛 */
+    filter: brightness(1.3) 
+            drop-shadow(0 0 6px rgba(255, 215, 0, 1)) 
+            drop-shadow(0 0 10px rgba(255, 140, 0, 0.9));
+    transition: filter 0.3s ease;
+}
+
 /* Tooltip */
 #tooltip { 
     position: fixed; 
