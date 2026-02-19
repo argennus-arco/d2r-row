@@ -76,6 +76,9 @@ function init() {
                 filterRunewords();
              }
         }, 50);
+        
+        // 💡 [핵심 추가] 룬 선택이 완료된 직후, 주소창에서 파라미터를 완전히 지워줌
+        window.history.replaceState({}, document.title, window.location.pathname);
     } else {
         filterRunewords();
     }
@@ -117,16 +120,28 @@ function rebuildFilterUI() {
 }
 
 function setupFilterEvents() {
-    // 💡 [최적화 Step A] 반복 탐색을 막기 위한 DOM Query 캐싱 적용
     const addGroupListener = (id, callback) => {
-        const tags = document.querySelectorAll(`#${id} .filter-tag`); // 한 번만 탐색하여 캐싱
+        const tags = document.querySelectorAll(`#${id} .filter-tag`);
         
+        // 💡 [추가] 해당 필터 그룹 내에서 '전체'를 담당하는 기본 태그를 찾아둠
+        const allTag = Array.from(tags).find(t => t.dataset.type === 'all' || t.dataset.socket === 'all');
+
         tags.forEach(tag => {
             tag.addEventListener('click', () => {
-                // 클릭할 때마다 문서를 뒤지지 않고 캐싱된 tags 변수를 재사용
-                tags.forEach(t => t.classList.remove('active'));
-                tag.classList.add('active');
-                callback(tag);
+                
+                // 1. 이미 선택된 태그를 다시 눌렀을 때 ('전체' 버튼이 아닐 경우) -> '전체'로 초기화
+                if (tag.classList.contains('active') && tag !== allTag) {
+                    tag.classList.remove('active');
+                    allTag.classList.add('active');
+                    callback(allTag); // '전체' 상태를 데이터에 적용
+                } 
+                // 2. 새로운 태그를 클릭했을 때 -> 정상적으로 해당 태그 선택
+                else {
+                    tags.forEach(t => t.classList.remove('active'));
+                    tag.classList.add('active');
+                    callback(tag);
+                }
+                
                 filterRunewords();
             });
         });
@@ -269,13 +284,12 @@ function updateListTitle() {
 
 function renderRunewordsList(data) {
     if (data.length === 0) {
-        listContainer.innerHTML = `<div style="grid-column: 1/-1; text-align:center; color:#888; padding:30px;">조건에 맞는 룬워드가 없습니다.</div>`;
+        listContainer.innerHTML = `<div class="empty-result">조건에 맞는 룬워드가 없습니다.</div>`;
         return;
     }
 
     const searchTerms = getSearchTerms(searchQuery).filter(t => t.length > 0);
     
-    // 💡 [최적화 3번] 반복문 밖에서 정규식을 단 한 번만 생성하여 메모리 절약!
     let searchRegex = null;
     if (searchTerms.length > 0) {
         const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -289,25 +303,24 @@ function renderRunewordsList(data) {
             const rune = RUNE_MAP[krName];
             const isSelected = selectedRunes.has(krName);
             const auraClass = isSelected ? " highlight-aura" : "";
+            const textClass = isSelected ? " active-text" : ""; // 💡 텍스트 강조용 클래스 추가
 
             if (rune) {
                 const imgPath = `images/${rune.name}.png`;
-                // 💡 [최적화 Step B] 인라인 이벤트를 제거하고 data-rune 속성만 부여
                 return `<div class="rw-rune-item" data-rune="${krName}">
                             <div class="rw-rune-icon${auraClass}">
                                 <img src="${imgPath}" class="rune-img" alt="${rune.name}"
                                      onerror="this.style.display='none'; this.parentNode.innerText='${rune.name.substring(0,2)}'">
                             </div>
-                            <div class="rw-rune-name" style="${isSelected ? 'color: var(--rune-orange); font-weight: bold;' : ''}">${krName}</div>
+                            <div class="rw-rune-name${textClass}">${krName}</div>
                         </div>`;
             } else {
                 return `<div class="rw-rune-item"><div class="rw-rune-icon">??</div></div>`;
             }
-        }).join('<span style="color:#444; margin-top:-15px">+</span>');
+        }).join('<span class="rune-plus">+</span>');
 
         const safeEffects = rw.effects || "";
         
-        // 💡 [최적화 3번] 밖에서 미리 만들어둔 searchRegex를 여기서 재사용
         const effectsHtml = safeEffects.split(', ').map(eff => {
             let highlightedEff = eff;
             if (searchRegex) {
@@ -319,8 +332,8 @@ function renderRunewordsList(data) {
         const safeTypes = Array.isArray(rw.types) ? rw.types : [];
         const typeDisplay = safeTypes.join(', ');
         
-        const subTypeHtml = rw.subType ? `<span style="color:#d4c4a9; font-size:0.8em; margin-left:5px;">(${rw.subType})</span>` : '';
-        const noteHtml = rw.note ? `<div style="color:#e05a5a; font-size:0.85em; margin-top:8px; padding-top:5px; border-top:1px dashed #333;">※ ${rw.note}</div>` : '';
+        const subTypeHtml = rw.subType ? `<span class="rw-subtype">(${rw.subType})</span>` : '';
+        const noteHtml = rw.note ? `<div class="rw-note">※ ${rw.note}</div>` : '';
 
         return `
             <div class="runeword-card">
@@ -328,7 +341,7 @@ function renderRunewordsList(data) {
                 <div class="runeword-info">
                     <span class="rw-level">Lv.${rw.level || "-"}</span> | 
                     <span class="rw-sockets">${rw.sockets || "-"}홈</span> | 
-                    <span class="rw-type" style="color:#aaa;">${typeDisplay}${subTypeHtml}</span>
+                    <span class="rw-type">${typeDisplay}${subTypeHtml}</span>
                 </div>
                 <div class="runeword-runes">${runesHtml}</div>
                 <div class="runeword-effects">
