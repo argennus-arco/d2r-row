@@ -186,6 +186,40 @@ function filterRunewords() {
     }
 }
 
+// =========================================
+// [추가] 모든 필터 및 UI 초기화 함수
+// =========================================
+function resetAllFilters() {
+    // 1. 내부 데이터 초기화
+    searchQuery = "";
+    selectedRunes.clear();
+    selectedType = 'all';
+    selectedSocket = 'all';
+
+    // 2. 검색창 텍스트 비우기
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) searchInput.value = "";
+
+    // 3. 룬 선택 시각적 효과(테두리, 광채) 해제
+    document.querySelectorAll('.rune-card.selected').forEach(card => {
+        card.classList.remove('selected');
+    });
+
+    // 4. 아이템/소켓 필터 버튼 '전체'로 되돌리기
+    document.querySelectorAll('.filter-tag').forEach(tag => {
+        tag.classList.remove('active');
+        if (tag.dataset.type === 'all' || tag.dataset.socket === 'all') {
+            tag.classList.add('active');
+        }
+    });
+
+    // 5. URL에 남아있는 파라미터(?rune=엘 등)를 새로고침 없이 깔끔하게 지우기
+    window.history.replaceState({}, document.title, window.location.pathname);
+
+    // 6. 초기화된 상태로 리스트 다시 그리기
+    filterRunewords();
+}
+
 function updateListTitle() {
     let parts = [];
     if (selectedRunes.size > 0) parts.push(`Runes: ${Array.from(selectedRunes).join(', ')}`);
