@@ -125,7 +125,6 @@ h2 { color: var(--accent-color); margin: 30px 0 15px; text-align: center; }
     color: #dba858;
 }
 
-/* [추가됨] 룬 이미지 태그 */
 .rune-img {
     width: 100%;
     height: 100%;
@@ -255,3 +254,8 @@ h2 { color: var(--accent-color); margin: 30px 0 15px; text-align: center; }
     }
 }
 
+/* 룬워드 리스트의 '홈(소켓)' 텍스트 색상 및 굵기 변경 */
+.rw-sockets {
+    color: #8ab865 !important; /* 디아블로 특유의 짙은 황금색 */
+    font-weight: bold !important;
+}
