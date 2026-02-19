@@ -259,3 +259,45 @@ h2 { color: var(--accent-color); margin: 30px 0 15px; text-align: center; }
     color: #8ab865 !important; /* 디아블로 특유의 짙은 황금색 */
     font-weight: bold !important;
 }
+
+/* =========================================
+   최적화: 분리된 인라인 스타일 (index.html에서 이관)
+========================================= */
+#main-title {
+    cursor: pointer;
+    display: inline-block;
+}
+
+.search-section {
+    max-width: 1200px; 
+    margin: 0 auto 20px; 
+    display: flex; 
+    flex-direction: row; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 10px; 
+    padding: 0 10px;
+}
+
+.search-input-field {
+    flex: 1; 
+    max-width: 500px; 
+    padding: 12px; 
+    font-size: 1rem; 
+    background-color: #222; 
+    border: 1px solid #444; 
+    color: var(--text-color); 
+    border-radius: 5px;
+}
+
+.sort-dropdown {
+    padding: 12px; 
+    font-size: 0.95rem; 
+    background-color: #222; 
+    border: 1px solid #444; 
+    color: var(--rune-orange); 
+    border-radius: 5px; 
+    cursor: pointer; 
+    outline: none; 
+    min-width: 130px;
+}

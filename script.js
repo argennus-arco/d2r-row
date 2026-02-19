@@ -5,6 +5,18 @@ let selectedType = 'all';
 let selectedSocket = 'all';
 let currentSort = 'level-asc'; 
 
+// [최적화] 루프 안에서 매번 생성되던 정규식 함수를 외부로 분리 (메모리 절약)
+const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+// [최적화] 검색 입력 디바운스 함수 (이벤트 과부하 방지)
+let debounceTimer;
+function debounce(func, delay) {
+    return function() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => func.apply(this, arguments), delay);
+    };
+}
+
 // ==================== LOGIC SECTION ====================
 const gridContainer = document.getElementById('rune-grid');
 const listContainer = document.getElementById('runeword-list');
@@ -34,12 +46,13 @@ function init() {
     renderRunes();
     setupFilterEvents();
 
+    // [최적화] 디바운싱 적용 (타이핑 후 300ms 대기 후 필터링 실행)
     const searchInput = document.getElementById('search-input');
     if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
+        searchInput.addEventListener('input', debounce((e) => {
             searchQuery = (e.target.value || "").toLowerCase().trim();
             filterRunewords();
-        });
+        }, 300));
     }
 
     const sortSelect = document.getElementById('sort-select');
