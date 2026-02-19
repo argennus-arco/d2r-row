@@ -113,14 +113,14 @@ const runeWords = [
     { name: "화로 (Hearth)", alias: ["하스"], runes: ["샤엘", "이오", "주울"], level: 35, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "빙결되지 않음, 타격 회복 속도 +20%, 방어력 +75-100%, 활력 +10, 최대 생명력 +5%, 냉기 저항 +40-60%, 냉기 흡수 +10-15%, 빙결되지 않음" },
     { name: "접지 (Ground)", alias: ["그라운드"], runes: ["샤엘", "이오", "오르트"], level: 35, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "타격 회복 속도 +20%, 방어력 +75-100%, 활력 +10, 최대 생명력 +5%, 번개 저항 +40-60%, 번개 흡수 +10-15%" },
     { name: "담금질 (Temper)", alias: ["템퍼"], runes: ["샤엘", "이오", "랄"], level: 35, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "타격 회복 속도 +20%, 방어력 +75-100%, 활력 +10, 최대 생명력 +5%, 화염 저항 +40-60%, 화염 흡수 +10-15%" },
+    { name: "방벽 (Bulwark)", alias: ["불워크"], runes: ["샤엘", "이오", "솔"], level: 35, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "타격 회복 속도 +20%, 적중당 생명력 4-6% 훔침, 방어력 +75-100%, 활력 +10, 최대 생명력 +5%, 생명력 회복 30, 피해 7 감소, 받는 물리 피해 감소 10-15%" },
     { name: "어둠 (Black)", alias: ["블랙"], runes: ["주울", "이오", "네프"], level: 35, sockets: 3, types: [ITEM_TYPES.MACE], note: "망치(Hammer), 곤봉(Club) 포함", effects: "공격 속도 +15%, 피해 +120% 증가, 명중률 +200, 냉기 피해 3-14 추가, 강타 확률 +40%, 밀쳐내기, 활력 +10, 마법 피해 2 감소, 4레벨 시체 폭발(충전 12회)" },
     
     // === Level 37 ===
-    { name: "연기 (Smoke)", alias: ["스모크"], runes: ["네프", "룸"], level: 37, sockets: 2, types: [ITEM_TYPES.ARMOR], effects: "타격 회복 속도 +20%, 방어력 +75% 증가, 모든 저항 +50, 시야 -1" },
-    { name: "기억 (Memory)", alias: ["메모리"], runes: ["룸", "이오", "솔", "에드"], level: 37, sockets: 4, types: [ITEM_TYPES.STAFF], note: "에너지 보호막 옵션 재료 권장", effects: "원소술사 기술 +3, 시전 속도 +33%, 최대 마나 20% 증가, 에너지 +10, 활력 +10, 마법 피해 7 감소" },
-    { name: "광채 (Splendor)", alias: ["스플랜더"], runes: ["에드", "룸"], level: 37, sockets: 2, types: [ITEM_TYPES.SHIELD, ITEM_TYPES.PALADIN_SHIELD], note: "강령술사 전용 방패 권장", effects: "모든 기술 +1, 시전 속도 +10%, 방어력 +60~100% 증가, 마나 +10, 마나 재생 15%, 마법 아이템 발견 20%" },
-    { name: "순종 (Obedience)", alias: ["오비디언스"], runes: ["헬", "코", "주울", "에드", "팔"], level: 37, sockets: 5, types: [ITEM_TYPES.POLEARM, ITEM_TYPES.SPEAR], effects: "적 처치 시 30% 확률로 마법부여 시전, 피해 +370% 증가, 강타 40%, 명중률 +40%, 모든 저항 +20~30, 방어력 +200~300" },
-    
+    { name: "연기 (Smoke)", alias: ["스모크"], runes: ["네프", "룸"], level: 37, sockets: 2, types: [ITEM_TYPES.ARMOR], effects: "타격 회복 속도 +20%, 방어력 +75% 증가, 원거리 공격 방어력 +280, 마력 +10, 모든 저항 +50, 시야 -1, 6레벨 약화(충전 18회)" },
+    { name: "기억 (Memory)", alias: ["메모리"], runes: ["룸", "이오", "솔", "에드"], level: 37, sockets: 4, types: [ITEM_TYPES.STAFF], note: "양손 지팡이, 에너지 보호막 옵션 재료 권장", effects: "원소술사 기술 레벨 +3, 시전 속도 +33%, +3 마력 보호막(원소술사 전용), +2 전자기장(원소술사 전용), 방어력 +50% 증가, 활력 +10, 마력 +10, 최대 마나 20% 증가, 마법 피해 7 감소, 대상의 방어력 -25%" },
+    { name: "광채 (Splendor)", alias: ["스플랜더"], runes: ["에드", "룸"], level: 37, sockets: 2, types: [ITEM_TYPES.SHIELD, ITEM_TYPES.PALADIN_SHIELD], note: "강령술사 전용 방패 권장", effects: "모든 기술 +1, 시전 속도 +10%, 막기 속도 +20%, 방어력 +60-100% 증가, 마력 +10, 마나 재생 15%, 괴물에게서 얻는 금화 50% 증가, 매직 아이템 발견 확률 20% 증가, 시야 +3" },
+        
     // === Level 39 ===
     { name: "광기 (Hysteria) - 무기", alias: ["히스테리아", "투지", "Hustle", "허슬"], runes: ["샤엘", "코", "엘드"], level: 39, sockets: 3, types: CATEGORIES.WEAPON_ALL, effects: "5% 기회로 1레벨 폭발적인 속도, 1레벨 광신 오라, 공격 속도 +30%, 피해 +180~200% 증가, 언데드 피해 +75%" },
     { name: "발작 (Mania) - 갑옷", alias: ["마니아", "투지", "Hustle", "허슬"], runes: ["샤엘", "코", "엘드"], level: 39, sockets: 3, types: [ITEM_TYPES.ARMOR], effects: "달리기/걷기 +65%, 공격 속도 +40%, 타격 회복 속도 +20%, 민첩 +10, 지구력 고갈 속도 50% 둔화" },
@@ -129,7 +129,8 @@ const runeWords = [
     
     // === Level 41 ===
     { name: "불굴의 의지 (Unbending Will)", alias: ["언벤딩윌"], runes: ["팔", "이오", "아이드", "엘드", "엘", "헬"], level: 41, sockets: 6, types: [ITEM_TYPES.SWORD], effects: "공격 속도 +20~30%, 피해 +300~350% 증가, 피해 +9, 명중률 +50, 적중 당 생명력 훔침, 괴물 회복 저지" },
-    
+    { name: "순종 (Obedience)", alias: ["오비디언스"], runes: ["헬", "코", "주울", "에드", "팔"], level: 41, sockets: 5, types: [ITEM_TYPES.POLEARM, ITEM_TYPES.SPEAR], effects: "적 처치 시 30% 확률로 21레벨 마법부여 시전, 타격 회복 속도 +40%, 피해 +370% 증가, 대상의 방어력 -25%, 냉기 피해 3-14 추가, 적의 화염 저항 -25%, 강타 확률 +40%, 방어력 +200-300, 힘 +10, 민첩 +10, 모든 저항 +20-30, 착용 조건 -20%" },
+
     // === Level 43 ===
     { name: "배신 (Treachery)", alias: ["트렛셔리"], runes: ["샤엘", "주울", "렘"], level: 43, sockets: 3, types: [ITEM_TYPES.ARMOR], effects: "피격 시 5% 확률로 15레벨 흐리기(Fade) 시전, 공격 속도 +45%, 냉기 저항 +30%" },
     { name: "부 (Wealth)", alias: ["웰스"], runes: ["렘", "코", "티르"], level: 43, sockets: 3, types: [ITEM_TYPES.ARMOR], effects: "괴물로부터 얻는 금화 300% 증가, 마법 아이템 발견 확률 100% 증가, 민첩 +10, 적 처치 시 마나 +2" },
@@ -157,7 +158,7 @@ const runeWords = [
     
     // === Level 51 ===
     { name: "착란 (Delirium)", alias: ["대표위원", "델리리움"], runes: ["렘", "이스트", "이오"], level: 51, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "모든 기술 +2, 피격 시 1% 확률로 50레벨 델리리움(변신), 방어력 +261, 활력 +10, 마법 아이템 발견 33%" },
-    { name: "마녀단 (Bulwark)", alias: ["불워크"], runes: ["이스트", "랄", "이오"], level: 51, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "피격 시 5% 확률로 10레벨 인장: 무기력 시전, 모든 기술 +1, 시전 속도 +20%, 방어력 +30-50%, 활력 +10, 화염 저항 +30, 적 처치 시 생명력 +1-5, 마법 아이템 발견 확률 +26-40%" },
+    { name: "마녀단 (Coven)", alias: ["코븐"], runes: ["이스트", "랄", "이오"], level: 51, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "피격 시 5% 확률로 10레벨 인장: 무기력 시전, 모든 기술 +1, 시전 속도 +20%, 방어력 +30-50%, 활력 +10, 화염 저항 +30, 적 처치 시 생명력 +1-5, 마법 아이템 발견 확률 +26-40%" },
 
     // === Level 53 ===
     { name: "모자이크 (Mosaic)", alias: ["모자이크"], runes: ["말", "굴", "주울"], level: 53, sockets: 3, types: [ITEM_TYPES.CLAW], effects: "피해 +200~250% 증가, 명중률 +20%, 냉기 피해 +3~14, 무술 마무리 기술 사용 시 충전 소모되지 않을 확률 50%" },
