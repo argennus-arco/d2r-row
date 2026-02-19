@@ -335,9 +335,15 @@ function renderRunewordsList(data) {
         const subTypeHtml = rw.subType ? `<span class="rw-subtype">(${rw.subType})</span>` : '';
         const noteHtml = rw.note ? `<div class="rw-note">※ ${rw.note}</div>` : '';
 
+        // 💡 [추가] 래더 전용일 경우 깃발 이미지 태그 생성, 아니면 빈 문자열
+        const ladderHtml = rw.ladder ? `<img src="images/flag_ladder.webp" class="ladder-flag" alt="래더 전용" title="래더 전용 룬워드">` : '';
+        
+        // 💡 [핵심 추가] 래더 전용일 경우 카드 최상단 div에 'is-ladder' 클래스를 추가
+        const ladderClass = rw.ladder ? ' is-ladder' : '';
+
         return `
-            <div class="runeword-card">
-                <div class="runeword-name">${rw.name || "이름 없음"}</div>
+            <div class="runeword-card${ladderClass}">
+                ${ladderHtml} <div class="runeword-name">${rw.name || "이름 없음"}</div>
                 <div class="runeword-info">
                     <span class="rw-level">Lv.${rw.level || "-"}</span> | 
                     <span class="rw-sockets">${rw.sockets || "-"}홈</span> | 
@@ -478,6 +484,31 @@ if (listContainer) {
     listContainer.addEventListener('mouseout', (e) => {
         if (e.target.closest('.rw-rune-item')) {
             hideTooltip();
+        }
+    });
+}
+
+// =========================================
+// 💡 [추가] 래더 깃발 토글 이벤트
+// =========================================
+const ladderToggleBtn = document.getElementById('ladder-toggle-btn');
+const ladderStatusText = document.getElementById('ladder-status-text');
+
+if (ladderToggleBtn) {
+    ladderToggleBtn.addEventListener('click', () => {
+        // 1. 깃발 버튼 흑백 전환
+        ladderToggleBtn.classList.toggle('inactive');
+        
+        // 2. 룬워드 리스트 전체 컨테이너에 모드 전환 클래스 부여
+        listContainer.classList.toggle('ladder-inactive-mode');
+        
+        // 3. 텍스트 변경
+        if (ladderToggleBtn.classList.contains('inactive')) {
+            ladderStatusText.textContent = '스탠다드';
+            ladderStatusText.style.color = '#888';
+        } else {
+            ladderStatusText.textContent = '래더';
+            ladderStatusText.style.color = '#8ab865';
         }
     });
 }

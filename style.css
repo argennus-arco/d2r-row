@@ -311,3 +311,70 @@ h2 { color: var(--accent-color); margin: 30px 0 15px; text-align: center; }
 .rw-type { color: #aaa; }
 .rw-subtype { color: #d4c4a9; font-size: 0.8em; margin-left: 5px; }
 .rw-note { color: #e05a5a; font-size: 0.85em; margin-top: 8px; padding-top: 5px; border-top: 1px dashed #333; }
+
+/* =========================================
+   래더 전용 깃발 아이콘 스타일
+========================================= */
+.runeword-card {
+    position: relative; /* 깃발의 기준점이 되도록 설정 (기존에 있다면 생략) */
+}
+
+.ladder-flag {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 35px; /* 깃발의 크기. 취향에 맞게 조절해 */
+    height: auto;
+    filter: drop-shadow(1px 1px 3px rgba(0,0,0,0.8));
+    z-index: 5;
+}
+
+/* =========================================
+   래더 토글 버튼 및 비활성화 상태 UI
+========================================= */
+/* 토글 버튼 자체 스타일 */
+.ladder-toggle-btn {
+    width: 30px;
+    height: auto;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.8));
+}
+
+/* 버튼이 꺼졌을 때 (흑백 + 투명도) */
+.ladder-toggle-btn.inactive {
+    filter: grayscale(100%) opacity(40%);
+}
+
+/* 리스트가 스탠다드 모드일 때 래더 전용 카드의 상태 */
+.ladder-inactive-mode .runeword-card.is-ladder {
+    opacity: 0.3; /* 카드 전체를 흐리게 */
+    filter: grayscale(100%); /* 흑백 처리 */
+    cursor: not-allowed;
+}
+
+/* 흐려진 카드에 마우스를 올렸을 때 뜨는 툴팁 (CSS만으로 구현) */
+.ladder-inactive-mode .runeword-card.is-ladder::after {
+    content: '래더에서만 제작 가능';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #ff4444;
+    padding: 8px 16px;
+    border: 1px solid #ff4444;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    z-index: 10;
+    white-space: nowrap;
+}
+
+/* 마우스 호버 시 툴팁 나타남 */
+.ladder-inactive-mode .runeword-card.is-ladder:hover::after {
+    opacity: 1;
+}

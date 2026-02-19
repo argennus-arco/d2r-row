@@ -130,11 +130,11 @@ const runeWords = [
         // === Level 35 ===
 
         { name: "순백 (White)", alias: ["화이트"], runes: ["돌", "이오"], level: 35, sockets: 2, types: [ITEM_TYPES.WAND], note: "뼈 창 +3 재료 권장", effects: "독과 뼈 기술 +3 (강령술사 전용), 시전 속도 +20%, +2 뼈 창 (강령술사 전용), +4 해골 숙련 (강령술사 전용), +3 뼈 갑옷 (강령술사 전용), 적중 시 괴물 도주 +25%, 활력 +10, 마나 +13, 마법 피해 4 감소" },
-        { name: "치료 (Cure)", alias: ["큐어"], runes: ["샤엘", "이오", "탈"], level: 35, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "장착 시 1레벨 정화 오라 효과 적용, 타격 회복 속도 +20%, 방어력 +75-100%, 활력 +10, 최대 생명력 +5%, 독 저항 +40-60%, 중독 시간 50% 감소" },
-        { name: "화로 (Hearth)", alias: ["하스"], runes: ["샤엘", "이오", "주울"], level: 35, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "빙결되지 않음, 타격 회복 속도 +20%, 방어력 +75-100%, 활력 +10, 최대 생명력 +5%, 냉기 저항 +40-60%, 냉기 흡수 +10-15%, 빙결되지 않음" },
-        { name: "접지 (Ground)", alias: ["그라운드"], runes: ["샤엘", "이오", "오르트"], level: 35, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "타격 회복 속도 +20%, 방어력 +75-100%, 활력 +10, 최대 생명력 +5%, 번개 저항 +40-60%, 번개 흡수 +10-15%" },
-        { name: "담금질 (Temper)", alias: ["템퍼"], runes: ["샤엘", "이오", "랄"], level: 35, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "타격 회복 속도 +20%, 방어력 +75-100%, 활력 +10, 최대 생명력 +5%, 화염 저항 +40-60%, 화염 흡수 +10-15%" },
-        { name: "방벽 (Bulwark)", alias: ["불워크"], runes: ["샤엘", "이오", "솔"], level: 35, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "타격 회복 속도 +20%, 적중당 생명력 4-6% 훔침, 방어력 +75-100%, 활력 +10, 최대 생명력 +5%, 생명력 회복 30, 피해 7 감소, 받는 물리 피해 감소 10-15%" },
+        { name: "치료 (Cure)", alias: ["큐어"], runes: ["샤엘", "이오", "탈"], level: 35, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], ladder: true, effects: "장착 시 1레벨 정화 오라 효과 적용, 타격 회복 속도 +20%, 방어력 +75-100%, 활력 +10, 최대 생명력 +5%, 독 저항 +40-60%, 중독 시간 50% 감소" },
+        { name: "화로 (Hearth)", alias: ["하스"], runes: ["샤엘", "이오", "주울"], level: 35, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], ladder: true, effects: "빙결되지 않음, 타격 회복 속도 +20%, 방어력 +75-100%, 활력 +10, 최대 생명력 +5%, 냉기 저항 +40-60%, 냉기 흡수 +10-15%, 빙결되지 않음" },
+        { name: "접지 (Ground)", alias: ["그라운드"], runes: ["샤엘", "이오", "오르트"], level: 35, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], ladder: true, effects: "타격 회복 속도 +20%, 방어력 +75-100%, 활력 +10, 최대 생명력 +5%, 번개 저항 +40-60%, 번개 흡수 +10-15%" },
+        { name: "담금질 (Temper)", alias: ["템퍼"], runes: ["샤엘", "이오", "랄"], level: 35, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], ladder: true, effects: "타격 회복 속도 +20%, 방어력 +75-100%, 활력 +10, 최대 생명력 +5%, 화염 저항 +40-60%, 화염 흡수 +10-15%" },
+        { name: "방벽 (Bulwark)", alias: ["불워크"], runes: ["샤엘", "이오", "솔"], level: 35, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], ladder: true, effects: "타격 회복 속도 +20%, 적중당 생명력 4-6% 훔침, 방어력 +75-100%, 활력 +10, 최대 생명력 +5%, 생명력 회복 30, 피해 7 감소, 받는 물리 피해 감소 10-15%" },
         { name: "어둠 (Black)", alias: ["블랙"], runes: ["주울", "이오", "네프"], level: 35, sockets: 3, types: [ITEM_TYPES.MACE], note: "망치(Hammer), 곤봉(Club) 포함", effects: "공격 속도 +15%, 피해 +120% 증가, 명중률 +200, 냉기 피해 3-14 추가, 강타 확률 +40%, 밀쳐내기, 활력 +10, 마법 피해 2 감소, 4레벨 시체 폭발(충전 12회)" },
         
         // === Level 37 ===
@@ -145,8 +145,8 @@ const runeWords = [
             
         // === Level 39 ===
 
-        { name: "광기 (Mania) - 무기", alias: ["마니아", "투지", "Hustle", "허슬"], runes: ["샤엘", "코", "엘드"], level: 39, sockets: 3, types: CATEGORIES.WEAPON_ALL, effects: "타격 시 5% 확률로 1레벨 폭발적인 속도 시전, 장착 시 1레벨 광신 오라 효과 적용, 공격 속도 +30%, 피해 +180-200%, 언데드에게 주는 피해 +75%, 언데드에 대한 명중률 +50, 민첩 +10" },
-        { name: "발작 (Hysteria) - 갑옷", alias: ["히스테리아", "투지", "Hustle", "허슬"], runes: ["샤엘", "코", "엘드"], level: 39, sockets: 3, types: [ITEM_TYPES.ARMOR], effects: "걷기/달리기 속도 +65%, 공격 속도 +40%, 타격 회복 속도 +20%, +6 피하기, 민첩 +10, 모든 저항 +10, 지구력 고갈 속도 -50%" },
+        { name: "광기 (Mania) - 무기", alias: ["마니아", "투지", "Hustle", "허슬"], runes: ["샤엘", "코", "엘드"], level: 39, sockets: 3, types: CATEGORIES.WEAPON_ALL, ladder: true, effects: "타격 시 5% 확률로 1레벨 폭발적인 속도 시전, 장착 시 1레벨 광신 오라 효과 적용, 공격 속도 +30%, 피해 +180-200%, 언데드에게 주는 피해 +75%, 언데드에 대한 명중률 +50, 민첩 +10" },
+        { name: "발작 (Hysteria) - 갑옷", alias: ["히스테리아", "투지", "Hustle", "허슬"], runes: ["샤엘", "코", "엘드"], level: 39, sockets: 3, types: [ITEM_TYPES.ARMOR], ladder: true, effects: "걷기/달리기 속도 +65%, 공격 속도 +40%, 타격 회복 속도 +20%, +6 피하기, 민첩 +10, 모든 저항 +10, 지구력 고갈 속도 -50%" },
         { name: "선율 (Melody)", alias: ["멜로디"], runes: ["샤엘", "코", "네프"], level: 39, sockets: 3, types: [ITEM_TYPES.MISSILE], effects: "활과 쇠뇌 기술 +3 (아마존 전용), 공격 속도 +20%, 피해 +50% 증가, 언데드에게 주는 피해 +300%, +3 투사체 감속(아마존 전용), +3 흘리기(아마존 전용), +3 치명타(아마존 전용), 밀쳐내기, 민첩 +10" },
         { name: "조화 (Harmony)", alias: ["하모니"], runes: ["티르", "아이드", "솔", "코"], level: 39, sockets: 4, types: [ITEM_TYPES.MISSILE], effects: "장착 시 10레벨 원기 오라 효과 적용, 피해 +200-275% 증가, 최소 피해 +9, 최대 피해 +9, 화염 피해 55-160 추가, 번개 피해 55-160 추가, 냉기 피해 55-160 추가, +2-6 발키리, 민첩 +10, 마나 재생 20%, 적 처치 시 마나 +2, 시야 +2, 20레벨 부활(충전 25회)" },
         
@@ -192,7 +192,7 @@ const runeWords = [
     
         // === Level 53 ===
 
-        { name: "모자이크 (Mosaic)", alias: ["모자이크"], runes: ["말", "굴", "앰"], level: 53, sockets: 3, types: [ITEM_TYPES.CLAW], effects: "필살기가 충전을 소모하지 않을 확률 +50%, 필살기 사용 시 충전 지속시간 초기화, 무술 +2 (암살자 전용), 공격 속도 +20%, 피해 +200-250%, 생명력 흡수 7%, 냉기 기술 피해 +8-15%, 번개 기술 피해 +8-15%, 화염 기술 피해 +8-15%, 명중률 보너스 20%, 괴물 회복 저지" },
+        { name: "모자이크 (Mosaic)", alias: ["모자이크"], runes: ["말", "굴", "앰"], level: 53, sockets: 3, types: [ITEM_TYPES.CLAW], ladder: true, effects: "필살기가 충전을 소모하지 않을 확률 +50%, 필살기 사용 시 충전 지속시간 초기화, 무술 +2 (암살자 전용), 공격 속도 +20%, 피해 +200-250%, 생명력 흡수 7%, 냉기 기술 피해 +8-15%, 번개 기술 피해 +8-15%, 화염 기술 피해 +8-15%, 명중률 보너스 20%, 괴물 회복 저지" },
         { name: "왕 시해자 (Kingslayer)", alias: ["킹슬레이어"], runes: ["말", "우움", "굴", "팔"], level: 53, sockets: 4, types: [ITEM_TYPES.SWORD, ITEM_TYPES.AXE], effects: "공격 속도 +30%, 피해 +230-270% 증가, 대상의 방어력 -25%, 명중률 보너스 20%, 강타 확률 +33%, 상처 악화 확률 +50%, +1 복수, 괴물 회복 저지, 힘 +10, 괴물에게서 얻는 금화 40% 증가" },
         { name: "원칙 (Principle)", alias: ["프린시플", "원리원칙"], runes: ["랄", "굴", "엘드"], level: 53, sockets: 3, types: [ITEM_TYPES.ARMOR], effects: "타격 시 100% 확률로 5레벨 신성한 빛줄기 시전, 성기사 기술 레벨 +2, 언데드에게 주는 피해 +50%, 생명력 +100-150, 지구력 고갈 속도 15% 감소, 최대 독 저항 +5%, 화염 저항 +30%" },
         { name: "균열 (Rift)", alias: ["리프트"], runes: ["헬", "코", "렘", "굴"], level: 53, sockets: 4, types: [ITEM_TYPES.POLEARM, ITEM_TYPES.SCEPTER], effects: "타격 시 20% 확률로 16레벨 회오리바람 시전, 공격 시 16% 확률로 21레벨 얼음 보주 시전, 명중률 보너스 20%, 마법 피해 160-250 추가, 화염 피해 60-180 추가, 모든 능력치 +5-10, 민첩 +10, 받는 피해의 +38%만큼 마나 회복, 괴물에게서 얻는 금화 75% 증가, 15레벨 가시 박힌 철관(충전 40회), 착용 조건 -20%" },
@@ -254,7 +254,7 @@ const runeWords = [
         { name: "긍지 (Pride)", alias: ["자존심", "프라이드", "존심"], runes: ["참", "수르", "이오", "로"], level: 67, sockets: 4, types: [ITEM_TYPES.POLEARM, ITEM_TYPES.SPEAR], effects: "피격 시 25% 확률로 17레벨 화염벽 시전, 장착 시 16-20레벨 집중 오라 효과 적용, 명중률 보너스 260-300%, 악마에게 주는 피해 +(캐릭터 레벨 × 1)%, 번개 피해 50-280 추가, 치명적 공격 +20%, 적중 시 대상 실명, 대상 빙결 +3, 활력 +10, 생명력 회복 +8, 괴물에게서 얻는 금화 (캐릭터 레벨 × 1.875)% 증가" },
         { name: "역병 (Plague)", alias: ["플레이그", "페스트"], runes: ["참", "샤엘", "우움"], level: 67, sockets: 3, types: [ITEM_TYPES.SWORD, ITEM_TYPES.CLAW, ITEM_TYPES.DAGGER], effects: "타격 시 25% 확률로 15레벨 맹독 확산 시전, 피격 시 20% 확률로 12레벨 저항 감소 시전, 장착 시 13-17레벨 정화 오라 효과 적용, 모든 기술 +1-2, 공격 속도 +20%, 피해 +220-320% 증가, 적의 독 저항 -23%, 치명적 공격 (캐릭터 레벨 × 0.3)%, 상처 악화 확률 +25%, 대상 빙결 +3" },
         { name: "안개 (Mist)", alias: ["미스트", "엷은 안개"], runes: ["참", "샤엘", "굴", "주울", "아이드"], level: 67, sockets: 5, types: [ITEM_TYPES.MISSILE], effects: "장착 시 8-12레벨 집중 오라 효과 적용, 모든 기술 +3, 공격 속도 +20%, 관통 공격 +100%, 피해 325-375% 증가, 최대 피해 +9, 명중률 보너스 +20%, 냉기 피해 3-14 추가, 대상 빙결 +3, 활력 +24, 모든 저항 +40" },
-        { name: "탈태 (Metamorphosis)", alias: ["메타모포시스"], runes: ["이오", "참", "팔"], level: 67, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "늑대인간으로 타격 시 180초 간 징표 효과 부여 (명중률 보너스 30%, 최대 생명력 +40%), 곰인간으로 타격 시 180초 간 징표 효과 부여 (공격 속도 +25%, 받는 물리 피해 20% 감소), 변신 기술 +5 (드루이드 전용), 강타 확률 25%, 방어력 +50-80%, 힘 +10, 활력 +10, 모든 저항 +10, 빙결되지 않음" },
+        { name: "탈태 (Metamorphosis)", alias: ["메타모포시스"], runes: ["이오", "참", "팔"], level: 67, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], ladder: true, effects: "늑대인간으로 타격 시 180초 간 징표 효과 부여<br>(명중률 보너스 30% 최대 생명력 +40%), 곰인간으로 타격 시 180초 간 징표 효과 부여<br>(공격 속도 +25% 받는 물리 피해 20% 감소), 변신 기술 +5 (드루이드 전용), 강타 확률 25%, 방어력 +50-80%, 힘 +10, 활력 +10, 모든 저항 +10, 빙결되지 않음" },
         
         // === Level 69 ===
 
