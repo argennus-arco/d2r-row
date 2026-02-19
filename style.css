@@ -34,7 +34,7 @@ h2 { color: var(--accent-color); margin: 30px 0 15px; text-align: center; }
     .rune-container {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); /* 화면 너비에 맞춰 자동으로 꽉 차게 배치 */
-        gap: 6px; /* 룬 사이의 간격을 모바일에 맞게 살짝 좁힘 */
+        gap: 10px; /* 룬 사이의 간격을 모바일에 맞게 살짝 좁힘 */
         overflow-x: visible; /* 가로 스크롤 완벽하게 제거 */
         padding-bottom: 15px;
         width: 100%;
