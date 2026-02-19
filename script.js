@@ -3,12 +3,31 @@ let searchQuery = "";
 let selectedRunes = new Set();
 let selectedType = 'all'; 
 let selectedSocket = 'all';
+let currentSort = 'level-asc'; 
 
 // ==================== LOGIC SECTION ====================
 const gridContainer = document.getElementById('rune-grid');
 const listContainer = document.getElementById('runeword-list');
 const listTitle = document.getElementById('list-title');
 const tooltip = document.getElementById('tooltip');
+
+// [추가] 동의어 처리 함수 (매찬 -> 매직 아이템 발견)
+function getSearchTerms(query) {
+    if (!query) return [];
+    let terms = [query];
+    
+    // 디아블로2 주요 동의어 매핑
+    if (query === '매찬') terms.push('매직 아이템 발견');
+    if (query === '패캐') terms.push('시전 속도');
+    if (query === '패힛') terms.push('타격 회복 속도');
+    if (query === '피흡') terms.push('생명력 훔침', '생명력 흡수');
+    if (query === '마흡') terms.push('마나 훔침', '마나 흡수');
+    if (query === '공속') terms.push('공격 속도');
+    if (query === '달려') terms.push('달리기/걷기');
+    if (query === '삥') terms.push('금화');
+    
+    return terms;
+}
 
 function init() {
     rebuildFilterUI();
@@ -19,6 +38,14 @@ function init() {
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             searchQuery = (e.target.value || "").toLowerCase().trim();
+            filterRunewords();
+        });
+    }
+
+    const sortSelect = document.getElementById('sort-select');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', (e) => {
+            currentSort = e.target.value;
             filterRunewords();
         });
     }
@@ -144,18 +171,17 @@ function toggleRune(rune, cardElement) {
 
 function filterRunewords() {
     try {
-        const filtered = runeWords.filter(rw => {
+        const terms = getSearchTerms(searchQuery);
+
+        let filtered = runeWords.filter(rw => {
             if (!rw) return false;
             
-            // [방어 코드 1] runes 속성이 제대로 있는지 검사
             const itemRunes = Array.isArray(rw.runes) ? rw.runes : [];
             const runeMatch = selectedRunes.size === 0 || Array.from(selectedRunes).every(r => itemRunes.includes(r));
             
-            // [방어 코드 2] 소켓 검사 안전장치
             const rwSockets = rw.sockets ? rw.sockets.toString() : "";
             const socketMatch = selectedSocket === 'all' || rwSockets === selectedSocket;
             
-            // [방어 코드 3] 타입 검사 안전장치
             const rwTypes = Array.isArray(rw.types) ? rw.types : [];
             let typeMatch = false;
             if (selectedType === 'all') {
@@ -168,15 +194,26 @@ function filterRunewords() {
                 typeMatch = rwTypes.includes(selectedType);
             }
 
-            // [방어 코드 4] 검색어 검사 안전장치
             let searchMatch = true;
             if (searchQuery) {
                 const nameMatch = (rw.name || "").toLowerCase().includes(searchQuery);
                 const aliasMatch = Array.isArray(rw.alias) && rw.alias.some(a => (a || "").toLowerCase().includes(searchQuery));
-                searchMatch = nameMatch || aliasMatch;
+                
+                // 동의어를 포함한 옵션 검색
+                const safeEffects = rw.effects || "";
+                const effectMatch = terms.some(term => safeEffects.toLowerCase().includes(term));
+                
+                searchMatch = nameMatch || aliasMatch || effectMatch;
             }
 
             return runeMatch && typeMatch && socketMatch && searchMatch;
+        });
+
+        filtered.sort((a, b) => {
+            if (currentSort === 'level-asc') return (a.level || 0) - (b.level || 0);
+            if (currentSort === 'level-desc') return (b.level || 0) - (a.level || 0);
+            if (currentSort === 'name-asc') return (a.name || "").localeCompare(b.name || "", 'ko-KR');
+            return 0;
         });
 
         updateListTitle();
@@ -184,40 +221,6 @@ function filterRunewords() {
     } catch (error) {
         console.error("필터링 중 오류 발생:", error);
     }
-}
-
-// =========================================
-// [추가] 모든 필터 및 UI 초기화 함수
-// =========================================
-function resetAllFilters() {
-    // 1. 내부 데이터 초기화
-    searchQuery = "";
-    selectedRunes.clear();
-    selectedType = 'all';
-    selectedSocket = 'all';
-
-    // 2. 검색창 텍스트 비우기
-    const searchInput = document.getElementById('search-input');
-    if (searchInput) searchInput.value = "";
-
-    // 3. 룬 선택 시각적 효과(테두리, 광채) 해제
-    document.querySelectorAll('.rune-card.selected').forEach(card => {
-        card.classList.remove('selected');
-    });
-
-    // 4. 아이템/소켓 필터 버튼 '전체'로 되돌리기
-    document.querySelectorAll('.filter-tag').forEach(tag => {
-        tag.classList.remove('active');
-        if (tag.dataset.type === 'all' || tag.dataset.socket === 'all') {
-            tag.classList.add('active');
-        }
-    });
-
-    // 5. URL에 남아있는 파라미터(?rune=엘 등)를 새로고침 없이 깔끔하게 지우기
-    window.history.replaceState({}, document.title, window.location.pathname);
-
-    // 6. 초기화된 상태로 리스트 다시 그리기
-    filterRunewords();
 }
 
 function updateListTitle() {
@@ -240,15 +243,16 @@ function renderRunewordsList(data) {
         return;
     }
 
+    const searchTerms = getSearchTerms(searchQuery).filter(t => t.length > 0);
+    // 정규식 에러 방지용 이스케이프 함수
+    const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
     listContainer.innerHTML = data.map(rw => {
-        // [방어 코드] 화면 렌더링 시 에러 방지
         const safeRunes = Array.isArray(rw.runes) ? rw.runes : [];
         const runesHtml = safeRunes.map(krName => {
             const rune = RUNE_MAP[krName];
-            
-            // 💡 [핵심 추가] 내가 위에서 선택한 룬인지 확인!
             const isSelected = selectedRunes.has(krName);
-            const auraClass = isSelected ? " highlight-aura" : ""; // 선택됐으면 광채 클래스 추가
+            const auraClass = isSelected ? " highlight-aura" : "";
 
             if (rune) {
                 const imgPath = `images/${rune.name}.png`;
@@ -269,7 +273,17 @@ function renderRunewordsList(data) {
         }).join('<span style="color:#444; margin-top:-15px">+</span>');
 
         const safeEffects = rw.effects || "";
-        const effectsHtml = safeEffects.split(', ').map(eff => `<div class="effect-line">${eff}</div>`).join('');
+        
+        // [핵심] 효과 텍스트 분리 후 검색어 형광펜 하이라이트 적용
+        const effectsHtml = safeEffects.split(', ').map(eff => {
+            let highlightedEff = eff;
+            if (searchTerms.length > 0) {
+                const pattern = searchTerms.map(escapeRegExp).join('|');
+                const regex = new RegExp(`(${pattern})`, 'gi');
+                highlightedEff = highlightedEff.replace(regex, `<mark>$1</mark>`);
+            }
+            return `<div class="effect-line">${highlightedEff}</div>`;
+        }).join('');
         
         const safeTypes = Array.isArray(rw.types) ? rw.types : [];
         const typeDisplay = safeTypes.join(', ');
@@ -295,7 +309,6 @@ function renderRunewordsList(data) {
     }).join('');
 }
 
-// Tooltip Logic
 function showTooltip(e, rune) {
     if (!rune) return;
     tooltip.innerHTML = `
@@ -320,4 +333,59 @@ function moveTooltip(e) {
 
 function hideTooltip() { tooltip.style.display = 'none'; }
 
+function resetAllFilters() {
+    searchQuery = "";
+    selectedRunes.clear();
+    selectedType = 'all';
+    selectedSocket = 'all';
+    currentSort = 'level-asc'; 
+
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) searchInput.value = "";
+    
+    const sortSelect = document.getElementById('sort-select');
+    if (sortSelect) sortSelect.value = "level-asc";
+
+    document.querySelectorAll('.rune-card.selected').forEach(card => card.classList.remove('selected'));
+    document.querySelectorAll('.filter-tag').forEach(tag => {
+        tag.classList.remove('active');
+        if (tag.dataset.type === 'all' || tag.dataset.socket === 'all') tag.classList.add('active');
+    });
+
+    window.history.replaceState({}, document.title, window.location.pathname);
+    filterRunewords();
+}
+
+// =========================================
+// [추가] 모바일 환경 툴팁(오버레이) 잔상 해결
+// =========================================
+// 1. 사용자가 화면을 위아래로 스크롤하면 즉시 툴팁 숨기기
+window.addEventListener('scroll', hideTooltip, { passive: true });
+
+// 2. 룬 아이콘이 아닌 빈 공간을 터치하면 툴팁 숨기기
+document.addEventListener('touchstart', (e) => {
+    if (!e.target.closest('.rune-card') && !e.target.closest('.rw-rune-item')) {
+        hideTooltip();
+    }
+}, { passive: true });
+
 document.addEventListener("DOMContentLoaded", init);
+
+// =========================================
+// [추가] '/' 키를 누르면 검색창 활성화 (단축키)
+// =========================================
+document.addEventListener('keydown', (e) => {
+    // 사용자가 이미 검색창에 글자를 입력 중일 때는 '/'가 입력되도록 방어
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        return;
+    }
+
+    // 눌린 키가 '/' 일 경우
+    if (e.key === '/') {
+        e.preventDefault(); // 기본 동작(페이지 스크롤이나 '/' 문자 입력) 방지
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+            searchInput.focus(); // 검색창으로 커서 이동
+        }
+    }
+});

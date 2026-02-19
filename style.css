@@ -254,3 +254,17 @@ h2 { color: var(--accent-color); margin: 30px 0 15px; text-align: center; }
         font-size: 0.95rem;
     }
 }
+
+/* =========================================
+   [추가] 검색어 형광펜 하이라이트 효과
+========================================= */
+mark {
+    background-color: transparent;
+    color: #fff; /* 글자를 하얗게 돋보이게 */
+    background-image: linear-gradient(to right, rgba(219, 168, 88, 0.6) 100%, transparent 0);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    padding: 0 3px;
+    border-radius: 3px;
+    font-weight: bold;
+}

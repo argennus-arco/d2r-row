@@ -16,9 +16,15 @@
 
 <div id="home-view" class="active">
     
-    <div class="search-section" style="max-width: 1200px; margin: 0 auto 20px; text-align: center;">
-        <input type="text" id="search-input" placeholder="룬워드 검색 (예: 오심, 수수, Spirit, 망명...)" 
-               style="width: 100%; max-width: 500px; padding: 12px; font-size: 1rem; background-color: #222; border: 1px solid #444; color: #d4c4a9; border-radius: 5px;">
+    <div class="search-section" style="max-width: 1200px; margin: 0 auto 20px; display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 10px; padding: 0 10px;">
+        <input type="text" id="search-input" placeholder="룬워드 검색 (예: 매찬, 강타, 수수, Spirit...)" 
+               style="flex: 1; max-width: 500px; padding: 12px; font-size: 1rem; background-color: #222; border: 1px solid #444; color: #d4c4a9; border-radius: 5px;">
+        
+        <select id="sort-select" style="padding: 12px; font-size: 0.95rem; background-color: #222; border: 1px solid #444; color: var(--rune-orange); border-radius: 5px; cursor: pointer; outline: none; min-width: 130px;">
+            <option value="level-asc">레벨 낮은순</option>
+            <option value="level-desc">레벨 높은순</option>
+            <option value="name-asc">가나다순</option>
+        </select>
     </div>
 
     <section class="filter-section">
