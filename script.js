@@ -30,37 +30,37 @@ const CATEGORIES = {
 // 2. 룬 데이터
 const runesData = [
     { id: 1, name: "El", kr: "엘", level: 11, weapon: "명중률 +15, 시야 +1", armor: "방어력 +15, 시야 +1" },
-    { id: 2, name: "Eld", kr: "엘드", level: 11, weapon: "언데드에게 주는 피해 +75%, 언데드에 대한 명중률 +50", armor: "방기 확률 7% 증가" },
+    { id: 2, name: "Eld", kr: "엘드", level: 11, weapon: "언데드 피해 +75%<br>언데드 명중률 +50", armor: "투구/갑옷: 지구력 소모 15% 감소<br>방패: 막기 확률 7% 증가" },
     { id: 3, name: "Tir", kr: "티르", level: 13, weapon: "적 처치 시 마나 +2", armor: "적 처치 시 마나 +2" },
     { id: 4, name: "Nef", kr: "네프", level: 13, weapon: "밀쳐내기", armor: "원거리 공격 방어력 +30" },
     { id: 5, name: "Eth", kr: "에드", level: 15, weapon: "적의 방어력 -25%", armor: "마나 재생 15%" },
-    { id: 6, name: "Ith", kr: "아이드", level: 15, weapon: "최대 피해 +9", armor: "피해의 15%를 마나로 돌림" },
-    { id: 7, name: "Tal", kr: "탈", level: 17, weapon: "독 피해 +75 (5초에 걸쳐)", armor: "독 저항 +30% (방패: +35%)" },
-    { id: 8, name: "Ral", kr: "랄", level: 19, weapon: "화염 피해 +5-30", armor: "화염 저항 +30% (방패: +35%)" },
-    { id: 9, name: "Ort", kr: "오르트", level: 21, weapon: "번개 피해 +1-50", armor: "번개 저항 +30% (방패: +35%)" },
-    { id: 10, name: "Thul", kr: "주울", level: 23, weapon: "냉기 피해 +3-14 (3초에 걸쳐)", armor: "냉기 저항 +30% (방패: +35%)" },
-    { id: 11, name: "Amn", kr: "앰", level: 25, weapon: "타격당 생명력 7% 훔침", armor: "공격자가 피해를 14 받음" },
+    { id: 6, name: "Ith", kr: "아이드", level: 15, weapon: "최대 피해 +9", armor: "받는 피해의 15% 만큼 마나 회복" },
+    { id: 7, name: "Tal", kr: "탈", level: 17, weapon: "독 피해 +75 (5초에 걸쳐)", armor: "투구/갑옷: 독 저항 +30%<br>방패: 독 저항 +35%" },
+    { id: 8, name: "Ral", kr: "랄", level: 19, weapon: "화염 피해 +5-30", armor: "투구/갑옷: 화염 저항 +30%<br>방패: 화염 저항 +35%" },
+    { id: 9, name: "Ort", kr: "오르트", level: 21, weapon: "번개 피해 +1-50", armor: "투구/갑옷: 번개 저항 +30%<br>방패: 번개 저항 +35%" },
+    { id: 10, name: "Thul", kr: "주울", level: 23, weapon: "냉기 피해 +3-14 (둔화 3초 지속)", armor: "투구/갑옷: 냉기 저항 +30%<br>방패: 냉기 저항 +35%" },
+    { id: 11, name: "Amn", kr: "앰", level: 25, weapon: "적중당 생명력 7% 훔침", armor: "공격자가 피해를 14 받음" },
     { id: 12, name: "Sol", kr: "솔", level: 27, weapon: "최소 피해 +9", armor: "물리 피해 7 감소" },
-    { id: 13, name: "Shael", kr: "샤엘", level: 29, weapon: "공격 속도 +20%", armor: "타격 회복 속도 +20% (방패: 막기 속도 +20%)" },
-    { id: 14, name: "Dol", kr: "돌", level: 31, weapon: "적중 시 괴물 도망 25%", armor: "생명력 회복 +7" },
+    { id: 13, name: "Shael", kr: "샤엘", level: 29, weapon: "공격 속도 +20%", armor: "투구/갑옷: 타격 회복 속도 +20%<br>방패: 막기 속도 +20%" },
+    { id: 14, name: "Dol", kr: "돌", level: 31, weapon: "적중 시 괴물 도주 25%", armor: "생명력 회복 +7" },
     { id: 15, name: "Hel", kr: "헬", level: 0, weapon: "착용 조건 -20%", armor: "착용 조건 -15%" },
     { id: 16, name: "Io", kr: "이오", level: 35, weapon: "활력 +10", armor: "활력 +10" },
-    { id: 17, name: "Lum", kr: "룸", level: 37, weapon: "에너지 +10", armor: "에너지 +10" },
+    { id: 17, name: "Lum", kr: "룸", level: 37, weapon: "마력 +10", armor: "마력 +10" },
     { id: 18, name: "Ko", kr: "코", level: 39, weapon: "민첩 +10", armor: "민첩 +10" },
     { id: 19, name: "Fal", kr: "팔", level: 41, weapon: "힘 +10", armor: "힘 +10" },
-    { id: 20, name: "Lem", kr: "렘", level: 43, weapon: "괴물로부터 얻는 금화 75% 증가", armor: "괴물로부터 얻는 금화 50% 증가" },
-    { id: 21, name: "Pul", kr: "풀", level: 45, weapon: "악마에게 주는 피해 +75%, 악마에 대한 명중률 +100", armor: "방어력 30% 증가" },
-    { id: 22, name: "Um", kr: "우움", level: 47, weapon: "상처 악화 확률 25%", armor: "모든 저항 +15 (방패: +22)" },
+    { id: 20, name: "Lem", kr: "렘", level: 43, weapon: "괴물에게서 얻는 금화 +75%", armor: "괴물에게서 얻는 금화 +50%" },
+    { id: 21, name: "Pul", kr: "풀", level: 45, weapon: "악마에게 주는 피해 +75%<br>악마에 대한 명중률 +100", armor: "방어력 +30%" },
+    { id: 22, name: "Um", kr: "우움", level: 47, weapon: "상처 악화 확률 +25%", armor: "투구/갑옷: 모든 저항 +15<br>방패: 모든 저항 +22" },
     { id: 23, name: "Mal", kr: "말", level: 49, weapon: "괴물 회복 저지", armor: "마법 피해 7 감소" },
     { id: 24, name: "Ist", kr: "이스트", level: 51, weapon: "매직 아이템 발견 기회 30% 증가", armor: "매직 아이템 발견 기회 25% 증가" },
-    { id: 25, name: "Gul", kr: "굴", level: 53, weapon: "명중률 20% 증가", armor: "독 저항 최대치 +5%" },
-    { id: 26, name: "Vex", kr: "벡스", level: 55, weapon: "타격당 마나 7% 훔침", armor: "화염 저항 최대치 +5%" },
-    { id: 27, name: "Ohm", kr: "오움", level: 57, weapon: "피해 50% 증가", armor: "냉기 저항 최대치 +5%" },
-    { id: 28, name: "Lo", kr: "로", level: 59, weapon: "치명적 공격 20%", armor: "번개 저항 최대치 +5%" },
-    { id: 29, name: "Sur", kr: "수르", level: 61, weapon: "목표물 시야 감소, 적중 시 눈먼 상태로 만듦", armor: "최대 마나 5% 증가 (방패: 마나 +50)" },
-    { id: 30, name: "Ber", kr: "베르", level: 63, weapon: "강타 확률 20%", armor: "물리 피해 8% 감소" },
-    { id: 31, name: "Jah", kr: "자", level: 65, weapon: "대상 방어력 무시", armor: "최대 생명력 5% 증가 (방패: 생명력 +50)" },
-    { id: 32, name: "Cham", kr: "참", level: 67, weapon: "목표물 빙결 +3", armor: "빙결되지 않음" },
+    { id: 25, name: "Gul", kr: "굴", level: 53, weapon: "명중률 보너스 20%", armor: "최대 독 저항 +5%" },
+    { id: 26, name: "Vex", kr: "벡스", level: 55, weapon: "적중당 마나 7% 훔침", armor: "최대 화염 저항 +5%" },
+    { id: 27, name: "Ohm", kr: "오움", level: 57, weapon: "피해 +50%", armor: "최대 냉기 저항 +5%" },
+    { id: 28, name: "Lo", kr: "로", level: 59, weapon: "치명적 공격 20%", armor: "최대 번개 저항 +5%" },
+    { id: 29, name: "Sur", kr: "수르", level: 61, weapon: "적중 시 대상 실명", armor: "투구/갑옷: 최대 마나 +5%<br>방패: 마나 +50" },
+    { id: 30, name: "Ber", kr: "베르", level: 63, weapon: "강타 확률 20%", armor: "받는 물리 피해 8% 감소" },
+    { id: 31, name: "Jah", kr: "자", level: 65, weapon: "대상의 방어력 무시", armor: "투구/갑옷: 최대 생명력 5% 증가<br>방패: 생명력 +50" },
+    { id: 32, name: "Cham", kr: "참", level: 67, weapon: "대상 빙결 +3", armor: "빙결되지 않음" },
     { id: 33, name: "Zod", kr: "조드", level: 69, weapon: "파괴 불가", armor: "파괴 불가" }
 ];
 
@@ -69,46 +69,45 @@ const RUNE_MAP = runesData.reduce((acc, rune) => { acc[rune.kr] = rune; return a
 // 3. 룬워드 데이터 (별칭 포함)
 const runeWords = [
     // === Level 13 ===
-    { name: "강철 (Steel)", alias: ["스틸"], runes: ["티르", "엘"], level: 13, sockets: 2, types: [ITEM_TYPES.SWORD, ITEM_TYPES.AXE, ITEM_TYPES.MACE], effects: "공격 속도 +25%, 피해 +20% 증가, 최소/최대 피해 +3, 치명적 공격 25%" },
-    { name: "구렁텅이 (Nadir)", alias: ["나디르"], runes: ["네프", "티르"], level: 13, sockets: 2, types: [ITEM_TYPES.HELM], effects: "방어력 +50% 증가, 원거리 공격 방어력 +10, 힘 +5, 마나 +2, 시야 -3" },
+    { name: "강철 (Steel)", alias: ["스틸"], runes: ["티르", "엘"], level: 13, sockets: 2, types: [ITEM_TYPES.SWORD, ITEM_TYPES.AXE, ITEM_TYPES.MACE], effects: "공격 속도 +25%, 피해 +20% 증가, 최소 피해 +3, 최대 피해 +3, 명중률 +50, 상처 악화 확률 +50%, 적 처치 시 마나 +2, 시야 +1" },
+    { name: "구렁텅이 (Nadir)", alias: ["나디르", "천저"], runes: ["네프", "티르"], level: 13, sockets: 2, types: [ITEM_TYPES.HELM], effects: "방어력 +50% 증가, 방어력 +10, 원거리 공격 방어력 +30, 힘 +5, 적 처치 시 마나 +2, 괴물에게서 얻는 금화 -33% 증가, 시야 -3, 13레벨 그림자 망토(충전 9회)" },
     
     // === Level 15 ===
-    { name: "악의 (Malice)", alias: ["멜리스"], runes: ["아이드", "엘", "에드"], level: 15, sockets: 3, types: [ITEM_TYPES.SWORD, ITEM_TYPES.AXE, ITEM_TYPES.MACE], effects: "피해 +33% 증가, 상처 악화 확률 100%, 대상 방어력 -25%, 명중률 +50" },
+    { name: "악의 (Malice)", alias: ["멜리스", "원한"], runes: ["아이드", "엘", "에드"], level: 15, sockets: 3, types: [ITEM_TYPES.SWORD, ITEM_TYPES.AXE, ITEM_TYPES.MACE], effects: "피해 +33% 증가, 최대 피해 +9, 대상의 방어력 -25%, 명중률 +50, 상처 악화 확률 +100%, 괴물 회복 저지, 적중당 괴물 방어력 -100 감소, 생명력 흡수 -5" },
     
     // === Level 17 ===
-    { name: "잠행 (Stealth)", alias: ["스텔스"], runes: ["탈", "에드"], level: 17, sockets: 2, types: [ITEM_TYPES.ARMOR], effects: "달리기/걷기 속도 +25%, 시전 속도 +25%, 타격 회복 속도 +25%, 독 저항 +30%" },
+    { name: "잠행 (Stealth)", alias: ["스텔스"], runes: ["탈", "에드"], level: 17, sockets: 2, types: [ITEM_TYPES.ARMOR], effects: "달리기/걷기 속도 +25%, 시전 속도 +25%, 타격 회복 속도 +25%, 민첩+6, 마나 재생 15%, 최대 지구력 +15, 독 저항 +30%, 마법 피해 3 감소" },
     
     // === Level 19 ===
-    { name: "잎새 (Leaf)", alias: ["꽃잎"], runes: ["티르", "랄"], level: 19, sockets: 2, types: [ITEM_TYPES.STAFF], note: "원소술사 기술 +3 옵션 재료 권장", effects: "화염 기술 +3, 화염 피해 추가, 마력 +10, 냉기 저항 +33%" },
+    { name: "잎새 (Leaf)", alias: ["꽃잎"], runes: ["티르", "랄"], level: 19, sockets: 2, types: [ITEM_TYPES.STAFF], note: "화염 속성 기술 직업 권장", effects: "화염 기술 +3, 화염 피해 5-30 추가, +3 지옥불 (원소술사 전용), +3 온기 (원소술사 전용), +3 화염탄 (원소술사 전용), 방어력 +(캐릭터 레벨 X 2), 냉기 저항 +33%, 적 처치 시 마나 +2" },
     
     // === Level 21 ===
-    { name: "고대인의 서약 (Ancient's Pledge)", alias: ["고대인의서약"], runes: ["랄", "오르트", "탈"], level: 21, sockets: 3, types: [ITEM_TYPES.SHIELD, ITEM_TYPES.PALADIN_SHIELD], effects: "방어력 +50% 증가, 냉기 저항 +30%, 화염/번개/독 저항 +35%" },
-    { name: "서풍 (Zephyr)", alias: ["제퍼"], runes: ["오르트", "에드"], level: 21, sockets: 2, types: [ITEM_TYPES.MISSILE], effects: "타격 시 7% 확률로 1레벨 돌풍 시전, 달리기/걷기 +25%, 공격 속도 +25%, 피해 +33% 증가, 명중률 +66" },
-    { name: "신성한 천둥 (Holy Thunder)", alias: ["홀리썬더"], runes: ["에드", "랄", "오르트", "탈"], level: 21, sockets: 4, types: [ITEM_TYPES.SCEPTER], effects: "피해 +60% 증가, 신성한 충격 +3, 최대 피해 +10, 번개 피해/저항 추가, 화염/독 피해 추가" },
+    { name: "고대인의 서약 (Ancient's Pledge)", alias: ["고대인의서약"], runes: ["랄", "오르트", "탈"], level: 21, sockets: 3, types: [ITEM_TYPES.SHIELD, ITEM_TYPES.PALADIN_SHIELD], effects: "방어력 +50% 증가, 냉기 저항 +43%, 화염 저항 +48%, 번개 저항 +48%, 독 저항 +48%, 받는 피해의 10%만큼 마나 회복" },
+    { name: "서풍 (Zephyr)", alias: ["제퍼"], runes: ["오르트", "에드"], level: 21, sockets: 2, types: [ITEM_TYPES.MISSILE], effects: "피격 시 7% 확률로 1레벨 돌개바람 시전, 걷기/달리기 속도 +25%, 공격 속도 +25%, 피해 +33% 증가, 대상의 방어력 -25%, 명중률 +66, 번개 피해 1-50 추가, 방어력 +25" },
+    { name: "신성한 천둥 (Holy Thunder)", alias: ["홀리썬더", "신성한 번개"], runes: ["에드", "랄", "오르트", "탈"], level: 21, sockets: 4, types: [ITEM_TYPES.SCEPTER], effects: "피해 +60% 증가, 최대 피해 +10, 대상의 방어력 -25%, 화염피해 5-30 추가, 번개 피해 21-110 추가, 독 피해 +75(5초에 걸처), +3 신성한 충격(성기사 전용), 최대 번개 저항 +5%, 번개 저항 +60%, 7레벨 연쇄 번개(충전 60회)" },
     
     // === Level 23 ===
-    { name: "귀감 (Pattern)", alias: ["패턴"], runes: ["탈", "오르트", "주울"], level: 23, sockets: 3, types: [ITEM_TYPES.CLAW], effects: "공격 속도 +30%, 피해 +40~80% 증가, 명중률 10% 보너스, 화염/번개/독 피해 추가, 모든 저항 +15" },
+    { name: "귀감 (Pattern)", alias: ["패턴"], runes: ["탈", "오르트", "주울"], level: 23, sockets: 3, types: [ITEM_TYPES.CLAW], effects: "막기 속도 +30%, 피해 +40-80% 증가, 명중률 보너스 10%, 화염 피해 17-62 추가, 번개 피해 1-50 추가, 냉기 피해 3-14 추가, 독 피해 +75(5초에 걸쳐), 힘 +6, 민첩 +6, 모든 저항 +15" },
     
     // === Level 25 ===
-    { name: "영혼 (Spirit) - 도검", alias: ["스피릿", "스피리트"], runes: ["탈", "주울", "오르트", "앰"], level: 25, sockets: 4, types: [ITEM_TYPES.SWORD], effects: "모든 기술 +2, 시전 속도 +25~35%, 타격 회복 +55%, 활력 +22, 마나 +89~112, 생명력 훔침 7%, 원소 피해 추가" },
-    { name: "영혼 (Spirit) - 방패", alias: ["스피릿", "스피리트"], runes: ["탈", "주울", "오르트", "앰"], level: 25, sockets: 4, types: [ITEM_TYPES.SHIELD, ITEM_TYPES.PALADIN_SHIELD], note: "성기사 전용 or 모너크", effects: "모든 기술 +2, 시전 속도 +25~35%, 타격 회복 +55%, 활력 +22, 마나 +89~112, 냉기/번개/독 저항 +35%, 마법 흡수" },
-    { name: "강함 (Strength)", alias: ["스트렝스"], runes: ["앰", "티르"], level: 25, sockets: 2, types: [ITEM_TYPES.SWORD, ITEM_TYPES.AXE, ITEM_TYPES.MACE, ITEM_TYPES.POLEARM, ITEM_TYPES.SPEAR], effects: "피해 +35% 증가, 강타 확률 25%, 타격당 생명력 7% 훔침, 힘 +20, 활력 +10" },
-    { name: "왕의 은총 (King's Grace)", alias: ["킹스그레이스"], runes: ["앰", "랄", "주울"], level: 25, sockets: 3, types: [ITEM_TYPES.SWORD, ITEM_TYPES.SCEPTER], effects: "피해 +100% 증가, 명중률 +150, 악마/언데드에게 피해/명중률 추가, 적중당 생명력 7% 훔침" },
-    { name: "신화 (Myth)", alias: ["미스"], runes: ["헬", "앰", "네프"], level: 25, sockets: 3, types: [ITEM_TYPES.ARMOR], effects: "야만용사 기술 +2, 착용 조건 -15%, 적중 시 10% 확률로 포효, 생명력 회복 +10" },
-    { name: "모서리 (Edge)", alias: ["엣지"], runes: ["티르", "탈", "앰"], level: 25, sockets: 3, types: [ITEM_TYPES.MISSILE], effects: "장착 시 15레벨 가시 오라, 공격 속도 +35%, 악마/언데드에게 피해 추가, 상점 물품 가격 15% 하락" },
+    { name: "영혼 (Spirit) - 도검", alias: ["스피릿", "스피리트"], runes: ["탈", "주울", "오르트", "앰"], level: 25, sockets: 4, types: [ITEM_TYPES.SWORD], effects: "모든 기술 +2, 시전 속도 +25-35%, 타격 회복 속도 +55%, 번개 피해 1-50 추가, 냉기 피해 3-14 추가, 독 피해 +75(5초에 걸쳐), 적중당 생명력 7% 훔침, 원거리 공격 방어력 +250, 활력 +22, 마나 +89-112, 마법 흡수 +3-8" },
+    { name: "영혼 (Spirit) - 방패", alias: ["스피릿", "스피리트"], runes: ["탈", "주울", "오르트", "앰"], level: 25, sockets: 4, types: [ITEM_TYPES.SHIELD, ITEM_TYPES.PALADIN_SHIELD], effects: "모든 기술 +2, 시전 속도 +25-35%, 타격 회복 속도 +55%, 활력 +22, 마나 +89-112, 냉기 저항 +35%, 번개 저항 +35%, 독 저항 +35%, 마법 흡수 +3-8, 공격자가 피해를 14 받음" },
+    { name: "강함 (Strength)", alias: ["스트렝스"], runes: ["앰", "티르"], level: 25, sockets: 2, types: [ITEM_TYPES.SWORD, ITEM_TYPES.AXE, ITEM_TYPES.MACE, ITEM_TYPES.POLEARM, ITEM_TYPES.SPEAR], effects: "피해 +35% 증가, 적중당 생명력 7% 훔침, 강타 확률 25%, 힘 +20, 활력 +10, 적 처치 시 마나 +2" },
+    { name: "왕의 은총 (King's Grace)", alias: ["킹스그레이스", "왕의자비"], runes: ["앰", "랄", "주울"], level: 25, sockets: 3, types: [ITEM_TYPES.SWORD, ITEM_TYPES.SCEPTER], effects: "피해 +100% 증가, 명중률 +150, 악마에게 주는 피해 +100%, 악마에 대한 명중률 +100, 언데드에게 주는 피해 +50%, 언데드에 대한 명중률 +100, 화염 피해 5-30 추가, 냉기 피해 3-14 추가, 적중당 생명력 7% 훔침" },
+    { name: "신화 (Myth)", alias: ["미스"], runes: ["헬", "앰", "네프"], level: 25, sockets: 3, types: [ITEM_TYPES.ARMOR], effects: "피격 시 3% 확률로 1레벨 포효 시전, 타격 시 10% 확률로 1레벨 도발 시전, 야만용사 기술 레벨 +2, 원거리 공격 방어력 +30, 생명력 회복 +10, 공격자가 피해를 14 받음, 착용 조건 -15%" },
+    { name: "모서리 (Edge)", alias: ["엣지"], runes: ["티르", "탈", "앰"], level: 25, sockets: 3, types: [ITEM_TYPES.MISSILE], effects: "장착 시 15레벨 가시 오라 효과 적용, 공격 속도 +35%, 악마에게 주는 피해 +320-380%, 언데드에게 주는 피해 +280%, 독 피해 +75(5초에 걸쳐), 적중당 생명력 7% 훔침, 괴물 회복 저지, 모든 능력치 +5-10, 적 처치 시 마나 +2, 상점 물품 가격 15% 하락" },
     
     // === Level 27 ===
-    { name: "통찰 (Insight)", alias: ["통찰력", "인사이트"], runes: ["랄", "티르", "탈", "솔"], level: 27, sockets: 4, types: [ITEM_TYPES.POLEARM, ITEM_TYPES.STAFF, ITEM_TYPES.MISSILE], note: "2.4 패치부터 활/쇠뇌 제작 가능", effects: "장착 시 12~17레벨 명상 오라 효과, 시전 속도 +35%, 피해 +200~260% 증가, 명중률 보너스" },
-    { name: "전승 (Lore)", alias: ["학식", "로어"], runes: ["오르트", "솔"], level: 27, sockets: 2, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "모든 기술 +1, 에너지 +10, 번개 저항 +30%, 물리 피해 감소 7" },
-    { name: "명예 (Honor)", alias: ["아너"], runes: ["앰", "엘", "아이드", "티르", "솔"], level: 27, sockets: 5, types: [ITEM_TYPES.SWORD, ITEM_TYPES.AXE, ITEM_TYPES.MACE, ITEM_TYPES.POLEARM, ITEM_TYPES.SPEAR], effects: "모든 기술 +1, 피해 +160% 증가, 생명력 훔침 7%, 치명적 공격 25%, 힘 +10, 생명력 회복 +10" },
+    { name: "통찰 (Insight)", alias: ["통찰력", "인사이트"], runes: ["랄", "티르", "탈", "솔"], level: 27, sockets: 4, types: [ITEM_TYPES.POLEARM, ITEM_TYPES.STAFF, ITEM_TYPES.MISSILE], note: "2.4 패치부터 활/쇠뇌 제작 가능", effects: "장착 시 12-17레벨 명상 오라 효과 적용, 시전 속도 +35%, 피해 +200-260% 증가, 최소 피해 +9, 명중률 보너스 180-250%, 화염 피해 5-30 추가, 독 피해 +75(5초에 걸쳐), +1-6 치명타, 모든 능력치 +5, 적 처치 시 마나 +2, 마법 아이템 발견 확률 23% 증가" },
+    { name: "전승 (Lore)", alias: ["학식", "로어"], runes: ["오르트", "솔"], level: 27, sockets: 2, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "모든 기술 +1, 마력 +10, 번개 저항 +30%, 피해 7 감소, 적 처치 시 마나 +2, 시야 +2" },
+    { name: "명예 (Honor)", alias: ["아너"], runes: ["앰", "엘", "아이드", "티르", "솔"], level: 27, sockets: 5, types: [ITEM_TYPES.SWORD, ITEM_TYPES.AXE, ITEM_TYPES.MACE, ITEM_TYPES.POLEARM, ITEM_TYPES.SPEAR], effects: "모든 기술 +1, 피해 +160% 증가, 최소 피해 +9, 최대 피해 +9, 치명적 공격 25%, 명중률 +250, 적중당 생명력 7%, 힘 +10, 생명력 회복 +10, 적 처치 시 마나 +2, 시야 +1" },
     
     // === Level 29 ===
-    { name: "각운 (Rhyme)", alias: ["제왕운시", "라임"], runes: ["샤엘", "에드"], level: 29, sockets: 2, types: [ITEM_TYPES.SHIELD, ITEM_TYPES.PALADIN_SHIELD], effects: "막기 속도 +40%, 막기 확률 20% 증가, 모든 저항 +25, 빙결되지 않음, 매찬 +25%" },
-    { name: "평화 (Peace)", alias: ["피스"], runes: ["샤엘", "주울", "앰"], level: 29, sockets: 3, types: [ITEM_TYPES.ARMOR], effects: "아마존 기술 +2, 타격 시 2% 확률로 15레벨 발키리, 타격 회복 속도 +20%, 치명적 공격 +2%, 냉기 저항 +30%" },
+    { name: "각운 (Rhyme)", alias: ["제왕운시", "라임"], runes: ["샤엘", "에드"], level: 29, sockets: 2, types: [ITEM_TYPES.SHIELD, ITEM_TYPES.PALADIN_SHIELD], effects: "막기 속도 +40%, 막기 확률 20% 증가, 마나 재생 15%, 모든 저항 +25, 빙결되지 않음, 괴물에게서 얻는 금화 50% 증가, 마법 아이템 발견 확률 25% 증가" },
+    { name: "평화 (Peace)", alias: ["피스"], runes: ["샤엘", "주울", "앰"], level: 29, sockets: 3, types: [ITEM_TYPES.ARMOR], effects: "피격 시 4% 확률로 5레벨 투사체 감속 시전, 타격 시 2% 확률로 15레벨 발키리 시전, 아마존 기술 레벨 +2, 타격 회복 속도 +20%, +2 치명타, 냉기 저항 +30%, 공격자가 피해를 14 받음" },
     
     // === Level 35 ===
-    { name: "순백 (White)", alias: ["화이트"], runes: ["돌", "이오"], level: 35, sockets: 2, types: [ITEM_TYPES.WAND], note: "뼈 창 +3 재료 권장", effects: "독과 뼈 기술 +3, 뼈 창 +2, 뼈 갑옷 +3, 시전 속도 +20%, 활력 +10" },
-    { name: "마녀단 (Bulwark)", alias: ["불워크"], runes: ["샤엘", "이오", "솔"], level: 35, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "타격당 생명력 4~6% 훔침, 피해 감소 10~15%, 타격 회복 속도 +20%, 생명력 +10" },
+    { name: "순백 (White)", alias: ["화이트"], runes: ["돌", "이오"], level: 35, sockets: 2, types: [ITEM_TYPES.WAND], note: "뼈 창 +3 재료 권장", effects: "독과 뼈 기술 +3 (강령술사 전용), 시전 속도 +20%, +2 뼈 창 (강령술사 전용), +4 해골 숙련 (강령술사 전용), +3 뼈 갑옷 (강령술사 전용), 적중 시 괴물 도주 +25%, 활력 +10, 마나 +13, 마법 피해 4 감소" },
     { name: "치료 (Cure)", alias: ["큐어"], runes: ["샤엘", "이오", "탈"], level: 35, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "장착 시 1레벨 정화 오라 효과, 독 저항 +40~60%, 타격 회복 속도 +20%, 생명력 +10" },
     { name: "경계 (Hearth)", alias: ["하스"], runes: ["샤엘", "이오", "주울"], level: 35, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "빙결되지 않음, 냉기 저항 +40~60%, 타격 회복 속도 +20%, 생명력 +10" },
     { name: "공허 (Ground)", alias: ["그라운드"], runes: ["샤엘", "이오", "오르트"], level: 35, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "번개 저항 +40~60%, 번개 흡수 +10~15%, 타격 회복 속도 +20%, 생명력 +10" },
@@ -158,7 +157,8 @@ const runeWords = [
     
     // === Level 51 ===
     { name: "착란 (Delirium)", alias: ["대표위원", "델리리움"], runes: ["렘", "이스트", "이오"], level: 51, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "모든 기술 +2, 피격 시 1% 확률로 50레벨 델리리움(변신), 방어력 +261, 활력 +10, 마법 아이템 발견 33%" },
-    
+    { name: "마녀단 (Bulwark)", alias: ["불워크"], runes: ["이스트", "랄", "이오"], level: 51, sockets: 3, types: [ITEM_TYPES.HELM, ITEM_TYPES.DRUID_PELT], effects: "타격당 생명력 4~6% 훔침, 피해 감소 10~15%, 타격 회복 속도 +20%, 생명력 +10" },
+
     // === Level 53 ===
     { name: "모자이크 (Mosaic)", alias: ["모자이크"], runes: ["말", "굴", "주울"], level: 53, sockets: 3, types: [ITEM_TYPES.CLAW], effects: "피해 +200~250% 증가, 명중률 +20%, 냉기 피해 +3~14, 무술 마무리 기술 사용 시 충전 소모되지 않을 확률 50%" },
     { name: "왕 시해자 (Kingslayer)", alias: ["킹슬레이어"], runes: ["말", "우움", "굴", "팔"], level: 53, sockets: 4, types: [ITEM_TYPES.SWORD, ITEM_TYPES.AXE], effects: "복수 +1, 공격 속도 +30%, 피해 +230~270% 증가, 강타 33%, 상처 악화 50%, 방어력 -25%, 괴물 회복 저지" },
