@@ -279,7 +279,7 @@ function updateListTitle() {
     
     parts.push(`Type: ${typeLabel}`);
     if (selectedSocket !== 'all') parts.push(`${selectedSocket} Sockets`);
-    listTitle.textContent = parts.length > 0 ? `Filtered: ${parts.join(' | ')}` : "All Runewords";
+    listTitle.textContent = parts.length > 0 ? `${parts.join(' | ')}` : "All Runewords";
 }
 
 function renderRunewordsList(data) {
