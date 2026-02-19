@@ -117,10 +117,14 @@ function rebuildFilterUI() {
 }
 
 function setupFilterEvents() {
+    // 💡 [최적화 Step A] 반복 탐색을 막기 위한 DOM Query 캐싱 적용
     const addGroupListener = (id, callback) => {
-        document.querySelectorAll(`#${id} .filter-tag`).forEach(tag => {
+        const tags = document.querySelectorAll(`#${id} .filter-tag`); // 한 번만 탐색하여 캐싱
+        
+        tags.forEach(tag => {
             tag.addEventListener('click', () => {
-                document.querySelectorAll(`#${id} .filter-tag`).forEach(t => t.classList.remove('active'));
+                // 클릭할 때마다 문서를 뒤지지 않고 캐싱된 tags 변수를 재사용
+                tags.forEach(t => t.classList.remove('active'));
                 tag.classList.add('active');
                 callback(tag);
                 filterRunewords();
@@ -143,6 +147,9 @@ function renderRunes() {
 
     gridContainer.innerHTML = '';
     
+    // 💡 [최적화 Step A] DOM 추가를 1번으로 줄이는 가상 컨테이너 생성
+    const fragment = document.createDocumentFragment();
+    
     GRID_LAYOUT.forEach(dataIndex => {
         const card = document.createElement('div');
         
@@ -151,6 +158,11 @@ function renderRunes() {
         } else {
             const rune = runesData[dataIndex];
             card.className = 'rune-card';
+            
+            // 💡 [보완] 렌더링할 때 이미 선택된 룬이라면 시각 효과(클래스) 유지
+            if (selectedRunes.has(rune.kr)) {
+                card.classList.add('selected');
+            }
             
             const imgPath = `images/${rune.name}.png`; 
             
@@ -167,8 +179,13 @@ function renderRunes() {
             card.addEventListener('mousemove', moveTooltip);
             card.addEventListener('mouseleave', hideTooltip);
         }
-        gridContainer.appendChild(card);
+        
+        // 화면에 바로 붙이지 않고 fragment(가상 공간)에 차곡차곡 모음
+        fragment.appendChild(card);
     });
+    
+    // 💡 [최적화 Step A] 모아둔 룬 카드들을 단 한 번의 렌더링으로 화면에 출력
+    gridContainer.appendChild(fragment);
 }
 
 function toggleRune(rune, cardElement) {
@@ -257,8 +274,14 @@ function renderRunewordsList(data) {
     }
 
     const searchTerms = getSearchTerms(searchQuery).filter(t => t.length > 0);
-    // 정규식 에러 방지용 이스케이프 함수
-    const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    
+    // 💡 [최적화 3번] 반복문 밖에서 정규식을 단 한 번만 생성하여 메모리 절약!
+    let searchRegex = null;
+    if (searchTerms.length > 0) {
+        const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const pattern = searchTerms.map(escapeRegExp).join('|');
+        searchRegex = new RegExp(`(${pattern})`, 'gi');
+    }
 
     listContainer.innerHTML = data.map(rw => {
         const safeRunes = Array.isArray(rw.runes) ? rw.runes : [];
@@ -269,11 +292,8 @@ function renderRunewordsList(data) {
 
             if (rune) {
                 const imgPath = `images/${rune.name}.png`;
-                return `<div class="rw-rune-item" 
-                            onclick="window.open('?rune=${encodeURIComponent(krName)}', '_blank')"
-                            onmouseenter="showTooltip(event, RUNE_MAP['${krName}'])"
-                            onmousemove="moveTooltip(event)"
-                            onmouseleave="hideTooltip()">
+                // 💡 [최적화 Step B] 인라인 이벤트를 제거하고 data-rune 속성만 부여
+                return `<div class="rw-rune-item" data-rune="${krName}">
                             <div class="rw-rune-icon${auraClass}">
                                 <img src="${imgPath}" class="rune-img" alt="${rune.name}"
                                      onerror="this.style.display='none'; this.parentNode.innerText='${rune.name.substring(0,2)}'">
@@ -287,13 +307,11 @@ function renderRunewordsList(data) {
 
         const safeEffects = rw.effects || "";
         
-        // [핵심] 효과 텍스트 분리 후 검색어 형광펜 하이라이트 적용
+        // 💡 [최적화 3번] 밖에서 미리 만들어둔 searchRegex를 여기서 재사용
         const effectsHtml = safeEffects.split(', ').map(eff => {
             let highlightedEff = eff;
-            if (searchTerms.length > 0) {
-                const pattern = searchTerms.map(escapeRegExp).join('|');
-                const regex = new RegExp(`(${pattern})`, 'gi');
-                highlightedEff = highlightedEff.replace(regex, `<mark>$1</mark>`);
+            if (searchRegex) {
+                highlightedEff = highlightedEff.replace(searchRegex, `<mark>$1</mark>`);
             }
             return `<div class="effect-line">${highlightedEff}</div>`;
         }).join('');
@@ -334,14 +352,27 @@ function showTooltip(e, rune) {
     moveTooltip(e);
 }
 
+// 💡 [최적화 4번] rAF를 활용한 툴팁 이동 제어 변수
+let isTooltipTicking = false;
+
 function moveTooltip(e) {
-    const offset = 15;
-    let x = e.clientX + offset;
-    let y = e.clientY + offset;
-    if (x + tooltip.offsetWidth > window.innerWidth) x = e.clientX - tooltip.offsetWidth - 10;
-    if (y + tooltip.offsetHeight > window.innerHeight) y = e.clientY - tooltip.offsetHeight - 10;
-    tooltip.style.left = `${x}px`;
-    tooltip.style.top = `${y}px`;
+    if (!isTooltipTicking) {
+        requestAnimationFrame(() => {
+            const offset = 15;
+            let x = e.clientX + offset;
+            let y = e.clientY + offset;
+            
+            // 툴팁이 화면 밖으로 나가지 않도록 조정
+            if (x + tooltip.offsetWidth > window.innerWidth) x = e.clientX - tooltip.offsetWidth - 10;
+            if (y + tooltip.offsetHeight > window.innerHeight) y = e.clientY - tooltip.offsetHeight - 10;
+            
+            tooltip.style.left = `${x}px`;
+            tooltip.style.top = `${y}px`;
+            
+            isTooltipTicking = false; // 프레임 렌더링이 끝나면 다음 이동 허용
+        });
+        isTooltipTicking = true; // 렌더링 대기 중에는 추가 실행을 차단해서 렉 방지
+    }
 }
 
 function hideTooltip() { tooltip.style.display = 'none'; }
@@ -402,3 +433,38 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
+
+// =========================================
+// 💡 [최적화 Step B] 룬워드 리스트 이벤트 위임 (중앙 통제)
+// =========================================
+if (listContainer) {
+    // 1. 클릭 시 새 창 열기
+    listContainer.addEventListener('click', (e) => {
+        const item = e.target.closest('.rw-rune-item');
+        if (item && item.dataset.rune) {
+            window.open(`?rune=${encodeURIComponent(item.dataset.rune)}`, '_blank');
+        }
+    });
+
+    // 2. 마우스 올렸을 때 툴팁 표시
+    listContainer.addEventListener('mouseover', (e) => {
+        const item = e.target.closest('.rw-rune-item');
+        if (item && item.dataset.rune) {
+            showTooltip(e, RUNE_MAP[item.dataset.rune]);
+        }
+    });
+
+    // 3. 마우스 움직일 때 툴팁 따라다니기
+    listContainer.addEventListener('mousemove', (e) => {
+        if (e.target.closest('.rw-rune-item')) {
+            moveTooltip(e);
+        }
+    });
+
+    // 4. 마우스 벗어났을 때 툴팁 숨기기
+    listContainer.addEventListener('mouseout', (e) => {
+        if (e.target.closest('.rw-rune-item')) {
+            hideTooltip();
+        }
+    });
+}
