@@ -678,3 +678,40 @@ h2 { color: var(--accent-color); margin: 30px 0 15px; text-align: center; }
     opacity: 1;
     visibility: visible;
 }
+
+/* =========================================
+   되돌리기(초기화) 1x1 버튼 
+========================================= */
+.rune-card.reset-card {
+    background: linear-gradient(to bottom, #2b2b2b, #141414);
+}
+
+.rune-card.reset-card:hover {
+    border-color: #c0392b;
+    box-shadow: 0 0 10px rgba(192, 57, 43, 0.4);
+}
+
+.rune-card.reset-card:hover .rune-icon,
+.rune-card.reset-card:hover .rune-name {
+    color: #e74c3c !important;
+}
+
+.rune-card.reset-card:active {
+    transform: translateY(2px) scale(0.95);
+}
+
+/* 💡 개인화 모드(보랏빛)가 켜져도 초기화 버튼은 고유의 색상과 붉은 호버 효과 유지 */
+.personalize-mode .rune-card.reset-card {
+    background: linear-gradient(to bottom, #2b2b2b, #141414) !important;
+    border-color: #3d3020 !important; 
+}
+
+.personalize-mode .rune-card.reset-card:hover {
+    border-color: #c0392b !important;
+    box-shadow: 0 0 10px rgba(192, 57, 43, 0.4) !important;
+}
+
+.personalize-mode .rune-card.reset-card:hover .rune-icon,
+.personalize-mode .rune-card.reset-card:hover .rune-name {
+    color: #e74c3c !important;
+}

@@ -148,7 +148,7 @@ function renderRunes() {
         9, 10, 11, 12, 13, 14, 15, 16, 17, 
         18, 19, 20, 21, 22, 23, 24, 25, 26, 
         27, 28, null, null, null, null, null, 29, 30, 
-        31, null, null, 'btn', null, null, 32  
+        31, null, null, 'btn', 'reset', null, 32
     ];
 
     gridContainer.innerHTML = '';
@@ -196,8 +196,28 @@ function renderRunes() {
 
             fragment.appendChild(btnContainer);
             return; 
-        }
+        } // 💡 여기서 'btn' 중괄호가 닫힙니다.
 
+        // 💡 [추가] 'btn' 블록이 완전히 끝난 후, 'reset' 블록을 독립적으로 작성합니다.
+        if (dataIndex === 'reset') {
+            const resetCard = document.createElement('div');
+            resetCard.className = 'rune-card reset-card';
+            resetCard.style.transitionDelay = `${delay}s`; 
+            
+            resetCard.innerHTML = `
+                <div class="rune-icon" style="font-size: 1.5rem; color: #c7b377; display: flex; align-items: center; justify-content: center; height: 100%;">↺</div>
+                <div class="rune-name" style="color: #c7b377;"></div>
+            `;
+            
+            resetCard.addEventListener('click', () => {
+                selectedRunes.clear(); 
+                document.querySelectorAll('.rune-card.selected').forEach(c => c.classList.remove('selected'));
+                filterRunewords(); 
+            });
+
+            fragment.appendChild(resetCard);
+            return; 
+        }
         const card = document.createElement('div');
         
         // 💡 style 대신 dataset에 딜레이 값을 안전하게 보관해 둠
@@ -593,4 +613,11 @@ gridContainer.addEventListener('contextmenu', (e) => {
     if (e.target.closest('.rune-card')) {
         e.preventDefault();
     }
+});
+
+// =========================================
+// 💡 [추가] 브라우저 기본 이미지 드래그(고스트 이미지) 원천 차단
+// =========================================
+gridContainer.addEventListener('dragstart', (e) => {
+    e.preventDefault(); // 이미지가 마우스에 끌려가는 기본 동작을 막아버림
 });
