@@ -454,3 +454,41 @@ h2 { color: var(--accent-color); margin: 30px 0 15px; text-align: center; }
     outline: 1px solid #0a0a0a; 
     vertical-align: middle;
 }
+
+/* =========================================
+   최상단 이동 버튼 (Scroll to Top)
+========================================= */
+.scroll-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 45px;
+    height: 45px;
+    background-color: #151515;
+    color: var(--rune-orange);
+    border: 1px solid #3d3020;
+    border-radius: 50%; /* 완전한 원형 */
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8), inset 0 0 8px rgba(0, 0, 0, 0.9);
+    outline: 1px solid #0a0a0a;
+    
+    /* 기본 상태는 투명하게 숨김 */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+/* 마우스 호버 시 살짝 떠오르는 효과 */
+.scroll-to-top:hover {
+    background-color: #221a10;
+    border-color: var(--rune-orange);
+    transform: translateY(-3px);
+}
+
+/* 자바스크립트로 스크롤을 내렸을 때 클래스가 추가되며 나타남 */
+.scroll-to-top.show {
+    opacity: 1;
+    visibility: visible;
+}

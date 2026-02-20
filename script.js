@@ -512,3 +512,28 @@ if (ladderToggleBtn) {
         }
     });
 }
+
+// =========================================
+// 💡 [추가] 최상단 이동 버튼 제어 로직
+// =========================================
+const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+if (scrollToTopBtn) {
+    // 1. 스크롤 감지해서 버튼 나타나게 하기
+    window.addEventListener('scroll', () => {
+        // 화면을 300px 이상 아래로 내렸을 때 'show' 클래스 추가
+        if (window.scrollY > 300) {
+            scrollToTopBtn.classList.add('show');
+        } else {
+            scrollToTopBtn.classList.remove('show');
+        }
+    });
+
+    // 2. 버튼 클릭 시 최상단으로 부드럽게 스크롤
+    scrollToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
